@@ -1,0 +1,54 @@
+compound_components:
+  version: 0.3
+  classes:
+  - name: exec
+    attributes:
+      technology: 45nm
+      alu_units: 2
+      mul_units: 1
+      fpu_units: 1
+      instruction_buffer_size: 7
+      issue_width: 2
+      commit_width: 2
+      store_buffer_size: 2
+      prediction_width: 1
+      datawidth: 32
+
+    subcomponents:
+      - name: alu_unit[0..alu_units-1]
+        class: alu_unit
+        attributes:
+          technology: technology
+          datawidth: datawidth
+      - name: mul_unit[0..mul_units-1]
+        class: mul_unit
+        attributes:
+          technology: technology
+          datawidth: datawidth
+      - name: fpu_unit[0..fpu_units-1]
+        class: fpu_unit
+        attributes:
+          technology: technology
+          # want to add more here, confused about exponent and mantissa from fpadder
+          # and how we get to that from gem5
+
+    actions:
+      - name: int_instruction
+        subcomponents:
+          - name: alu_unit
+            actions:
+             - name: int_instruction
+      - name: mul_instruction
+        subcomponents:
+          - name: mul_unit
+            actions:
+             - name: mul_instruction
+      - name: fp_instruction
+        subcomponents:
+          - name: intmac
+            actions:
+             - name: mac_random
+
+
+
+

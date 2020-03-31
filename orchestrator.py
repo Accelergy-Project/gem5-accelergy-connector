@@ -167,8 +167,6 @@ def recursivelyFindAttributeValues(info, attributes_to_find):
             attribute_values.extend(recursivelyFindAttributeValues(sub_info, attributes_to_find))
     return attribute_values
 
-# def createCompoundComponent(path, attributes, )
-
 if __name__== "__main__":
     # if (len(sys.argv) < 6):
     #     print("Must provide all 5 arguments:")
@@ -194,11 +192,14 @@ if __name__== "__main__":
     system_info = config_data["system"]
     cpu_info = system_info["cpu"]
 
-    input_dir = "/home/ubuntu/input"
-    components_dir = "/home/ubuntu/input/components"
+    input_dir = "/home/ubuntu/gem5toAcclergyOrchestration/input"
+    components_dir = "/home/ubuntu/gem5toAcclergyOrchestration/input/components"
     # os.system("rm -r " + input_dir)
 
-    system_attributes = {"technology": "45nm"}
+    # TODO, find where datawidth is specified, I can't immediately tell where,
+    # my theory is it is a architecture attribute rather than MinorCPU or O3CPU
+    # specifying it, not sure it is even specifiable
+    system_attributes = {"technology": "45nm", "datawidth": 32}
     cpu_attributes = {}
     on_chip_compound_components = []
     off_chip_compound_components = []
@@ -222,10 +223,17 @@ if __name__== "__main__":
     )
     system_attributes.update(system_attr_collector.get_attr_dict(system_info))
     # collect the cpu level attributes we care about
+    # attributes that cpu inherits from the system if not specified for the cpu
+    cpu_inherit_system_attrs = ["datawidth"]
+    cpu_inherit_attrs = {}
+    for attr in cpu_inherit_system_attrs:
+        if attr in system_attributes:
+            cpu_inherit_attrs[attr] = system_attributes[attr]
     cpu_attr_collector = PreciseAttributeCollector(
         {
             "number_hardware_threads": ["numThreads"]
-        }
+        },
+        cpu_inherit_attrs
     )
     cpu_attributes.update(cpu_attr_collector.get_attr_dict(cpu_info))
 
@@ -355,6 +363,12 @@ if __name__== "__main__":
 
     # Now adding the execution unit, it is likely that special code will be required here
     # to not only create the execution unit but link relevant sub components
+    # attributes that exec inherits from the system if not specified for the unit
+    exec_unit_inherit_cpu_attrs = ["datawidth"]
+    exec_unit_inherit_attrs = {}
+    for attr in exec_unit_inherit_cpu_attrs:
+        if attr in cpu_attributes:
+            exec_unit_inherit_attrs[attr] = cpu_attributes[attr]
     exec_attr_collector = PreciseAttributeCollector(
         {
             "instruction_buffer_size": ["executeInputBufferSize"],
@@ -363,7 +377,8 @@ if __name__== "__main__":
             "store_buffer_size": ["executeLSQMaxStoreBufferStoresPerCycle"],
             "prediction_width": ["branchPred", "numThreads"] # this stat is for branch predicition, might move later
                                                              # might need to make this it's own component
-        }
+        }, 
+        exec_unit_inherit_attrs
     )
     exec_additional_attributes = {
         "alu_units": num_alu_units,

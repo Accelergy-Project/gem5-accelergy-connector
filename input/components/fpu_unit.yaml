@@ -1,0 +1,20 @@
+compound_components:
+  version: 0.3
+  classes:
+  - name: fpu_unit
+    attributes:
+      technology: 45nm
+      exponent: 8
+      mantissa: 24
+
+    subcomponents:
+      # bare bones initial design
+      - name: fpadder
+        attributes:
+          technology: technology
+      - name: fpmultiplier
+        attributes:
+          technology: technology
+
+    actions:
+      - name: fpu_instruction

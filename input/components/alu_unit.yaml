@@ -1,0 +1,21 @@
+compound_components:
+  version: 0.3
+  classes:
+  - name: alu_unit
+    attributes:
+      technology: 45nm
+      datawidth: 32
+
+    subcomponents:
+      # bare bones initial design
+      - name: intadder
+        attributes:
+          technology: technology
+          datawidth: datawidth
+      - name: shifter
+        attributes:
+          technology: technology
+          datawidth: datawidth
+
+    actions:
+      - name: int_instruction
