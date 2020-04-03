@@ -17,4 +17,4 @@ compound_components:
           technology: technology
 
     actions:
-      - name: fpu_instruction
+      - name: fp_instruction

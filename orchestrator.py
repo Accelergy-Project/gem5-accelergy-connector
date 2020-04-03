@@ -72,7 +72,7 @@ def singleComponentYamlData(component_dict, attr_collector, component_name,
                 attributes[attr] = attr_remap_dict[value] 
 
     full_yaml_component = {"name": component_name, "class": component_class, "attributes": attributes}
-    print(full_yaml_component)
+    # print(full_yaml_component)
     return full_yaml_component
 
 
@@ -118,8 +118,59 @@ class PreciseAttributeCollector:
             else:
                 return None
 
+def getActionCountsYAMLsForComponentsFromStats(components_to_full_component_path_name, attributes_to_stat_names, stat_lines):
+    component_to_action_name_to_count = {}
+    for component, full_component_name in components_to_full_component_path_name.items():
+        component_to_action_name_to_count[full_component_name] = {}
 
-def getFunctionalUnitsToOpsMapping(cpu_info, fu_path, fu_num_prefix, counts_included=False):
+    for stat_line in stat_lines:
+            # check if op in stat_line and if the stat_line contains a numerical value
+            # which goes second in gem5 when a line is split by whitespace, this is the case if len > 1
+            # from observation
+            if len(stat_line) < 2:
+                continue
+            try:
+                value = int(stat_line[1])
+            except ValueError:
+                # this must not be a data line
+                continue
+            matchFound = False
+            for component, full_component_name in components_to_full_component_path_name.items():
+                for attr, valid_stat_names in attributes_to_stat_names.items():
+                    if attr in component_to_action_name_to_count[full_component_name]:
+                        continue # this means we already found this attribute elsewhere
+                    for valid_stat_name in valid_stat_names: 
+                        if component in stat_line[0] and valid_stat_name in stat_line[0]:
+                            component_to_action_name_to_count[full_component_name][attr] = value
+                            break
+                    if matchFound:
+                        break
+                if matchFound:
+                    break
+
+    action_count_yamls = []
+    for component in component_to_action_name_to_count:
+        action_count_yamls.append(createYAMLActionCountComponent(component, component_to_action_name_to_count[component]))
+
+    print(component_to_action_name_to_count)
+    return action_count_yamls
+
+# will need to eventually add support for arguments
+def createYAMLActionCountComponent(name, action_name_to_count):
+    yaml_component = {}
+    yaml_component["name"] = name
+    action_counts = []
+    for action, count in action_name_to_count.items():
+        new_action_count = {}
+        new_action_count["name"] = action
+        new_action_count["counts"] = count
+        action_counts.append(new_action_count)
+    yaml_component["action_counts"] = action_counts
+    print(yaml_component)
+    return yaml_component
+
+
+def getFunctionalUnitsToOpSetMapping(cpu_info, fu_path, fu_num_prefix, counts_included=False):
     current_info = cpu_info
     for i in range(len(fu_path)):
         path_component_found = fu_path[i] in current_info
@@ -139,15 +190,16 @@ def getFunctionalUnitsToOpsMapping(cpu_info, fu_path, fu_num_prefix, counts_incl
             print("Error with getting fu num, prefix of: " + fu_num_prefix + " not present in name: " + fu_name)
         fu_num = int(fu_name[len(fu_num_prefix):])
         ops = recursivelyFindAttributeValues(fu, ["opClass"])
-        fu_to_op_mapping[fu_num] = ops
+        op_set = set(ops)
+        fu_to_op_mapping[fu_num] = op_set
 
     return fu_to_op_mapping
 
-def mergeDictListValues(key_to_list_dict, keys_to_merge):
-    merged_list = []
+def mergeDictSetValuesForKeys(key_to_list_dict, keys_to_merge):
+    merged_values = set()
     for key in keys_to_merge:
-        merged_list.extend(key_to_list_dict[key])
-    return merged_list
+        merged_values = merged_values.union(key_to_list_dict[key])
+    return merged_values
 
 def recursivelyFindAttributeValues(info, attributes_to_find):
     '''
@@ -166,6 +218,19 @@ def recursivelyFindAttributeValues(info, attributes_to_find):
         for sub_info in info:
             attribute_values.extend(recursivelyFindAttributeValues(sub_info, attributes_to_find))
     return attribute_values
+
+def getFuncUnitOpsExecutedInStats(ops, stat_lines):
+    instructions_executed = 0
+    for op in ops:
+        max_value = 0
+        for stat_line in stat_lines:
+            # check if op in stat_line and if the stat_line contains a numerical value
+            # which goes second in gem5 when a line is split by whitespace
+            if len(stat_line) > 1 and op in stat_line[0]:
+                new_value = int(stat_line[1])
+                max_value = new_value if new_value > max_value else max_value
+        instructions_executed += max_value
+    return instructions_executed
 
 if __name__== "__main__":
     # if (len(sys.argv) < 6):
@@ -206,7 +271,7 @@ if __name__== "__main__":
 
     cache_types = ["Cache"]
     off_chip_mem_ctrl_types = ["DRAMCtrl"]
-    off_chip_mem_ctrl_to_mem_type = {"dramctrl": "dram"}
+    off_chip_mem_ctrl_to_mem_type = {"dramctrl": "memory_controller"} # as per McPat
     off_chip_mem_ctrl_other_attr_remap = {
         "cache_type": {
             "dramctrl": "main_memory"
@@ -244,10 +309,31 @@ if __name__== "__main__":
         if attr in system_attributes:
             memory_units_inherit_attrs[attr] = system_attributes[attr]
 
+    off_chip_mems_dict = getComponentsOfTypesDict(system_info, off_chip_mem_ctrl_types)
+    off_chip_mems = [key for key in off_chip_mems_dict]
+    print(off_chip_mems)
+    off_chip_mem_attr_collector = PreciseAttributeCollector(
+        {
+            "class": ["type"],
+            "cache_type": ["type"],
+            "response_latency": ["tCL"],
+            "size": ["device_size"],
+            "burst_length": ["burst_length"],
+            "port": ["port", "peer", -2],
+            # "rowbuffer_size": ["device_rowbuffer_size"], Not using for now as not in cacti
+            "bus_width": ["device_bus_width"]
+        },
+        memory_units_inherit_attrs
+    )
+    print("Adding off chip memory units")
+    off_chip_compound_components.extend(multipleComponentYamlData(off_chip_mems_dict, off_chip_mem_attr_collector, class_remap=off_chip_mem_ctrl_to_mem_type, other_attr_remap=off_chip_mem_ctrl_other_attr_remap))
+
     # I am tentatively treating all cache Components as on-chip, as it appears
     # that as of right now only the icache and dcache can be specified within the cpu,
     # thus the other caches are attributes of the entire system
-    caches_dict = getComponentsOfTypesDict(system_info, cache_types)
+    on_chip_caches_dict = getComponentsOfTypesDict(system_info, cache_types)
+    on_chip_caches = [key for key in on_chip_caches_dict]
+    print(on_chip_caches)
     cache_attr_collector = PreciseAttributeCollector(
         {
             "class": ["type"],
@@ -265,25 +351,7 @@ if __name__== "__main__":
     )
     # on_chip_compound_components.extend(cacheComponentsYamlData(caches_dict))
     print("Adding caches")
-    on_chip_compound_components.extend(multipleComponentYamlData(caches_dict, cache_attr_collector))
-
-    off_chip_mems_dict = getComponentsOfTypesDict(system_info, off_chip_mem_ctrl_types)
-    off_chip_mem_attr_collector = PreciseAttributeCollector(
-        {
-            "class": ["type"],
-            "cache_type": ["type"],
-            "response_latency": ["tCL"],
-            "size": ["device_size"],
-            "burst_length": ["burst_length"],
-            "port": ["port", "peer", -2],
-            # "rowbuffer_size": ["device_rowbuffer_size"], Not using for now as not in cacti
-            "bus_width": ["device_bus_width"]
-        },
-        memory_units_inherit_attrs
-    )
-    print("Adding off chip components")
-    off_chip_compound_components.extend(multipleComponentYamlData(off_chip_mems_dict, off_chip_mem_attr_collector, class_remap=off_chip_mem_ctrl_to_mem_type, other_attr_remap=off_chip_mem_ctrl_other_attr_remap))
-
+    on_chip_compound_components.extend(multipleComponentYamlData(on_chip_caches_dict, cache_attr_collector))
 
     buses_dict = getComponentsOfTypesDict(system_info, mem_bus_types)
     bus_attr_collector = PreciseAttributeCollector(
@@ -344,8 +412,8 @@ if __name__== "__main__":
     # Best idea might be to map funcUnit number to list of opClasses right now
     # later on opClasses could be an actual class with more data ie: latency
     # or other user specified inputs that could be used
-    fu_to_op_mapping = getFunctionalUnitsToOpsMapping(cpu_info, fu_path, fu_num_prefix)
-    print(fu_to_op_mapping)
+    fu_to_op_set_mapping = getFunctionalUnitsToOpSetMapping(cpu_info, fu_path, fu_num_prefix)
+    # print(fu_to_op_mapping)
 
     num_alu_units = 2
     num_mul_units = 1
@@ -357,9 +425,9 @@ if __name__== "__main__":
     MUL_units = [2, 3]
     FPU_units = [4]
 
-    ALU_ops = mergeDictListValues(fu_to_op_mapping, ALU_units)
-    MUL_ops = mergeDictListValues(fu_to_op_mapping, MUL_units)
-    FPU_ops = mergeDictListValues(fu_to_op_mapping, FPU_units)
+    ALU_ops = mergeDictSetValuesForKeys(fu_to_op_set_mapping, ALU_units)
+    MUL_ops = mergeDictSetValuesForKeys(fu_to_op_set_mapping, MUL_units)
+    FPU_ops = mergeDictSetValuesForKeys(fu_to_op_set_mapping, FPU_units)
 
     # Now adding the execution unit, it is likely that special code will be required here
     # to not only create the execution unit but link relevant sub components
@@ -416,122 +484,81 @@ if __name__== "__main__":
         # yaml.dump(architecture_yaml, file, sort_keys=False, default_flow_style=False, Dumper=noalias_dumper)
         yaml.dump(architecture_yaml, file, sort_keys=False)
 
-    # read in the CPU statistics in the output file
-    # stats_output_file_name = "m5out/stats.txt" # this is a default named directory/file location by gem5
-    # stats_output_file = open(stats_output_file_name, "r")
 
-    # cpu_general_stat_line_prefix = "system.cpu."
-    # cpu_op_line_prefix = "system.cpu.op_class::"
-    # cpu_general_stats = {}
-    # cpu_op_stats = {}
-    # memory_accesses_output_name_to_name = {
-    #                                         "system.mem_ctrl.num_reads::.cpu.inst": "if_reads",
-    #                                         "system.mem_ctrl.num_reads::.cpu.data": "mem_reads",
-    #                                         "system.mem_ctrl.num_writes::.cpu.data": "mem_writes"
-    #                                        }
-    # memory_access_stats = {}
-    # for line in stats_output_file:
-    #     split_line = line.split()
-    #     # skip entries that don"t have a name value pairing
-    #     if len(split_line) < 2:
-    #         continue
-    #     full_stat_name = split_line[0]
-    #     data_value = split_line[1]
-    #     # skip data values of 0
-    #     if data_value == "0":
-    #         continue
-    #     if full_stat_name.startswith(cpu_op_line_prefix):
-    #         op = full_stat_name[len(cpu_op_line_prefix):]
-    #         cpu_op_stats[op] = int(float(data_value))
-    #     elif full_stat_name.startswith(cpu_general_stat_line_prefix):
-    #         stat = full_stat_name[len(cpu_general_stat_line_prefix):]
-    #         cpu_general_stats[stat] = int(float(data_value))
-    #     elif full_stat_name in memory_accesses_output_name_to_name:
-    #         mem_access_stat_name = memory_accesses_output_name_to_name[full_stat_name]
-    #         memory_access_stats[mem_access_stat_name] = int(float(data_value))
+    ######################## Now to get action counts #############################
+    # read in accelergy stats
+    stat_lines = []
+    with open("m5out/stats.txt") as f:
+        stat_lines = f.readlines()
+        stat_lines = [stat_line.split() for stat_line in stat_lines]
 
-    # printStats(cpu_general_stats, memory_access_stats, cpu_op_stats)
+    actionCountYAMLs = []
 
+    # Get decode action acounts
+    # *** This can't be done for minorCPU, likely as the data is not collected due to simplifications
+    #     so will need to add it for O3CPU
 
-    
-    # address_access_argument = {"data_delta": 1, "address_delta": 1}
-    # action_count_yaml = {
-    #     "action_counts": {
-    #         "version": 0.3,
-    #         "local": [
-    #             {
-    #                 "name": accelergy_architecture_name + ".if_unit",
-    #                 "action_counts": [
-    #                     {
-    #                         "counts": memory_access_stats["if_reads"],
-    #                         "name": "read",
-    #                         "arguments": {"data_delta": 0, "address_delta": 1}
-    #                     }
-    #                 ]
-    #             },
-    #             {
-    #                 "name": accelergy_architecture_name + ".rf_unit",
-    #                 "action_counts": [
-    #                     {
-    #                         "counts": cpu_general_stats["num_int_register_reads"],
-    #                         "name": "read",
-    #                         "arguments": {"data_delta": 0, "address_delta": 1}
-    #                     },
-    #                     {
-    #                         "counts": cpu_general_stats["num_int_register_writes"],
-    #                         "name": "write",
-    #                         "arguments": {"data_delta": 0, "address_delta": 1}
-    #                     }
-    #                 ]
-    #             },
-    #             {
-    #                 "name": accelergy_architecture_name + ".alu_unit",
-    #                 "action_counts": [
-    #                     {
-    #                         "counts": cpu_op_stats["IntAlu"],
-    #                         "name": "intadd"
-    #                     },
-    #                     {
-    #                         "counts": cpu_op_stats["IntMult"],
-    #                         "name": "intmultiply"
-    #                     },
-    #                     {
-    #                         "counts": cpu_op_stats["FloatAdd"],
-    #                         "name": "fpadd"
-    #                     },
-    #                     {
-    #                         "counts": cpu_op_stats["SimdFloatMult"],
-    #                         "name": "fpmultiply"
-    #                     }
-    #                 ]
-    #             },
-    #             {
-    #                 "name": accelergy_architecture_name + ".mm_unit",
-    #                 "action_counts": [
-    #                     {
-    #                         "counts": cpu_op_stats["MemRead"],
-    #                         "name": "load",
-    #                         "arguments": {"data_delta": 0, "address_delta": 1}
-    #                     },
-    #                     {
-    #                         "counts": cpu_op_stats["MemWrite"],
-    #                         "name": "store",
-    #                         "arguments": {"data_delta": 0, "address_delta": 1}
-    #                     }
-    #                 ]
-    #             },
-    #         ] 
-    #     }
-    # }
-    # print(action_count_yaml)
-    # action_counts_file = accelergy_input_dir + "/" + accelergy_action_counts_file_name
-    # with open(action_counts_file, "w") as file:
-    #     # dict_file = {"action_counts": {"version": 0.3, "local": [{"action_counts": [{"counts": 200, "name": "read", "arguments": {"data_delta": 0, "address_delta": 1}}], "name": "beta_pipeline.if_unit"}, {"action_counts": [{"counts": 200, "name": "read", "arguments": {"data_delta": 0, "address_delta": 1}}, {"counts": 100, "name": "write", "arguments": {"data_delta": 1, "address_delta": 1}}], "name": "beta_pipeline.rf_unit"}, {"action_counts": [{"counts": 100, "name": "intadd"}, {"counts": 100, "name": "intmac_op"}], "name": "beta_pipeline.alu_unit"}, {"action_counts": [{"counts": 100, "name": "load", "arguments": {"data_delta": 0, "address_delta": 1}}, {"counts": 100, "name": "store", "arguments": {"data_delta": 1, "address_delta": 1}}], "name": "beta_pipeline.mm_unit"}]}}
-    #     documents = yaml.dump(action_count_yaml, file)
+    # Get the off chip memory action counts from names in off_chip_mems
+    off_chip_memory_action_name_to_fetch_to_stat_names = {
+        "read_accesses": [".num_reads::total"],
+        "write_accesses": [".num_writes::total"] # this is speculation, don't see it in minorCPU or O3 CPU
+    }
+    off_chip_mem_name_to_full_path_name = {}
+    for mem_name in off_chip_mems:
+        off_chip_mem_name_to_full_path_name[mem_name] = accelergy_architecture_name + "." + mem_name
 
-    # os.chdir("/home/ubuntu/five_stage_pipeline_components/five_stage_pipeline/input")
-    # os.system("accelergy -o ../output/ *.yaml components/*.yaml -v 1")
+    print("Adding off chip mem action counts")
+    actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(off_chip_mem_name_to_full_path_name, off_chip_memory_action_name_to_fetch_to_stat_names, stat_lines))
 
+    # Get the cache action counts from on_chip_caches
+    # From McPat looks like we want the follwoing
+    # <stat name="read_accesses" value="11824"/>
+    # <stat name="write_accesses" value="11276"/>
+    # <stat name="read_misses" value="1632"/>
+    # <stat name="write_misses" value="183"/>
+    on_chip_memory_action_name_to_fetch_to_stat_names = {
+        "read_accesses": [".ReadReq_accesses::total"],
+        "write_accesses": [".WriteReq_accesses::total"],
+        "read_misses": [".ReadReq_misses::total"],
+        "write_misses": [".WriteReq_misses::total"],
+        "total_accesses": [".overall_accesses::total"], # minorCPU l2cache only had totals
+        "total_misses": [".overall_misses::total"]
+    }
+    on_chip_caches_name_to_full_path_name = {}
+    for cache_name in on_chip_caches:
+        on_chip_caches_name_to_full_path_name[cache_name] = accelergy_architecture_name + ".chip." + cache_name
+    print("Adding on chip cache action counts")
+    actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(on_chip_caches_name_to_full_path_name, on_chip_memory_action_name_to_fetch_to_stat_names, stat_lines))
+
+    # Get the exec stage action counts
+    # simply search the file for name matches to the operations
+    # if there are multiple matches take the maximum value
+    #   ***this occurs in O3CPU when there is an instruction queue issue count and a commit count
+    #       thus max will be the most accurate value in terms of energy consumption
+    ALU_instructions_executed = getFuncUnitOpsExecutedInStats(ALU_ops, stat_lines)
+    MUL_instructions_executed = getFuncUnitOpsExecutedInStats(MUL_ops, stat_lines)
+    FPU_instructions_executed = getFuncUnitOpsExecutedInStats(FPU_ops, stat_lines)
+    exec_action_name_to_count = {
+        "int_instruction": ALU_instructions_executed,
+        "mul_instruction": MUL_instructions_executed,
+        "fp_instruction": FPU_instructions_executed
+    }
+    exec_component_full_path_name = accelergy_architecture_name + ".chip.exec"
+    print("Adding exec action counts")
+    actionCountYAMLs.append(createYAMLActionCountComponent(exec_component_full_path_name, exec_action_name_to_count))
+    # yaml where I add the top level 
+    # this is initally just filled with boiler plate
+    action_counts_yaml = {"action_counts": {
+                            "version": 0.3,
+                            "local": actionCountYAMLs
+                            }
+                        }
+
+    with open(input_dir + "/action_counts.yaml", "w") as file:
+        # noalias_dumper = yaml.dumper.SafeDumper
+        # noalias_dumper.ignore_aliases = lambda self, data: True
+        # yaml.dump(architecture_yaml, file, sort_keys=False, default_flow_style=False, Dumper=noalias_dumper)
+        yaml.dump(action_counts_yaml, file, sort_keys=False)
 
 
 
