@@ -388,6 +388,7 @@ if __name__== "__main__":
     # Add TLBs (Translation Lookup Buffers), should typically be itlb, dtlb,
     # seem to be referenced in gem5 as itb, dtb
     tlbs_dict = getComponentsOfTypesDict(cpu_info, tlb_types)
+    tlbs = [key for key in tlbs_dict]
     tlb_attr_collector = PreciseAttributeCollector(
         {
             "number_entries": ["size"]
@@ -498,8 +499,14 @@ if __name__== "__main__":
     # *** This can't be done for minorCPU, likely as the data is not collected due to simplifications
     #     so will need to add it for O3CPU
 
+    # Get fetch action counts
+    # **# This stage is also ambiguous atm
+
     # Get the off chip memory action counts from names in off_chip_mems
     off_chip_memory_action_name_to_fetch_to_stat_names = {
+        # "accesses": [""], # Don't worry about this for now as not clear waht this is in gem5 stats.txt
+        #                     worst case it can probably be derived but it'd be better if we could extract
+        #                     the exact number, probably need a better workload
         "read_accesses": [".num_reads::total"],
         "write_accesses": [".num_writes::total"] # this is speculation, don't see it in minorCPU or O3 CPU
     }
@@ -518,10 +525,13 @@ if __name__== "__main__":
     # <stat name="write_misses" value="183"/>
     on_chip_memory_action_name_to_fetch_to_stat_names = {
         "read_accesses": [".ReadReq_accesses::total"],
-        "write_accesses": [".WriteReq_accesses::total"],
+        "read_hits": [".ReadReq_hits::total"],
         "read_misses": [".ReadReq_misses::total"],
+        "write_accesses": [".WriteReq_accesses::total"],
+        "write_hits": [".WriteReq_hits::total"],
         "write_misses": [".WriteReq_misses::total"],
         "total_accesses": [".overall_accesses::total"], # minorCPU l2cache only had totals
+        "total_hits": [".overall_hits::total"],
         "total_misses": [".overall_misses::total"]
     }
     on_chip_caches_name_to_full_path_name = {}
@@ -546,6 +556,26 @@ if __name__== "__main__":
     exec_component_full_path_name = accelergy_architecture_name + ".chip.exec"
     print("Adding exec action counts")
     actionCountYAMLs.append(createYAMLActionCountComponent(exec_component_full_path_name, exec_action_name_to_count))
+    
+    # Get TLB data for dtb, itb, and any other cpu tlbs from tlbs
+    tlb_action_name_to_fetch_to_stat_names = {
+        "read_accesses": [".read_accesses"],
+        "read_hits": [".read_hits"],
+        "read_misses": [".read_misses"],
+        "write_accesses": [".write_accesses"],
+        "write_hits": [".write_hits"],
+        "write_misses": [".write_misses"],
+        "total_accesses": [".accesses"],
+        "total_hits": [".hits"],
+        "total_misses": [".misses"]
+    }
+    tlb_name_to_full_path_name = {}
+    for tlb in tlbs:
+        tlb_name_to_full_path_name[tlb] = accelergy_architecture_name + ".chip." + tlb
+    print("Adding tlb action counts")
+    actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(tlb_name_to_full_path_name, tlb_action_name_to_fetch_to_stat_names, stat_lines))
+
+
     # yaml where I add the top level 
     # this is initally just filled with boiler plate
     action_counts_yaml = {"action_counts": {
