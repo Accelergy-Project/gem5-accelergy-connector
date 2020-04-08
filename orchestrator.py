@@ -290,7 +290,7 @@ if __name__== "__main__":
     system_attributes.update(system_attr_collector.get_attr_dict(system_info))
     # collect the cpu level attributes we care about
     # attributes that cpu inherits from the system if not specified for the cpu
-    cpu_inherit_system_attrs = ["datawidth"]
+    cpu_inherit_system_attrs = ["datawidth", "technology"]
     cpu_inherit_attrs = {}
     for attr in cpu_inherit_system_attrs:
         if attr in system_attributes:
@@ -304,7 +304,7 @@ if __name__== "__main__":
     cpu_attributes.update(cpu_attr_collector.get_attr_dict(cpu_info))
 
     # attributes that memory inherits from the system if not specified for the unit
-    memory_units_inherit_system_attrs = ["block_size"]
+    memory_units_inherit_system_attrs = ["technology", "block_size"]
     memory_units_inherit_attrs = {}
     for attr in memory_units_inherit_system_attrs:
         if attr in system_attributes:
@@ -434,7 +434,7 @@ if __name__== "__main__":
     # Now adding the execution unit, it is likely that special code will be required here
     # to not only create the execution unit but link relevant sub components
     # attributes that exec inherits from the system if not specified for the unit
-    exec_unit_inherit_cpu_attrs = ["datawidth"]
+    exec_unit_inherit_cpu_attrs = ["datawidth", "technology"]
     exec_unit_inherit_attrs = {}
     for attr in exec_unit_inherit_cpu_attrs:
         if attr in cpu_attributes:

@@ -2,6 +2,7 @@ version: 0.3
 classes:
   - name: memory_controller
     attributes:
+      technology: must_specify
       cache_type: must_specify
       response_latency: must_specify
       size: must_specify
@@ -14,6 +15,7 @@ classes:
       - name: write_access
   - name: cache
     attributes:
+      technology: must_specify
       cache_type: must_specify
       replacement_policy: must_specify
       associativity: must_specify
@@ -23,7 +25,6 @@ classes:
       size: must_specify
       network_cpu_side: must_specify
       network_mem_side: must_specify
-      technology: 45nm
     actions:
       - name: read_access
       - name: write_access

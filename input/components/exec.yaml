@@ -3,16 +3,16 @@ compound_components:
   classes:
   - name: exec
     attributes:
-      technology: 45nm
-      alu_units: 2
-      mul_units: 1
-      fpu_units: 1
-      instruction_buffer_size: 7
-      issue_width: 2
-      commit_width: 2
-      store_buffer_size: 2
-      prediction_width: 1
-      datawidth: 32
+      technology: must_specify
+      alu_units: must_specify
+      mul_units: must_specify
+      fpu_units: must_specify
+      instruction_buffer_size: must_specify
+      issue_width: must_specify
+      commit_width: must_specify
+      store_buffer_size: must_specify
+      prediction_width: must_specify
+      datawidth: must_specify
 
     subcomponents:
       - name: alu_unit[0..alu_units-1]

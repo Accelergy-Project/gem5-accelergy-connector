@@ -4,7 +4,7 @@ compound_components:
   - name: fpu_unit
     primitive_type: fpu_unit
     attributes:
-      technology: 45nm
+      technology: must_specify
       exponent: 8
       mantissa: 24
 

@@ -4,8 +4,8 @@ compound_components:
   - name: alu_unit
     primitive_type: alu_unit
     attributes:
-      technology: 45nm
-      datawidth: 32
+      technology: must_specify
+      datawidth: must_specify
 
     subcomponents:
       # bare bones initial design
