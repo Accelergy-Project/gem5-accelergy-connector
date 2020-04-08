@@ -150,7 +150,8 @@ def getActionCountsYAMLsForComponentsFromStats(components_to_full_component_path
 
     action_count_yamls = []
     for component in component_to_action_name_to_count:
-        action_count_yamls.append(createYAMLActionCountComponent(component, component_to_action_name_to_count[component]))
+        if len(component_to_action_name_to_count[component]) > 0: # if this == 0 then it has no actions so skip
+            action_count_yamls.append(createYAMLActionCountComponent(component, component_to_action_name_to_count[component]))
 
     print(component_to_action_name_to_count)
     return action_count_yamls
@@ -507,8 +508,8 @@ if __name__== "__main__":
         # "accesses": [""], # Don't worry about this for now as not clear waht this is in gem5 stats.txt
         #                     worst case it can probably be derived but it'd be better if we could extract
         #                     the exact number, probably need a better workload
-        "read_accesses": [".num_reads::total"],
-        "write_accesses": [".num_writes::total"] # this is speculation, don't see it in minorCPU or O3 CPU
+        "read_access": [".num_reads::total"],
+        "write_access": [".num_writes::total"] # this is speculation, don't see it in minorCPU or O3 CPU
     }
     off_chip_mem_name_to_full_path_name = {}
     for mem_name in off_chip_mems:
@@ -524,15 +525,15 @@ if __name__== "__main__":
     # <stat name="read_misses" value="1632"/>
     # <stat name="write_misses" value="183"/>
     on_chip_memory_action_name_to_fetch_to_stat_names = {
-        "read_accesses": [".ReadReq_accesses::total"],
-        "read_hits": [".ReadReq_hits::total"],
-        "read_misses": [".ReadReq_misses::total"],
-        "write_accesses": [".WriteReq_accesses::total"],
-        "write_hits": [".WriteReq_hits::total"],
-        "write_misses": [".WriteReq_misses::total"],
-        "total_accesses": [".overall_accesses::total"], # minorCPU l2cache only had totals
-        "total_hits": [".overall_hits::total"],
-        "total_misses": [".overall_misses::total"]
+        "read_access": [".ReadReq_accesses::total"],
+        # "read_hit": [".ReadReq_hits::total"],
+        # "read_miss": [".ReadReq_misses::total"],
+        "write_access": [".WriteReq_accesses::total"]
+        # "write_hit": [".WriteReq_hits::total"],
+        # "write_miss": [".WriteReq_misses::total"],
+        # "total_access": [".overall_accesses::total"], # minorCPU l2cache only had totals
+        # "total_hit": [".overall_hits::total"],
+        # "total_miss": [".overall_misses::total"]
     }
     on_chip_caches_name_to_full_path_name = {}
     for cache_name in on_chip_caches:
@@ -559,15 +560,15 @@ if __name__== "__main__":
     
     # Get TLB data for dtb, itb, and any other cpu tlbs from tlbs
     tlb_action_name_to_fetch_to_stat_names = {
-        "read_accesses": [".read_accesses"],
-        "read_hits": [".read_hits"],
-        "read_misses": [".read_misses"],
-        "write_accesses": [".write_accesses"],
-        "write_hits": [".write_hits"],
-        "write_misses": [".write_misses"],
-        "total_accesses": [".accesses"],
-        "total_hits": [".hits"],
-        "total_misses": [".misses"]
+        "read_access": [".read_accesses"],
+        # "read_hit": [".read_hits"],
+        # "read_miss": [".read_misses"],
+        "write_access": [".write_accesses"]
+        # "write_hit": [".write_hits"],
+        # "write_miss": [".write_misses"],
+        # "total_access": [".accesses"],
+        # "total_hit": [".hits"],
+        # "total_miss": [".misses"]
     }
     tlb_name_to_full_path_name = {}
     for tlb in tlbs:
@@ -590,7 +591,9 @@ if __name__== "__main__":
         # yaml.dump(architecture_yaml, file, sort_keys=False, default_flow_style=False, Dumper=noalias_dumper)
         yaml.dump(action_counts_yaml, file, sort_keys=False)
 
-
+    # will need to change this with the proper directories/files when the time comes
+    # os.chdir("/home/ubuntu/five_stage_pipeline_components/five_stage_pipeline/input")
+    # os.system("3")
 
 
 

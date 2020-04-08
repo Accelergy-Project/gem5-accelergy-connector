@@ -45,10 +45,6 @@ compound_components:
              - name: mul_instruction
       - name: fp_instruction
         subcomponents:
-          - name: intmac
+          - name: fpu_unit
             actions:
-             - name: mac_random
-
-
-
-
+             - name: fp_instruction

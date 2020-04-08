@@ -2,6 +2,7 @@ compound_components:
   version: 0.3
   classes:
   - name: fpu_unit
+    primitive_type: fpu_unit
     attributes:
       technology: 45nm
       exponent: 8
@@ -10,11 +11,18 @@ compound_components:
     subcomponents:
       # bare bones initial design
       - name: fpadder
+        class: fpadder
         attributes:
           technology: technology
       - name: fpmultiplier
+        class: fpmultiplier
         attributes:
           technology: technology
 
     actions:
       - name: fp_instruction
+        subcomponents:
+          - name: fpadder
+            actions:
+              - name: add
+              

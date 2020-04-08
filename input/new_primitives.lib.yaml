@@ -1,0 +1,60 @@
+version: 0.3
+classes:
+  - name: memory_controller
+    attributes:
+      cache_type: must_specify
+      response_latency: must_specify
+      size: must_specify
+      burst_length: must_specify
+      port: must_specify
+      bus_width: must_specify
+      block_size: must_specify
+    actions:
+      - name: read_access
+      - name: write_access
+  - name: cache
+    attributes:
+      cache_type: must_specify
+      replacement_policy: must_specify
+      associativity: must_specify
+      tag_size: must_specify
+      block_size: must_specify
+      write_buffers: must_specify
+      size: must_specify
+      network_cpu_side: must_specify
+      network_mem_side: must_specify
+      technology: 45nm
+    actions:
+      - name: read_access
+      - name: write_access
+  - name: coherentxbar
+    attributes:
+      type: must_specify
+      response_latency: must_specify
+      protocol_response_latency: must_specify
+      width: must_specify
+    actions: # need to talk with Nellie more about these details based on gem5 output
+      - name: transfer_random
+      - name: transfer_repeated
+      - name: idle
+  - name: decode
+    attributes:
+      instr_buffer_size: must_specify
+      instr_width: must_specify
+      cycle_delay: must_specify
+    # add actions once I know what they are in gem5 for O3, not in minorCPU
+    actions:
+      - name: filler
+  - name: fetch
+    attributes:
+      ports: 1
+    # add actions once I know what they are in gem5 for O3, not in minorCPU
+    actions:
+      - name: filler
+  - name: tlb
+    attributes:
+      technology: must_specify
+      number_entries: must_specify
+    actions:
+      - name: read_access
+      - name: write_access

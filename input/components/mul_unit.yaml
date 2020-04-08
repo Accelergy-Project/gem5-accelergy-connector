@@ -2,6 +2,7 @@ compound_components:
   version: 0.3
   classes:
   - name: mul_unit
+    primitive_type: mul_unit
     attributes:
       technology: 45nm
       datawidth: 32
@@ -9,9 +10,14 @@ compound_components:
     subcomponents:
       # bare bones initial design
       - name: intmultiplier
+        class: intmultiplier
         attributes:
           technology: technology
           datawidth: datawidth
 
     actions:
       - name: mul_instruction
+        subcomponents:
+          - name: intmultiplier
+            actions:
+              - name: mult_random
