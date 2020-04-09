@@ -345,6 +345,8 @@ if __name__== "__main__":
             "block_size": ["tags", "block_size"],
             "write_buffers": ["write_buffers"],
             "size": ["size"],
+            "tag_latency": ["tag_latency"],
+            "data_latency": ["data_latency"],
             "network_cpu_side": ["cpu_side", "peer", -2],
             "network_mem_side": ["mem_side", "peer", -2]
         },

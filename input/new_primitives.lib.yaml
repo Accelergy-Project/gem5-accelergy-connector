@@ -13,26 +13,6 @@ classes:
     actions:
       - name: read_access
       - name: write_access
-  - name: cache
-    attributes:
-      technology: must_specify
-      cache_type: must_specify
-      replacement_policy: must_specify
-      associativity: must_specify
-      tag_size: must_specify
-      block_size: must_specify
-      write_buffers: must_specify
-      size: must_specify
-      network_cpu_side: must_specify
-      network_mem_side: must_specify
-      n_rdwr_ports: 1 # temporary filler as it is not clear what this is from gem5 config
-      n_rd_ports: 0 # temporary filler as it is not clear what this is from gem5 config
-      n_wr_ports: 0 # temporary filler as it is not clear what this is from gem5 config
-      n_banks: 1 # temporary filler as it is not clear what this is from gem5 config
-    actions:
-      - name: read_access
-      - name: write_access
-      - name: idle
   - name: coherentxbar
     attributes:
       type: must_specify

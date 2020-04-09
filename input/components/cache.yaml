@@ -1,0 +1,85 @@
+compound_components:
+  version: 0.3
+  classes:  
+  - name: cache
+    primitive_type: cache
+    attributes:
+      technology: must_specify
+      cache_type: must_specify
+      replacement_policy: must_specify
+      associativity: must_specify
+      tag_size: must_specify
+      block_size: must_specify
+      write_buffers: must_specify
+      size: must_specify
+      tag_latency: must_specify
+      data_latency: must_specify
+      network_cpu_side: must_specify
+      network_mem_side: must_specify
+      n_rd_ports: 0 # temporary filler as it is not clear what this is from gem5 config
+      n_wr_ports: 0 # temporary filler as it is not clear what this is from gem5 config
+      n_rdwr_ports: 1 # temporary filler as it is not clear what this is from gem5 config
+      n_banks: 1 # temporary filler as it is not clear what this is from gem5 config
+
+    subcomponents:
+      # bare bones initial design
+      - name: tag_SRAM
+        class: SRAM
+        attributes:
+          technology: technology
+          width: block_size
+          depth: size / block_size
+          n_rd_ports: n_rd_ports
+          n_wr_ports: n_wr_ports
+          n_rdwr_ports: n_rdwr_ports
+          n_banks: n_banks
+          latency: tag_latency
+      - name: data_SRAM
+        class: SRAM
+        attributes:
+          technology: technology
+          width: block_size
+          depth: size / block_size
+          n_rd_ports: n_rd_ports
+          n_wr_ports: n_wr_ports
+          n_rdwr_ports: n_rdwr_ports
+          n_banks: n_banks
+          latency: data_latency
+    actions:
+      - name: read_access
+        subcomponents:
+          - name: tag_SRAM
+            actions:
+            - name: read
+              arguments:
+                data_delta: 1 # temporary filler
+                address_delta: 1 # temporary filler
+          - name: data_SRAM
+            actions:
+            - name: read
+              arguments:
+                data_delta: 1 # temporary filler
+                address_delta: 1 # temporary filler
+      - name: write_access
+        subcomponents:
+        - name: tag_SRAM
+          actions:
+          - name: write
+            arguments:
+              data_delta: 1 # temporary filler
+              address_delta: 1 # temporary filler
+          - name: data_SRAM
+            actions:
+            - name: write
+              arguments:
+                data_delta: 1 # temporary filler
+                address_delta: 1 # temporary filler
+      - name: idle
+        subcomponents:
+        - name: tag_SRAM
+          actions:
+            - name: idle
+        - name: data_SRAM
+          actions:
+            - name: idle
+        
