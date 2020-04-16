@@ -6,10 +6,13 @@ classes:
       cache_type: must_specify
       response_latency: must_specify
       size: must_specify
+      page_size: must_specify
       burst_length: must_specify
       port: must_specify
       bus_width: must_specify
       block_size: must_specify
+      ranks_per_channel: 2
+      banks_per_rank: 8
     actions:
       - name: read_access
       - name: write_access

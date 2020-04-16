@@ -96,9 +96,12 @@ class PreciseAttributeCollector:
 
 
     def recursive_find_attr(self, path, info_dict):
-        # base case
+        # base cases
         if len(path) == 1:
             if path[0] in info_dict:
+                # this is to handle the case of returning the first element in a list
+                if isinstance(info_dict[path[0]], list):
+                    return info_dict[path[0]][0]
                 return info_dict[path[0]]
             return None
         elif len(path) == 2 and isinstance(path[1], int):
@@ -284,7 +287,9 @@ if __name__== "__main__":
     # collect the system level attributes we care about
     system_attr_collector = PreciseAttributeCollector(
         {
-            "block_size": ["cache_line_size"]
+            "clock": ["clk_domain", "clock"], # in MHz (Megahertz)
+            "block_size": ["cache_line_size"],
+            "vdd": ["clk_domain", "voltage_domain", "voltage"]
         }
     )
     system_attributes.update(system_attr_collector.get_attr_dict(system_info))
@@ -319,10 +324,12 @@ if __name__== "__main__":
             "cache_type": ["type"],
             "response_latency": ["tCL"],
             "size": ["device_size"],
+            "page_size": ["device_rowbuffer_size"],
             "burst_length": ["burst_length"],
             "port": ["port", "peer", -2],
-            # "rowbuffer_size": ["device_rowbuffer_size"], Not using for now as not in cacti
-            "bus_width": ["device_bus_width"]
+            "bus_width": ["device_bus_width"],
+            "ranks_per_channel": ["ranks_per_channel"],
+            "banks_per_rank": ["banks_per_rank"]
         },
         memory_units_inherit_attrs
     )
@@ -343,6 +350,7 @@ if __name__== "__main__":
             "associativity": ["assoc"],
             "tag_size": ["tags", "entry_size"],
             "block_size": ["tags", "block_size"],
+            "tag_size": ["tags", "entry_size"],
             "write_buffers": ["write_buffers"],
             "size": ["size"],
             "tag_latency": ["tag_latency"],

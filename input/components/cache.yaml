@@ -27,7 +27,7 @@ compound_components:
         class: SRAM
         attributes:
           technology: technology
-          width: block_size
+          width: tag_size
           depth: size / block_size
           n_rd_ports: n_rd_ports
           n_wr_ports: n_wr_ports
