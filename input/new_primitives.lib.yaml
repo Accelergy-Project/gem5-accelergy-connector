@@ -3,7 +3,7 @@ classes:
   - name: memory_controller
     attributes:
       technology: must_specify
-      cache_type: must_specify
+      memory_type: must_specify
       response_latency: must_specify
       size: must_specify
       page_size: must_specify
@@ -18,7 +18,6 @@ classes:
       - name: write_access
   - name: coherentxbar
     attributes:
-      type: must_specify
       response_latency: must_specify
       protocol_response_latency: must_specify
       width: must_specify
@@ -47,3 +46,14 @@ classes:
     actions:
       - name: read_access
       - name: write_access
+
+  - name: fpu_unit
+    attributes:
+      technology: must_specify
+      clockrate: must_specify
+      datawidth: must_specify
+      exponent: 8
+      mantissa: 24
+    actions:
+      - name: fp_instruction
+              

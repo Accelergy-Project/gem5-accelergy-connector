@@ -5,6 +5,7 @@ compound_components:
     primitive_type: alu_unit
     attributes:
       technology: must_specify
+      clockrate: must_specify
       datawidth: must_specify
 
     subcomponents:

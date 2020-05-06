@@ -7,21 +7,6 @@ import sys
 import yaml
 import json
 
-def printStats(cpu_general_stats, memory_access_stats, cpu_op_stats):
-    print("**********General stats**********")
-    stat_names = [stat for stat in cpu_general_stats]
-    stat_names.sort()
-    for stat in stat_names:
-        print(stat + ":" + str(cpu_general_stats[stat]))
-    print("**********Memory Access Stats**********")
-    for stat in memory_access_stats:
-        print(stat + ":" + str(memory_access_stats[stat]))
-    print("**********Operation stats**********")
-    op_names = [op for op in cpu_op_stats]
-    op_names.sort()
-    for op in op_names:
-        print(op + ":" + str(cpu_op_stats[op]))
-
 def getComponentsOfTypesDict(info_dict, types):
     caches_dict = {}
     for sub_component_key in info_dict:
@@ -34,21 +19,22 @@ def getComponentsOfTypesDict(info_dict, types):
     return caches_dict
 
 def multipleComponentYamlData(components_dict, attr_collector, component_class="",
-                              class_remap={}, other_attr_remap={}):
+                              class_remap={}, other_attr_remap={}, add_name_as_attr=""):
     '''
     Get the YAML format for a list of components
     '''
     yaml_components = []
-    for component in components_dict:
-        yaml_component = singleComponentYamlData(components_dict[component], attr_collector, component,
+    for component_name, component_dict in components_dict.items():
+        print("Component name is: " + component_name)
+        yaml_component = singleComponentYamlData(component_dict, attr_collector, component_name,
                                                  component_class=component_class, class_remap=class_remap,
-                                                 other_attr_remap=other_attr_remap)
+                                                 other_attr_remap=other_attr_remap, add_name_as_attr=add_name_as_attr)
         yaml_components.append(yaml_component)
     return yaml_components
 
 def singleComponentYamlData(component_dict, attr_collector, component_name,
                             component_class="", class_remap={}, other_attr_remap={},
-                            additional_attributes={}):
+                            additional_attributes={}, add_name_as_attr=""):
     '''
     Get the YAML format for a single component
     '''
@@ -64,6 +50,9 @@ def singleComponentYamlData(component_dict, attr_collector, component_name,
         if component_class in class_remap:
             component_class = class_remap[component_class]
         component_class = component_class.lower()
+    if add_name_as_attr != "":
+        print("For " + str(component_name) + " adding as attribute: " + str(add_name_as_attr))
+        attributes[add_name_as_attr] = component_name.lower()
     for attr in attributes:
         if attr in other_attr_remap:
             value = attributes[attr]
@@ -251,7 +240,7 @@ if __name__== "__main__":
     gem5_command = gem5_build_path + " " + gem5_test_config
     os.system(gem5_command)
 
-    accelergy_input_dir = "/home/ubuntu/five_stage_pipeline_components/five_stage_pipeline/input"
+    # accelergy_input_dir = "/home/ubuntu/five_stage_pipeline_components/five_stage_pipeline/input"
     accelergy_action_counts_file_name = "action_counts.yaml"
     accelergy_architecture_name = "minor_cpu_system_arch"
 
@@ -261,7 +250,7 @@ if __name__== "__main__":
     system_info = config_data["system"]
     cpu_info = system_info["cpu"]
 
-    input_dir = "/home/ubuntu/gem5toAcclergyOrchestration/input"
+    accelergy_input_dir = "/home/ubuntu/gem5toAcclergyOrchestration/input"
     components_dir = "/home/ubuntu/gem5toAcclergyOrchestration/input/components"
     # os.system("rm -r " + input_dir)
 
@@ -287,7 +276,7 @@ if __name__== "__main__":
     # collect the system level attributes we care about
     system_attr_collector = PreciseAttributeCollector(
         {
-            "clock": ["clk_domain", "clock"], # in MHz (Megahertz)
+            "clockrate": ["clk_domain", "clock"], # in MHz (Megahertz)
             "block_size": ["cache_line_size"],
             "vdd": ["clk_domain", "voltage_domain", "voltage"]
         }
@@ -295,7 +284,7 @@ if __name__== "__main__":
     system_attributes.update(system_attr_collector.get_attr_dict(system_info))
     # collect the cpu level attributes we care about
     # attributes that cpu inherits from the system if not specified for the cpu
-    cpu_inherit_system_attrs = ["datawidth", "technology"]
+    cpu_inherit_system_attrs = ["datawidth", "technology", "clockrate", "vdd"]
     cpu_inherit_attrs = {}
     for attr in cpu_inherit_system_attrs:
         if attr in system_attributes:
@@ -309,7 +298,7 @@ if __name__== "__main__":
     cpu_attributes.update(cpu_attr_collector.get_attr_dict(cpu_info))
 
     # attributes that memory inherits from the system if not specified for the unit
-    memory_units_inherit_system_attrs = ["technology", "block_size"]
+    memory_units_inherit_system_attrs = ["technology", "block_size", "clockrate"]
     memory_units_inherit_attrs = {}
     for attr in memory_units_inherit_system_attrs:
         if attr in system_attributes:
@@ -321,7 +310,7 @@ if __name__== "__main__":
     off_chip_mem_attr_collector = PreciseAttributeCollector(
         {
             "class": ["type"],
-            "cache_type": ["type"],
+            "memory_type": ["type"],
             "response_latency": ["tCL"],
             "size": ["device_size"],
             "page_size": ["device_rowbuffer_size"],
@@ -345,7 +334,6 @@ if __name__== "__main__":
     cache_attr_collector = PreciseAttributeCollector(
         {
             "class": ["type"],
-            "cache_type": ["type"],
             "replacement_policy": ["replacement_policy", "type"],
             "associativity": ["assoc"],
             "tag_size": ["tags", "entry_size"],
@@ -353,22 +341,24 @@ if __name__== "__main__":
             "tag_size": ["tags", "entry_size"],
             "write_buffers": ["write_buffers"],
             "size": ["size"],
-            "tag_latency": ["tag_latency"],
-            "data_latency": ["data_latency"],
-            "network_cpu_side": ["cpu_side", "peer", -2],
-            "network_mem_side": ["mem_side", "peer", -2]
+            "mshrs": ["mshrs"],
+            # "tag_latency": ["tag_latency"], McPat convert I am following did not use these
+            # "data_latency": ["data_latency"], it instead just used hit_latency and resp_latency
+            "hit_latency": ["hit_latency"],
+            "response_latency": ["response_latency"],
+            # "network_cpu_side": ["cpu_side", "peer", -2], Doesn't look like these are needed
+            # "network_mem_side": ["mem_side", "peer", -2]
         },
         memory_units_inherit_attrs
     )
     # on_chip_compound_components.extend(cacheComponentsYamlData(caches_dict))
     print("Adding caches")
-    on_chip_compound_components.extend(multipleComponentYamlData(on_chip_caches_dict, cache_attr_collector))
+    on_chip_compound_components.extend(multipleComponentYamlData(on_chip_caches_dict, cache_attr_collector, add_name_as_attr="cache_type"))
 
     buses_dict = getComponentsOfTypesDict(system_info, mem_bus_types)
     bus_attr_collector = PreciseAttributeCollector(
         {
             "class": ["type"],
-            "type": ["type"],
             "response_latency": ["response_latency"],
             "protocol_response_latency": ["snoop_filter", "lookup_latency"],
             "width": ["width"]
@@ -444,7 +434,7 @@ if __name__== "__main__":
     # Now adding the execution unit, it is likely that special code will be required here
     # to not only create the execution unit but link relevant sub components
     # attributes that exec inherits from the system if not specified for the unit
-    exec_unit_inherit_cpu_attrs = ["datawidth", "technology"]
+    exec_unit_inherit_cpu_attrs = ["datawidth", "technology", "clockrate"]
     exec_unit_inherit_attrs = {}
     for attr in exec_unit_inherit_cpu_attrs:
         if attr in cpu_attributes:
@@ -490,7 +480,7 @@ if __name__== "__main__":
                         }
 
 
-    with open(input_dir + "/architecture.yaml", "w") as file:
+    with open(accelergy_input_dir + "/architecture.yaml", "w") as file:
         # noalias_dumper = yaml.dumper.SafeDumper
         # noalias_dumper.ignore_aliases = lambda self, data: True
         # yaml.dump(architecture_yaml, file, sort_keys=False, default_flow_style=False, Dumper=noalias_dumper)
@@ -535,12 +525,12 @@ if __name__== "__main__":
     # <stat name="read_misses" value="1632"/>
     # <stat name="write_misses" value="183"/>
     on_chip_memory_action_name_to_fetch_to_stat_names = {
-        "read_access": [".ReadReq_accesses::total"],
-        # "read_hit": [".ReadReq_hits::total"],
-        # "read_miss": [".ReadReq_misses::total"],
-        "write_access": [".WriteReq_accesses::total"]
-        # "write_hit": [".WriteReq_hits::total"],
-        # "write_miss": [".WriteReq_misses::total"],
+        # "read_access": [".ReadReq_accesses::total"],
+        "read_access": [".ReadReq_hits::total"], # was originally read_hit but converter uses this as read_access
+        "read_miss": [".ReadReq_misses::total"],
+        # "write_access": [".WriteReq_accesses::total"]
+        "write_access": [".WriteReq_hits::total"], # was originally write_hit but converter uses this as write_access
+        "write_miss": [".WriteReq_misses::total"]
         # "total_access": [".overall_accesses::total"], # minorCPU l2cache only had totals
         # "total_hit": [".overall_hits::total"],
         # "total_miss": [".overall_misses::total"]
@@ -595,15 +585,17 @@ if __name__== "__main__":
                             }
                         }
 
-    with open(input_dir + "/action_counts.yaml", "w") as file:
+    with open(accelergy_input_dir + "/action_counts.yaml", "w") as file:
         # noalias_dumper = yaml.dumper.SafeDumper
         # noalias_dumper.ignore_aliases = lambda self, data: True
         # yaml.dump(architecture_yaml, file, sort_keys=False, default_flow_style=False, Dumper=noalias_dumper)
         yaml.dump(action_counts_yaml, file, sort_keys=False)
 
-    # will need to change this with the proper directories/files when the time comes
-    # os.chdir("/home/ubuntu/five_stage_pipeline_components/five_stage_pipeline/input")
-    # os.system("3")
+    accelergy_output_dir = "output"
+    accelergy_command = "accelergy -o " + accelergy_output_dir + " " + accelergy_input_dir + "/*.yaml "  + accelergy_input_dir + "/components/*.yaml -v 1"
+    print("Accelergy command is: ")
+    print(accelergy_command)
+    os.system(accelergy_command)
 
 
 

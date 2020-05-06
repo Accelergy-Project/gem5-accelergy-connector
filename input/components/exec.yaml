@@ -4,6 +4,7 @@ compound_components:
   - name: exec
     attributes:
       technology: must_specify
+      clockrate: must_specify
       alu_units: must_specify
       mul_units: must_specify
       fpu_units: must_specify
@@ -19,18 +20,20 @@ compound_components:
         class: alu_unit
         attributes:
           technology: technology
+          clockrate: clockrate
           datawidth: datawidth
       - name: mul_unit[0..mul_units-1]
         class: mul_unit
         attributes:
           technology: technology
+          clockrate: clockrate
           datawidth: datawidth
       - name: fpu_unit[0..fpu_units-1]
         class: fpu_unit
         attributes:
           technology: technology
-          # want to add more here, confused about exponent and mantissa from fpadder
-          # and how we get to that from gem5
+          clockrate: clockrate
+          datawidth: datawidth
 
     actions:
       - name: int_instruction

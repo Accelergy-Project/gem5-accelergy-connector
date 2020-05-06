@@ -12,10 +12,14 @@ compound_components:
       block_size: must_specify
       write_buffers: must_specify
       size: must_specify
-      tag_latency: must_specify
-      data_latency: must_specify
-      network_cpu_side: must_specify
-      network_mem_side: must_specify
+      mshrs: must_specify
+      # tag_latency: must_specify
+      # data_latency: must_specify
+      hit_latency: 0 # it is possible for these to be omitted, in this case use 0
+      resp_latency: 0
+      # network_cpu_side: must_specify
+      # network_mem_side: must_specify
+      clockrate: must_specify
       n_rd_ports: 0 # temporary filler as it is not clear what this is from gem5 config
       n_wr_ports: 0 # temporary filler as it is not clear what this is from gem5 config
       n_rdwr_ports: 1 # temporary filler as it is not clear what this is from gem5 config
@@ -60,7 +64,35 @@ compound_components:
               arguments:
                 data_delta: 1 # temporary filler
                 address_delta: 1 # temporary filler
+      - name: read_miss #this looks the same as read_access, but McPat treats it differently
+        subcomponents:
+          - name: tag_SRAM
+            actions:
+            - name: read
+              arguments:
+                data_delta: 1 # temporary filler
+                address_delta: 1 # temporary filler
+          - name: data_SRAM
+            actions:
+            - name: read
+              arguments:
+                data_delta: 1 # temporary filler
+                address_delta: 1 # temporary filler
       - name: write_access
+        subcomponents:
+        - name: tag_SRAM
+          actions:
+          - name: write
+            arguments:
+              data_delta: 1 # temporary filler
+              address_delta: 1 # temporary filler
+          - name: data_SRAM
+            actions:
+            - name: write
+              arguments:
+                data_delta: 1 # temporary filler
+                address_delta: 1 # temporary filler
+      - name: write_miss #this looks the same as write_access, but McPat treats it differently
         subcomponents:
         - name: tag_SRAM
           actions:
