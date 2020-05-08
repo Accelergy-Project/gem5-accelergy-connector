@@ -7,7 +7,21 @@ import sys
 import yaml
 import json
 
+from precise_attribute_collector import PreciseAttributeCollector
+
 def getComponentsOfTypesDict(info_dict, types):
+    '''
+    Given a nested dictionary of information, return
+    all dictionaries that have "type" attribute in types
+
+    Parameters:
+    info_dict (dict): A dict (potentially nested with other dict)
+    types: A list of types
+
+    Returns:
+    dict: A dictionary mapping of all keys to dictionaries within info_dict
+          that contain a "type" attribute that is within types input.
+    '''
     caches_dict = {}
     for sub_component_key in info_dict:
         if isinstance(info_dict[sub_component_key], dict) and \
@@ -22,6 +36,24 @@ def multipleComponentYamlData(components_dict, attr_collector, component_class="
                               class_remap={}, other_attr_remap={}, add_name_as_attr=""):
     '''
     Get the YAML format for a list of components
+
+    Parameters:
+    components_dict (dict): A dictionary of component names to a dictionary with their respective
+                            attributes
+    attr_collector (PreciseAttributeCollector): An attribute collector used to collect the relevant
+                                                attributes for each component from the components dict
+    component_class (String): optional parameter to set the class of a component, if not
+                              specified the class will be the component name by default unless
+                              a "class" attribute is found
+    class_remap (dict): optional mapping of class names to another class name they should actually take
+    other_attr_remap (dict): optional mapping of attribute names to another name that should be
+                             used instead if the attribute is found
+    add_name_as_attr (string): optional attribute name that the name of the component should be
+                               added as
+
+    Returns:
+    list: A list of yaml style components representing the components with their respective
+          attributes
     '''
     yaml_components = []
     for component_name, component_dict in components_dict.items():
@@ -32,17 +64,28 @@ def multipleComponentYamlData(components_dict, attr_collector, component_class="
         yaml_components.append(yaml_component)
     return yaml_components
 
-def singleComponentYamlData(component_dict, attr_collector, component_name,
+def singleComponentYamlData(component_info, attr_collector, component_name,
                             component_class="", class_remap={}, other_attr_remap={},
                             additional_attributes={}, add_name_as_attr=""):
     '''
     Get the YAML format for a single component
+
+    Parameters:
+    component_info (dict): Dictionary mapping a components attributes to its values
+    component_name (string): The name of the component
+    additional_attributes (dict): optional parameter specifying additional attributes
+                                  that should be added
+    The rest of the parameters are as in multipleComponentYamlData
+
+    Returns:
+    dict: A yaml style dict representing the component with its respective
+          attributes
     '''
     if component_class == "":
         component_class = component_name
     attributes = {}
     attributes.update(additional_attributes)
-    collected_attributes = attr_collector.get_attr_dict(component_dict)
+    collected_attributes = attr_collector.get_attr_dict(component_info)
     attributes.update(collected_attributes)
     # handle remapping the 
     if "class" in attributes:
@@ -61,56 +104,24 @@ def singleComponentYamlData(component_dict, attr_collector, component_name,
                 attributes[attr] = attr_remap_dict[value] 
 
     full_yaml_component = {"name": component_name, "class": component_class, "attributes": attributes}
-    # print(full_yaml_component)
     return full_yaml_component
 
 
-class PreciseAttributeCollector:
-    # this attribute collector looks for exact matches of attribute names
-    def __init__(self, attr_to_path, inherit_attr={}):
-        self.attr_to_path = attr_to_path
-        self.inherit_attr = inherit_attr
-
-    def get_attr_dict(self, info_dict):
-        attr_dict = {}
-        for attr, attr_path in self.attr_to_path.items():
-            attr_value = self.recursive_find_attr(attr_path, info_dict)
-            if attr_value != None:
-                attr_value = attr_value.lower() if isinstance(attr_value, str) else attr_value
-                attr_dict[attr] = attr_value
-        for attr, inherit_value in self.inherit_attr.items():
-            if attr not in attr_dict:
-                attr_dict[attr] = inherit_value
-        return attr_dict
-
-
-    def recursive_find_attr(self, path, info_dict):
-        # base cases
-        if len(path) == 1:
-            if path[0] in info_dict:
-                # this is to handle the case of returning the first element in a list
-                if isinstance(info_dict[path[0]], list):
-                    return info_dict[path[0]][0]
-                return info_dict[path[0]]
-            return None
-        elif len(path) == 2 and isinstance(path[1], int):
-            # this is used to get a subset of a path:
-            # ie: "system.l2bus.slave[1]"
-            # if we want l2bus (or the equivelant on all such paths) the int value is -2
-            if path[0] in info_dict:
-                full_path = info_dict[path[0]]
-                split_path = full_path.split(".")
-                neg_attr_index = path[1]
-                if len(split_path) > -(path[1]):
-                    return split_path[neg_attr_index]
-            return None
-        else: # recursive case
-            if path[0] in info_dict:
-                return self.recursive_find_attr(path[1:], info_dict[path[0]])
-            else:
-                return None
-
 def getActionCountsYAMLsForComponentsFromStats(components_to_full_component_path_name, attributes_to_stat_names, stat_lines):
+    '''
+    Parameters:
+    components_to_full_component_path_name (dict): Mapping of components names to their full path
+                                                   name in gem5
+    attributes_to_stat_names (dict): Mapping of action names to the substring that will be present
+                                     along with the full component path name in the stat line
+                                     corresponding to this action name
+    stat_lines (list): List of m5out stat lines split by whitespace
+
+    Returns:
+    dict: Yaml format of the action counts of each component, which is the name of 
+          the component mapped to a list of dictionaries of with keys for the action name
+          and action count mapped to their respective values
+    '''
     component_to_action_name_to_count = {}
     for component, full_component_name in components_to_full_component_path_name.items():
         component_to_action_name_to_count[full_component_name] = {}
@@ -145,11 +156,19 @@ def getActionCountsYAMLsForComponentsFromStats(components_to_full_component_path
         if len(component_to_action_name_to_count[component]) > 0: # if this == 0 then it has no actions so skip
             action_count_yamls.append(createYAMLActionCountComponent(component, component_to_action_name_to_count[component]))
 
-    print(component_to_action_name_to_count)
     return action_count_yamls
 
-# will need to eventually add support for arguments
 def createYAMLActionCountComponent(name, action_name_to_count):
+    '''
+    Parameters:
+    name (str): The component name
+    action_name_to_count: A dictionary of action names to their action count
+
+    Returns:
+    dict: Yaml format action counts for this component, which is a mapping of a "name" key
+          to the component name, and a list of dictionaries for the actions each with a "name"
+          key for the action name and a "counts" key for the number of action occurences
+    '''
     yaml_component = {}
     yaml_component["name"] = name
     action_counts = []
@@ -159,11 +178,38 @@ def createYAMLActionCountComponent(name, action_name_to_count):
         new_action_count["counts"] = count
         action_counts.append(new_action_count)
     yaml_component["action_counts"] = action_counts
-    print(yaml_component)
     return yaml_component
 
+def substringsPresentInSetKeys(substrings, string_set):
+    '''
+    Parameters:
+    substring (List of string): The strings that we are checking if they are
+                                present in any of the set's keys
+    string_set (set): The set that we are searching through
 
-def getFunctionalUnitsToOpSetMapping(cpu_info, fu_path, fu_num_prefix, counts_included=False):
+    Returns:
+    bool: True if any of the keys in string_set contain a substring in substrings, False otherwise
+    '''
+    for key in string_set:
+        for substring in substrings:
+            if substring in key:
+                return True
+    return False
+
+def getFunctionalUnitsToOpSetMapping(cpu_info, fu_path, counts_included=False):
+    '''
+    Parameters:
+    cpu_info (dict): Mapping of cpu attributes to their values (which may be contain additional 
+                     sub values if they are a dictionary or list)
+    fu_path (list of str): Of attributes to follow within the cpu to find the list of functional
+                           units. All functional units have a "name" attribute that is prefixed
+                           by the last string in the fu_path followed by the functional unit number
+
+    Returns:
+    dict: A dictionary where the keys are ALU_units, MUL_units, and FPU_units and each key
+          maps to a dictionary of the functional unit number mapped to the operations that
+          functional unit has
+    '''
     current_info = cpu_info
     for i in range(len(fu_path)):
         path_component_found = fu_path[i] in current_info
@@ -177,28 +223,62 @@ def getFunctionalUnitsToOpSetMapping(cpu_info, fu_path, fu_num_prefix, counts_in
     fu_units = current_info
 
     fu_to_op_mapping = {}
+    fu_num_prefix = fu_path[-1]
     for fu in fu_units:
         fu_name = fu["name"]
+        # some fu specify how many of the fu there are, as in O3 cpu, they do this with a count
+        # attribute
+        count = 1
+        if "count" in fu:
+            count = fu["count"]
         if fu_num_prefix not in fu_name:
             print("Error with getting fu num, prefix of: " + fu_num_prefix + " not present in name: " + fu_name)
-        fu_num = int(fu_name[len(fu_num_prefix):])
+        fu_num = fu_name[len(fu_num_prefix):]
         ops = recursivelyFindAttributeValues(fu, ["opClass"])
         op_set = set(ops)
-        fu_to_op_mapping[fu_num] = op_set
+        if count == 1:
+            fu_to_op_mapping[fu_num] = op_set
+        else:
+            for i in range(0, count):
+                fu_sub_num = fu_num + "-" + str(i)
+                fu_to_op_mapping[fu_sub_num] = op_set
 
-    return fu_to_op_mapping
+    # If these keywords are present in any op names for an FU we assume the FU type to be
+    # the type for the keyword, if none is found we assume ALU by default
+    FPU_keywords = ["Float"]
+    MUL_keywords = ["Div", "Mul"]
+    fu_mappings = {"ALU_units": {}, "MUL_units": {}, "FPU_units": {}}
+    for fu, ops in fu_to_op_mapping.items():
+        if substringsPresentInSetKeys(FPU_keywords, ops):
+            fu_mappings["FPU_units"][fu] = ops
+        elif substringsPresentInSetKeys(MUL_keywords, ops):
+            fu_mappings["MUL_units"][fu] = ops
+        else:
+            fu_mappings["ALU_units"][fu] = ops
+    return fu_mappings
 
-def mergeDictSetValuesForKeys(key_to_list_dict, keys_to_merge):
+def mergeDictSetValuesForKeys(key_to_set):
+    '''
+    Parameters:
+    key_to_set_dict (dict): A dictionary mapping string keys to sets of values
+
+    Returns:
+    set: A set containing all of the merged values
+    '''
     merged_values = set()
-    for key in keys_to_merge:
-        merged_values = merged_values.union(key_to_list_dict[key])
+    for key in key_to_set:
+        merged_values = merged_values.union(key_to_set[key])
     return merged_values
 
 def recursivelyFindAttributeValues(info, attributes_to_find):
     '''
-    Returns a list of values that are mapped to by any attributes within
-    attributes_to_find, searches recursively within info to find these values
-    info can be a dict or list
+    Parameters:
+    info (dict or list): A dictionary or list containing attributes, potentially mapping/indexing
+                         to other dict or list
+    attributes_to_find (list): A list of attributes to find, searching recursively in info
+
+    Returns:
+    list: A list of all values mapped to by attributes_to_find within info
     '''
     attribute_values = []
     if isinstance(info, dict):
@@ -213,6 +293,15 @@ def recursivelyFindAttributeValues(info, attributes_to_find):
     return attribute_values
 
 def getFuncUnitOpsExecutedInStats(ops, stat_lines):
+    '''
+    Parameters:
+    ops (list): List of op names to search for in stat_lines to get the associated action count
+    stat_lines: List of m5out stat lines split by whitespace
+
+    Returns:
+    dict: Mapping of each operation in ops to the number of times the op occurred as
+          reported by the gem5 stats
+    '''
     instructions_executed = 0
     for op in ops:
         max_value = 0
@@ -234,29 +323,33 @@ if __name__== "__main__":
     # gem5_build_path = sys.argv[1]
     # gem5_test_config = sys.argv[2]
 
-    gem5_build_path = "/home/ubuntu/gem5/build/RISCV/gem5.opt"
-    gem5_test_config = "/home/ubuntu/testConfigs/two_level.py"
     # Run the command to run our architecture on our designated workload
-    gem5_command = gem5_build_path + " " + gem5_test_config
-    os.system(gem5_command)
+    
 
-    # accelergy_input_dir = "/home/ubuntu/five_stage_pipeline_components/five_stage_pipeline/input"
-    accelergy_action_counts_file_name = "action_counts.yaml"
-    accelergy_architecture_name = "minor_cpu_system_arch"
+    # To specify via CLI, maybe -g, -i, -o, -m flags?
+    # -g gem5 directory path
+    # -i directory path to put accelergy input
+    # -o directory path to put accelergy output
+    # -c config file path for this converter
+    m5out_directory_path = "m5out"
+    accelergy_input_dir = "example_input"
+    accelergy_output_dir = "example_output"
+    config_file_path = "example_connector_config_file.yaml"
+    # this is the path to our list of functional units within our CPU
+    fu_path = ["executeFuncUnits", "funcUnits"]
 
+    # first copy over the components required by our converted architecture to the
+    # destination input directory
+    base_input_dir_path = "./input"
+    os.system("cp -r " + base_input_dir_path + " " + accelergy_input_dir)
+
+    gem5_config_file_path = m5out_directory_path + "/config.json"
     # read in accelergy configuration
-    with open("m5out/config.json") as f:
+    with open(gem5_config_file_path) as f:
         config_data = json.load(f)
     system_info = config_data["system"]
     cpu_info = system_info["cpu"]
 
-    accelergy_input_dir = "/home/ubuntu/gem5toAcclergyOrchestration/input"
-    components_dir = "/home/ubuntu/gem5toAcclergyOrchestration/input/components"
-    # os.system("rm -r " + input_dir)
-
-    # TODO, find where datawidth is specified, I can't immediately tell where,
-    # my theory is it is a architecture attribute rather than MinorCPU or O3CPU
-    # specifying it, not sure it is even specifiable
     system_attributes = {"technology": "45nm", "datawidth": 32}
     cpu_attributes = {}
     on_chip_compound_components = []
@@ -266,7 +359,7 @@ if __name__== "__main__":
     off_chip_mem_ctrl_types = ["DRAMCtrl"]
     off_chip_mem_ctrl_to_mem_type = {"dramctrl": "memory_controller"} # as per McPat
     off_chip_mem_ctrl_other_attr_remap = {
-        "cache_type": {
+        "memory_type": {
             "dramctrl": "main_memory"
         }
     }
@@ -397,39 +490,24 @@ if __name__== "__main__":
     )
     print("Adding tlbs")
     on_chip_compound_components.extend(multipleComponentYamlData(tlbs_dict, tlb_attr_collector, component_class="tlb"))
-    # Add in functional units
-    # this also consists of making a exec compound component
-    # I should force the user, who wrote the gem5 config to specify type for the
-    # functional units they provide to gem5, they may omit entries
-    # if there is not a clear match up to ALU, FPU, or MUL
-    # they may also map multiple entries to the same unit
-    # ie: 2 separate mul and div units could be combined into a MUL unit
     
-    # # this is the path to our list of functional units within our CPU
-    fu_path = ["executeFuncUnits", "funcUnits"]
-    fu_num_prefix = "funcUnits"
-
+    # Add in functional units
     # What I need to fetch from functional units:
-    #   opClasses
-    # Best idea might be to map funcUnit number to list of opClasses right now
+    #   opClasses so I can track down action counts in the stats
+    # Right now I just fetch their names and map them to a McPat fu type (ie ALU, FPU, MUL)
     # later on opClasses could be an actual class with more data ie: latency
-    # or other user specified inputs that could be used
-    fu_to_op_set_mapping = getFunctionalUnitsToOpSetMapping(cpu_info, fu_path, fu_num_prefix)
-    # print(fu_to_op_mapping)
+    # or other user specified inputs that could be used, however McPat doesn't seem to use these
+    fu_mappings = getFunctionalUnitsToOpSetMapping(cpu_info, fu_path)
 
-    num_alu_units = 2
-    num_mul_units = 1
-    num_fpu_units = 1
-    # these don't necessarily need to match up with length of the following lists
-    # ex: funcUnit2 might do mul and funcUnit3 might div, so together they make
-    #     one MUL unit
-    ALU_units = [0, 1]
-    MUL_units = [2, 3]
-    FPU_units = [4]
+    # calculate the number of each type of functional unit for config
+    num_alu_units = len(fu_mappings["ALU_units"])
+    num_mul_units = len(fu_mappings["MUL_units"])
+    num_fpu_units = len(fu_mappings["FPU_units"])
 
-    ALU_ops = mergeDictSetValuesForKeys(fu_to_op_set_mapping, ALU_units)
-    MUL_ops = mergeDictSetValuesForKeys(fu_to_op_set_mapping, MUL_units)
-    FPU_ops = mergeDictSetValuesForKeys(fu_to_op_set_mapping, FPU_units)
+    # get the operations for each type of fu based on their ops present
+    ALU_ops = mergeDictSetValuesForKeys(fu_mappings["ALU_units"])
+    MUL_ops = mergeDictSetValuesForKeys(fu_mappings["MUL_units"])
+    FPU_ops = mergeDictSetValuesForKeys(fu_mappings["FPU_units"])
 
     # Now adding the execution unit, it is likely that special code will be required here
     # to not only create the execution unit but link relevant sub components
@@ -458,6 +536,8 @@ if __name__== "__main__":
     print("Adding exec")
     on_chip_compound_components.append(singleComponentYamlData(cpu_info, exec_attr_collector, "exec", additional_attributes=exec_additional_attributes))
 
+    # arbitrary architecture name chosen
+    accelergy_architecture_name = "system_arch"
     # yaml where I add the top level 
     # this is initally just filled with boiler plate
     architecture_yaml = {"architecture": {
@@ -479,18 +559,14 @@ if __name__== "__main__":
                             }
                         }
 
-
     with open(accelergy_input_dir + "/architecture.yaml", "w") as file:
-        # noalias_dumper = yaml.dumper.SafeDumper
-        # noalias_dumper.ignore_aliases = lambda self, data: True
-        # yaml.dump(architecture_yaml, file, sort_keys=False, default_flow_style=False, Dumper=noalias_dumper)
         yaml.dump(architecture_yaml, file, sort_keys=False)
 
-
     ######################## Now to get action counts #############################
+    gem5_stats_file_path = m5out_directory_path + "/stats.txt"
     # read in accelergy stats
     stat_lines = []
-    with open("m5out/stats.txt") as f:
+    with open(gem5_stats_file_path) as f:
         stat_lines = f.readlines()
         stat_lines = [stat_line.split() for stat_line in stat_lines]
 
@@ -498,7 +574,7 @@ if __name__== "__main__":
 
     # Get decode action acounts
     # *** This can't be done for minorCPU, likely as the data is not collected due to simplifications
-    #     so will need to add it for O3CPU
+    #     so will need to add it for O3CPU as that will have clearer actions likely
 
     # Get fetch action counts
     # **# This stage is also ambiguous atm
@@ -519,21 +595,11 @@ if __name__== "__main__":
     actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(off_chip_mem_name_to_full_path_name, off_chip_memory_action_name_to_fetch_to_stat_names, stat_lines))
 
     # Get the cache action counts from on_chip_caches
-    # From McPat looks like we want the follwoing
-    # <stat name="read_accesses" value="11824"/>
-    # <stat name="write_accesses" value="11276"/>
-    # <stat name="read_misses" value="1632"/>
-    # <stat name="write_misses" value="183"/>
     on_chip_memory_action_name_to_fetch_to_stat_names = {
-        # "read_access": [".ReadReq_accesses::total"],
-        "read_access": [".ReadReq_hits::total"], # was originally read_hit but converter uses this as read_access
+        "read_access": [".ReadReq_hits::total"],
         "read_miss": [".ReadReq_misses::total"],
-        # "write_access": [".WriteReq_accesses::total"]
-        "write_access": [".WriteReq_hits::total"], # was originally write_hit but converter uses this as write_access
+        "write_access": [".WriteReq_hits::total"],
         "write_miss": [".WriteReq_misses::total"]
-        # "total_access": [".overall_accesses::total"], # minorCPU l2cache only had totals
-        # "total_hit": [".overall_hits::total"],
-        # "total_miss": [".overall_misses::total"]
     }
     on_chip_caches_name_to_full_path_name = {}
     for cache_name in on_chip_caches:
@@ -576,7 +642,6 @@ if __name__== "__main__":
     print("Adding tlb action counts")
     actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(tlb_name_to_full_path_name, tlb_action_name_to_fetch_to_stat_names, stat_lines))
 
-
     # yaml where I add the top level 
     # this is initally just filled with boiler plate
     action_counts_yaml = {"action_counts": {
@@ -585,21 +650,11 @@ if __name__== "__main__":
                             }
                         }
 
-    with open(accelergy_input_dir + "/action_counts.yaml", "w") as file:
-        # noalias_dumper = yaml.dumper.SafeDumper
-        # noalias_dumper.ignore_aliases = lambda self, data: True
-        # yaml.dump(architecture_yaml, file, sort_keys=False, default_flow_style=False, Dumper=noalias_dumper)
+    accelergy_action_counts_file_name = accelergy_input_dir +  "/action_counts.yaml"
+    with open(accelergy_action_counts_file_name, "w") as file:
         yaml.dump(action_counts_yaml, file, sort_keys=False)
 
-    accelergy_output_dir = "output"
     accelergy_command = "accelergy -o " + accelergy_output_dir + " " + accelergy_input_dir + "/*.yaml "  + accelergy_input_dir + "/components/*.yaml -v 1"
     print("Accelergy command is: ")
     print(accelergy_command)
     os.system(accelergy_command)
-
-
-
-
-
-
-
