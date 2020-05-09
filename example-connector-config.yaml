@@ -1,0 +1,16 @@
+hardware_attributes:
+  technology: 45nm
+  datawidth: 32
+type_to_class_names:
+  cache:
+    - Cache
+  off_chip_mem_ctrl:
+    - DRAMCtrl
+  mem_bus:
+    - CoherentXBar
+  tlb:
+    - RiscvTLB
+fu_unit_cpu_path:
+  minorCPU:
+    - executeFuncUnits
+    - funcUnits
