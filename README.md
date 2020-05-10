@@ -5,6 +5,8 @@ Required packages
 - Python >= 3.6
 - PyYAML >= 1.1
 
+Downloading and setting up the CLI command "accelergy" is also required. The installation for this can be found [here](https://github.com/Accelergy-Project/accelergy).
+
 ## Run an example
 'python3 orchestrator.py -m example-m5out -i example_input -o example_output -c example-connector-config.yaml'
 
@@ -12,8 +14,8 @@ Note that there is already a filled out example_input and example_output directo
 
 ### Input Flags
 - ```-m``` : specifies the gem5 m5out directory path that will be used to generate the accelergy data
-- ```-i``` : specifies the directory path to put the accelergy input
-- ```-o``` : specifies the directory path to put the accelergy output
+- ```-i``` : specifies the directory path to put the accelergy input, for details of what this contains view the accelergy documentation.
+- ```-o``` : specifies the directory path to put the accelergy output, for details of what this contains view the accelergy documentation.
 - ```-c``` : specifies the config file for this conversion, detailing some misc required information
 
 ### Config File
