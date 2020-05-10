@@ -1,0 +1,24 @@
+compound_components:
+  version: 0.3
+  classes:
+  - name: mul_unit
+    primitive_type: mul_unit
+    attributes:
+      technology: must_specify
+      clockrate: must_specify
+      datawidth: must_specify
+
+    subcomponents:
+      # bare bones initial design
+      - name: intmultiplier
+        class: intmultiplier
+        attributes:
+          technology: technology
+          datawidth: datawidth
+
+    actions:
+      - name: mul_instruction
+        subcomponents:
+          - name: intmultiplier
+            actions:
+              - name: mult_random

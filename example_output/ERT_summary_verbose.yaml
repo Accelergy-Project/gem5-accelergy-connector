@@ -1,0 +1,156 @@
+ERT_summary:
+  version: 0.3
+  table_summary:
+  - name: system_arch.chip.membus
+    actions:
+    - name: transfer_random
+      energy: 1
+    - name: transfer_repeated
+      energy: 1
+    - name: idle
+      energy: 0
+    primitive_estimation(s):
+    - system_arch.chip.membus:
+        estimator: dummy_table
+  - name: system_arch.chip.l2bus
+    actions:
+    - name: transfer_random
+      energy: 1
+    - name: transfer_repeated
+      energy: 1
+    - name: idle
+      energy: 0
+    primitive_estimation(s):
+    - system_arch.chip.l2bus:
+        estimator: dummy_table
+  - name: system_arch.chip.decode
+    actions:
+    - name: filler
+      energy: 1
+    primitive_estimation(s):
+    - system_arch.chip.decode:
+        estimator: dummy_table
+  - name: system_arch.chip.fetch
+    actions:
+    - name: filler
+      energy: 1
+    primitive_estimation(s):
+    - system_arch.chip.fetch:
+        estimator: dummy_table
+  - name: system_arch.chip.itb
+    actions:
+    - name: read_access
+      energy: 1
+    - name: write_access
+      energy: 1
+    primitive_estimation(s):
+    - system_arch.chip.itb:
+        estimator: dummy_table
+  - name: system_arch.chip.dtb
+    actions:
+    - name: read_access
+      energy: 1
+    - name: write_access
+      energy: 1
+    primitive_estimation(s):
+    - system_arch.chip.dtb:
+        estimator: dummy_table
+  - name: system_arch.mem_ctrl
+    actions:
+    - name: read_access
+      energy: 1
+    - name: write_access
+      energy: 1
+    primitive_estimation(s):
+    - system_arch.mem_ctrl:
+        estimator: dummy_table
+  - name: system_arch.chip.l2cache
+    actions:
+    - name: read_access
+      energy: 1652.56
+    - name: read_miss
+      energy: 1
+    - name: write_access
+      energy: 2120.07
+    - name: write_miss
+      energy: 1
+    - name: idle
+      energy: 0.057
+    primitive_estimation(s):
+    - system_arch.chip.l2cache:
+        estimator: Cacti
+  - name: system_arch.chip.icache
+    actions:
+    - name: read_access
+      energy: 79.226
+    - name: read_miss
+      energy: 621.369
+    - name: write_access
+      energy: 139.944
+    - name: write_miss
+      energy: 1
+    - name: idle
+      energy: 0.001
+    primitive_estimation(s):
+    - system_arch.chip.icache:
+        estimator: McPat
+  - name: system_arch.chip.dcache
+    actions:
+    - name: read_access
+      energy: 126.605
+    - name: read_miss
+      energy: 1
+    - name: write_access
+      energy: 247.417
+    - name: write_miss
+      energy: 1
+    - name: idle
+      energy: 0.003
+    primitive_estimation(s):
+    - system_arch.chip.dcache:
+        estimator: Cacti
+  - name: system_arch.chip.exec
+    actions:
+    - name: int_instruction
+      energy: 1
+    - name: mul_instruction
+      energy: 1
+    - name: fp_instruction
+      energy: 23.73
+    primitive_estimation(s):
+    - action_name: int_instruction
+      arguments: null
+      energy: 1
+      subaction_estimations:
+      - subcomponent_name: alu_unit.intadder
+        subaction_name: add
+        arguments: null
+        energy: 1
+        action_share: 1
+        interpreted_energy: 1
+        percentage: 100.0%
+        estimator: dummy_table
+    - action_name: mul_instruction
+      arguments: null
+      energy: 1
+      subaction_estimations:
+      - subcomponent_name: mul_unit.intmultiplier
+        subaction_name: mult_random
+        arguments: null
+        energy: 1
+        action_share: 1
+        interpreted_energy: 1
+        percentage: 100.0%
+        estimator: dummy_table
+    - action_name: fp_instruction
+      arguments: null
+      energy: 23.73
+      subaction_estimations:
+      - subcomponent_name: fpu_unit
+        subaction_name: fp_instruction
+        arguments: null
+        energy: 23.73
+        action_share: 1
+        interpreted_energy: 23.73
+        percentage: 100.0%
+        estimator: McPat

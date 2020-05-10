@@ -1,0 +1,121 @@
+ERT:
+  version: 0.3
+  tables:
+  - name: system_arch.chip.membus
+    actions:
+    - name: transfer_random
+      arguments: null
+      energy: 1
+    - name: transfer_repeated
+      arguments: null
+      energy: 1
+    - name: idle
+      arguments: null
+      energy: 0
+  - name: system_arch.chip.l2bus
+    actions:
+    - name: transfer_random
+      arguments: null
+      energy: 1
+    - name: transfer_repeated
+      arguments: null
+      energy: 1
+    - name: idle
+      arguments: null
+      energy: 0
+  - name: system_arch.chip.decode
+    actions:
+    - name: filler
+      arguments: null
+      energy: 1
+  - name: system_arch.chip.fetch
+    actions:
+    - name: filler
+      arguments: null
+      energy: 1
+  - name: system_arch.chip.itb
+    actions:
+    - name: read_access
+      arguments: null
+      energy: 1
+    - name: write_access
+      arguments: null
+      energy: 1
+  - name: system_arch.chip.dtb
+    actions:
+    - name: read_access
+      arguments: null
+      energy: 1
+    - name: write_access
+      arguments: null
+      energy: 1
+  - name: system_arch.mem_ctrl
+    actions:
+    - name: read_access
+      arguments: null
+      energy: 1
+    - name: write_access
+      arguments: null
+      energy: 1
+  - name: system_arch.chip.l2cache
+    actions:
+    - name: read_access
+      arguments: null
+      energy: 1652.56
+    - name: read_miss
+      arguments: null
+      energy: 1
+    - name: write_access
+      arguments: null
+      energy: 2120.07
+    - name: write_miss
+      arguments: null
+      energy: 1
+    - name: idle
+      arguments: null
+      energy: 0.057
+  - name: system_arch.chip.icache
+    actions:
+    - name: read_access
+      arguments: null
+      energy: 79.226
+    - name: read_miss
+      arguments: null
+      energy: 621.369
+    - name: write_access
+      arguments: null
+      energy: 139.944
+    - name: write_miss
+      arguments: null
+      energy: 1
+    - name: idle
+      arguments: null
+      energy: 0.001
+  - name: system_arch.chip.dcache
+    actions:
+    - name: read_access
+      arguments: null
+      energy: 126.605
+    - name: read_miss
+      arguments: null
+      energy: 1
+    - name: write_access
+      arguments: null
+      energy: 247.417
+    - name: write_miss
+      arguments: null
+      energy: 1
+    - name: idle
+      arguments: null
+      energy: 0.003
+  - name: system_arch.chip.exec
+    actions:
+    - name: int_instruction
+      arguments: null
+      energy: 1
+    - name: mul_instruction
+      arguments: null
+      energy: 1
+    - name: fp_instruction
+      arguments: null
+      energy: 23.73

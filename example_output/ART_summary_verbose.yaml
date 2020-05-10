@@ -1,0 +1,81 @@
+ART_summary:
+  version: 0.3
+  table_summary:
+  - name: system_arch.chip.membus
+    area: 1
+    primitive_estimations: dummy_table
+  - name: system_arch.chip.l2bus
+    area: 1
+    primitive_estimations: dummy_table
+  - name: system_arch.chip.decode
+    area: 1
+    primitive_estimations: dummy_table
+  - name: system_arch.chip.fetch
+    area: 1
+    primitive_estimations: dummy_table
+  - name: system_arch.chip.itb
+    area: 1
+    primitive_estimations: dummy_table
+  - name: system_arch.chip.dtb
+    area: 1
+    primitive_estimations: dummy_table
+  - name: system_arch.mem_ctrl
+    area: 1
+    primitive_estimations: dummy_table
+  - name: system_arch.chip.l2cache
+    area: 189719.4
+    primitive_estimations:
+    - name: tag_SRAM
+      estimator: Cacti
+      area: 94859.7
+      area_share: 1
+      interpreted_area: 94859.7
+    - name: data_SRAM
+      estimator: Cacti
+      area: 94859.7
+      area_share: 1
+      interpreted_area: 94859.7
+  - name: system_arch.chip.icache
+    area: 15084.72
+    primitive_estimations:
+    - name: tag_SRAM
+      estimator: Cacti
+      area: 7542.36
+      area_share: 1
+      interpreted_area: 7542.36
+    - name: data_SRAM
+      estimator: Cacti
+      area: 7542.36
+      area_share: 1
+      interpreted_area: 7542.36
+  - name: system_arch.chip.dcache
+    area: 52534.6
+    primitive_estimations:
+    - name: tag_SRAM
+      estimator: Cacti
+      area: 26267.3
+      area_share: 1
+      interpreted_area: 26267.3
+    - name: data_SRAM
+      estimator: Cacti
+      area: 26267.3
+      area_share: 1
+      interpreted_area: 26267.3
+  - name: system_arch.chip.exec
+    area: 8.458
+    primitive_estimations:
+    - name: alu_unit[0..3].intadder
+      estimator: dummy_table
+      area: 1
+      area_share: 1
+      interpreted_area: 4
+    - name: mul_unit[0..1].intmultiplier
+      estimator: dummy_table
+      area: 1
+      area_share: 1
+      interpreted_area: 2
+    - name: fpu_unit[0..1]
+      estimator: McPat
+      area: 1.229
+      area_share: 1
+      interpreted_area: 2.458
