@@ -8,7 +8,7 @@ Required packages
 Downloading and setting up the CLI command "accelergy" is also required. The installation for this can be found [here](https://github.com/Accelergy-Project/accelergy).
 
 ## Run an example
-'python3 orchestrator.py -m example-m5out -i example_input -o example_output -c example-connector-config.yaml'
+```python3 orchestrator.py -m example-m5out -i example_input -o example_output -c example-connector-config.yaml```
 
 Note that there is already a filled out example_input and example_output directory demonstrating what the accelergy input and output files would look like
 
