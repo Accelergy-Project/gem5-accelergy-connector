@@ -12,6 +12,9 @@ Downloading and setting up the CLI command "accelergy" is also required. The ins
 
 Note that there is already a filled out example_input and example_output directory demonstrating what the accelergy input and output files would look like
 
+In order to reproduce reference outputs, 
+please install the [accelergy-mcpat-plug-in](https://github.com/Accelergy-Project/accelergy-mcpat-plug-in) and [accelergy-cacti-plug-in](https://github.com/Accelergy-Project/accelergy-cacti-plug-in).
+
 ### Input Flags
 - ```-m``` : specifies the gem5 m5out directory path that will be used to generate the accelergy data
 - ```-i``` : specifies the directory path to put the accelergy input, for details of what this contains view the accelergy documentation.
