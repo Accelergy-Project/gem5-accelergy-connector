@@ -8,7 +8,7 @@ energy_estimation:
   - name: system_arch.chip.dcache
     energy: 391739.35699999996
   - name: system_arch.chip.exec
-    energy: 56335.76
+    energy: 52872.694
   - name: system_arch.chip.itb
     energy: 0
   - name: system_arch.chip.dtb

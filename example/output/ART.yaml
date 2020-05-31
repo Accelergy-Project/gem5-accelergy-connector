@@ -22,4 +22,4 @@ ART:
   - name: system_arch.chip.dcache
     area: 52534.6
   - name: system_arch.chip.exec
-    area: 8.458
+    area: 9918.458

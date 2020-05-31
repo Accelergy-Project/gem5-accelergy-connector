@@ -29,11 +29,6 @@ if __name__== "__main__":
     with open(config_file_path) as file:
         config_info = yaml.load(file, Loader=yaml.FullLoader)
 
-    # first copy over the components required by our converted architecture to the
-    # destination input directory
-    base_input_dir_path = "./input"
-    os.system("cp -r " + base_input_dir_path + " " + accelergy_input_dir)
-
     gem5_config_file_path = m5out_directory_path + "/config.json"
     # read in accelergy configuration
     with open(gem5_config_file_path) as f:
@@ -353,7 +348,7 @@ if __name__== "__main__":
     with open(accelergy_action_counts_file_name, "w") as file:
         yaml.dump(action_counts_yaml, file, sort_keys=False)
 
-    accelergy_command = "accelergy -o " + accelergy_output_dir + " " + accelergy_input_dir + "/*.yaml "  + accelergy_input_dir + "/components/*.yaml -v 1"
+    accelergy_command = "accelergy -o " + accelergy_output_dir + " " + accelergy_input_dir + "/*.yaml "  + "components/*.yaml -v 1"
     print("Accelergy command is: ")
     print(accelergy_command)
     os.system(accelergy_command)

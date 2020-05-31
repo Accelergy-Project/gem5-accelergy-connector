@@ -2,18 +2,27 @@
 
 ## Get started
 Required packages
+
 - Python >= 3.6
 - PyYAML >= 1.1
 
 Downloading and setting up the CLI command "accelergy" is also required. The installation for this can be found [here](https://github.com/Accelergy-Project/accelergy).
 
 ## Run an example
-```python3 orchestrator.py -m example-m5out -i example_input -o example_output -c example-connector-config.yaml```
+The `example` directory gives an example of the input and output files. It can be reproduced with the following command.
 
-Note that there is already a filled out example_input and example_output directory demonstrating what the accelergy input and output files would look like
+```python3 orchestrator.py -m example/m5out -i example/input -o example/output -c example/config.yaml```
 
-In order to reproduce reference outputs, 
-please install the [accelergy-mcpat-plug-in](https://github.com/Accelergy-Project/accelergy-mcpat-plug-in) and [accelergy-cacti-plug-in](https://github.com/Accelergy-Project/accelergy-cacti-plug-in).
+In order to reproduce reference outputs, please install
+[accelergy-mcpat-plug-in](https://github.com/Accelergy-Project/accelergy-mcpat-plug-in),
+[accelergy-cacti-plug-in](https://github.com/Accelergy-Project/accelergy-cacti-plug-in), and
+[accelergy-aladdin-plug-in](https://github.com/Accelergy-Project/accelergy-aladdin-plug-in).
+
+In the example run:
+
+- mcpat estimates icache and dcache read energy
+- cacti estimates icache and dcache write energy and l2 cache energy
+- aladdin estimates integer fu energy
 
 ### Input Flags
 - ```-m``` : specifies the gem5 m5out directory path that will be used to generate the accelergy data

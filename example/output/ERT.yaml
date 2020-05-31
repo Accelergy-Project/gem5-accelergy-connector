@@ -112,10 +112,10 @@ ERT:
     actions:
     - name: int_instruction
       arguments: null
-      energy: 1
+      energy: 0.086
     - name: mul_instruction
       arguments: null
-      energy: 1
+      energy: 8.63
     - name: fp_instruction
       arguments: null
       energy: 23.73

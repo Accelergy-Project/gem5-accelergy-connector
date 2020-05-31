@@ -112,36 +112,36 @@ ERT_summary:
   - name: system_arch.chip.exec
     actions:
     - name: int_instruction
-      energy: 1
+      energy: 0.086
     - name: mul_instruction
-      energy: 1
+      energy: 8.63
     - name: fp_instruction
       energy: 23.73
     primitive_estimation(s):
     - action_name: int_instruction
       arguments: null
-      energy: 1
+      energy: 0.086
       subaction_estimations:
       - subcomponent_name: alu_unit.intadder
         subaction_name: add
         arguments: null
-        energy: 1
+        energy: 0.086
         action_share: 1
-        interpreted_energy: 1
+        interpreted_energy: 0.086
         percentage: 100.0%
-        estimator: dummy_table
+        estimator: Aladdin_table
     - action_name: mul_instruction
       arguments: null
-      energy: 1
+      energy: 8.63
       subaction_estimations:
       - subcomponent_name: mul_unit.intmultiplier
         subaction_name: mult_random
         arguments: null
-        energy: 1
+        energy: 8.63
         action_share: 1
-        interpreted_energy: 1
+        interpreted_energy: 8.63
         percentage: 100.0%
-        estimator: dummy_table
+        estimator: Aladdin_table
     - action_name: fp_instruction
       arguments: null
       energy: 23.73
