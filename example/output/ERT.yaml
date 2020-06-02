@@ -1,7 +1,7 @@
 ERT:
   version: 0.3
   tables:
-  - name: system_arch.chip.membus
+  - name: system.chip.membus
     actions:
     - name: transfer_random
       arguments: null
@@ -12,7 +12,7 @@ ERT:
     - name: idle
       arguments: null
       energy: 0
-  - name: system_arch.chip.l2bus
+  - name: system.chip.l2bus
     actions:
     - name: transfer_random
       arguments: null
@@ -23,17 +23,17 @@ ERT:
     - name: idle
       arguments: null
       energy: 0
-  - name: system_arch.chip.decode
+  - name: system.chip.decode
     actions:
     - name: filler
       arguments: null
       energy: 1
-  - name: system_arch.chip.fetch
+  - name: system.chip.fetch
     actions:
     - name: filler
       arguments: null
       energy: 1
-  - name: system_arch.chip.itb
+  - name: system.chip.itb
     actions:
     - name: read_access
       arguments: null
@@ -41,7 +41,7 @@ ERT:
     - name: write_access
       arguments: null
       energy: 1
-  - name: system_arch.chip.dtb
+  - name: system.chip.dtb
     actions:
     - name: read_access
       arguments: null
@@ -49,7 +49,7 @@ ERT:
     - name: write_access
       arguments: null
       energy: 1
-  - name: system_arch.mem_ctrl
+  - name: system.mem_ctrl
     actions:
     - name: read_access
       arguments: null
@@ -57,7 +57,7 @@ ERT:
     - name: write_access
       arguments: null
       energy: 1
-  - name: system_arch.chip.l2cache
+  - name: system.chip.l2cache
     actions:
     - name: read_access
       arguments: null
@@ -74,7 +74,7 @@ ERT:
     - name: idle
       arguments: null
       energy: 0.057
-  - name: system_arch.chip.icache
+  - name: system.chip.icache
     actions:
     - name: read_access
       arguments: null
@@ -91,7 +91,7 @@ ERT:
     - name: idle
       arguments: null
       energy: 0.001
-  - name: system_arch.chip.dcache
+  - name: system.chip.dcache
     actions:
     - name: read_access
       arguments: null
@@ -108,7 +108,7 @@ ERT:
     - name: idle
       arguments: null
       energy: 0.003
-  - name: system_arch.chip.exec
+  - name: system.chip.exec
     actions:
     - name: int_instruction
       arguments: null

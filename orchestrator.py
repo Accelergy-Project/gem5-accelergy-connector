@@ -1,10 +1,9 @@
-''' 
+"""
 IMPORTANT: This file must be run as python3 otherwise encoding issues will
 arise in the output files
-'''
+"""
 
 import os
-import sys
 import yaml
 import json
 import argparse
@@ -12,6 +11,7 @@ from yaml_handler import *
 from fu_helper import *
 from util_helper import *
 from precise_attribute_collector import *
+
 
 def main():
     # example calling this:
@@ -35,9 +35,10 @@ def main():
     # generate action counts
     processActionCounts(paths, off_chip_mems, on_chip_caches, tlbs, fu_mappings)
 
-    accelergy_command = "accelergy -o " + paths["output"] + " " + paths["input"] + "/*.yaml "  + "components/*.yaml -v 1"
+    accelergy_command = "accelergy -o " + paths["output"] + " " + paths["input"] + "/*.yaml " + "components/*.yaml -v 1"
     print("Accelergy command:", accelergy_command)
     os.system(accelergy_command)
+
 
 def processArchitecture(paths):
     with open(paths["config"]) as file:
@@ -52,7 +53,7 @@ def processArchitecture(paths):
     system_attributes = config_info["hardware_attributes"]
     system_attr_collector = PreciseAttributeCollector(
         {
-            "clockrate": ["clk_domain", "clock"], # in MHz (Megahertz)
+            "clockrate": ["clk_domain", "clock"],  # in MHz (Megahertz)
             "block_size": ["cache_line_size"],
             "vdd": ["clk_domain", "voltage_domain", "voltage"]
         }
@@ -90,35 +91,39 @@ def processArchitecture(paths):
             fu_path = fu_path
     fu_mappings = getFunctionalUnitsToOpSetMapping(cpu_info, fu_path)
 
-    off_chip_compound_components, off_chip_mems = addOffChipComponents(config_info, system_info, memory_units_inherit_attrs)
-    on_chip_compound_components, on_chip_caches, tlbs = addOnChipComponents(config_info, system_info, cpu_info, cpu_attributes, fu_mappings, memory_units_inherit_attrs)
+    off_chip_compound_components, off_chip_mems = addOffChipComponents(config_info, system_info,
+                                                                       memory_units_inherit_attrs)
+    on_chip_compound_components, on_chip_caches, tlbs = addOnChipComponents(config_info, system_info, cpu_info,
+                                                                            cpu_attributes, fu_mappings,
+                                                                            memory_units_inherit_attrs)
 
     # yaml where I add the top level
-    # this is initally just filled with boiler plate
-    architecture_yaml = \
-        {"architecture": {
+    # this is initially just filled with boiler plate
+    architecture_yaml = {
+        "architecture": {
             "version": 0.3,
             "subtree": [
-                    {
-                        "name": "system",
-                        "attributes": system_attributes,
-                        "local": off_chip_compound_components,
-                        "subtree": [
-                            {
-                                "name": "chip",
-                                "attributes": cpu_attributes,
-                                "local":  on_chip_compound_components,
-                            }
-                        ]
-                    }
-                ]
-            }
+                {
+                    "name": "system",
+                    "attributes": system_attributes,
+                    "local": off_chip_compound_components,
+                    "subtree": [
+                        {
+                            "name": "chip",
+                            "attributes": cpu_attributes,
+                            "local": on_chip_compound_components,
+                        }
+                    ]
+                }
+            ]
         }
+    }
 
     with open(paths["input"] + "/architecture.yaml", "w") as file:
         yaml.dump(architecture_yaml, file, sort_keys=False)
 
     return off_chip_mems, on_chip_caches, tlbs, fu_mappings
+
 
 def addOffChipComponents(config_info, system_info, memory_units_inherit_attrs):
     off_chip_compound_components = []
@@ -126,7 +131,7 @@ def addOffChipComponents(config_info, system_info, memory_units_inherit_attrs):
     off_chip_mem_ctrl_to_mem_type = {}
     off_chip_mem_ctrl_other_attr_remap = {"memory_type": {}}
     for off_chip_mem_ctrl_type in off_chip_mem_ctrl_types:
-        off_chip_mem_ctrl_to_mem_type[off_chip_mem_ctrl_type.lower()] = "memory_controller" # as per McPat
+        off_chip_mem_ctrl_to_mem_type[off_chip_mem_ctrl_type.lower()] = "memory_controller"  # as per McPat
         off_chip_mem_ctrl_other_attr_remap["memory_type"][off_chip_mem_ctrl_type.lower()] = "main_memory"
 
     off_chip_mems_dict = getComponentsOfTypesDict(system_info, off_chip_mem_ctrl_types)
@@ -148,8 +153,11 @@ def addOffChipComponents(config_info, system_info, memory_units_inherit_attrs):
         memory_units_inherit_attrs
     )
     print("Adding off chip memory units")
-    off_chip_compound_components.extend(multipleComponentYamlData(off_chip_mems_dict, off_chip_mem_attr_collector, class_remap=off_chip_mem_ctrl_to_mem_type, other_attr_remap=off_chip_mem_ctrl_other_attr_remap))
+    off_chip_compound_components.extend(multipleComponentYamlData(off_chip_mems_dict, off_chip_mem_attr_collector,
+                                                                  class_remap=off_chip_mem_ctrl_to_mem_type,
+                                                                  other_attr_remap=off_chip_mem_ctrl_other_attr_remap))
     return off_chip_compound_components, off_chip_mems
+
 
 def addOnChipComponents(config_info, system_info, cpu_info, cpu_attributes, fu_mappings, memory_units_inherit_attrs):
     on_chip_compound_components = []
@@ -165,7 +173,6 @@ def addOnChipComponents(config_info, system_info, cpu_info, cpu_attributes, fu_m
             "class": ["type"],
             "replacement_policy": ["replacement_policy", "type"],
             "associativity": ["assoc"],
-            "tag_size": ["tags", "entry_size"],
             "block_size": ["tags", "block_size"],
             "tag_size": ["tags", "entry_size"],
             "write_buffers": ["write_buffers"],
@@ -182,7 +189,8 @@ def addOnChipComponents(config_info, system_info, cpu_info, cpu_attributes, fu_m
     )
     # on_chip_compound_components.extend(cacheComponentsYamlData(caches_dict))
     print("Adding caches")
-    on_chip_compound_components.extend(multipleComponentYamlData(on_chip_caches_dict, cache_attr_collector, add_name_as_attr="cache_type"))
+    on_chip_compound_components.extend(
+        multipleComponentYamlData(on_chip_caches_dict, cache_attr_collector, add_name_as_attr="cache_type"))
 
     mem_bus_types = config_info["type_to_class_names"]['mem_bus']
     buses_dict = getComponentsOfTypesDict(system_info, mem_bus_types)
@@ -255,8 +263,8 @@ def addOnChipComponents(config_info, system_info, cpu_info, cpu_attributes, fu_m
             "issue_width": ["executeIssueLimit"],
             "commit_width": ["executeCommitLimit"],
             "store_buffer_size": ["executeLSQMaxStoreBufferStoresPerCycle"],
-            "prediction_width": ["branchPred", "numThreads"] # this stat is for branch predicition, might move later
-                                                             # might need to make this it's own component
+            # this stat is for branch prediction, might move later might need to make this it's own component
+            "prediction_width": ["branchPred", "numThreads"]
         },
         exec_unit_inherit_attrs
     )
@@ -266,19 +274,20 @@ def addOnChipComponents(config_info, system_info, cpu_info, cpu_attributes, fu_m
         "fpu_units": num_fpu_units
     }
     print("Adding exec")
-    on_chip_compound_components.append(singleComponentYamlData(cpu_info, exec_attr_collector, "exec", additional_attributes=exec_additional_attributes))
+    on_chip_compound_components.append(singleComponentYamlData(cpu_info, exec_attr_collector, "exec",
+                                                               additional_attributes=exec_additional_attributes))
     return on_chip_compound_components, on_chip_caches, tlbs
+
 
 def processActionCounts(paths, off_chip_mems, on_chip_caches, tlbs, fu_mappings):
     # read in accelergy stats
-    stat_lines = []
     with open(paths["m5out"] + "/stats.txt") as f:
         stat_lines = f.readlines()
         stat_lines = [stat_line.split() for stat_line in stat_lines]
 
     actionCountYAMLs = []
 
-    # Get decode action acounts
+    # Get decode action counts
     # *** This can't be done for minorCPU, likely as the data is not collected due to simplifications
     #     so will need to add it for O3CPU as that will have clearer actions likely
 
@@ -287,18 +296,19 @@ def processActionCounts(paths, off_chip_mems, on_chip_caches, tlbs, fu_mappings)
 
     # Get the off chip memory action counts from names in off_chip_mems
     off_chip_memory_action_name_to_fetch_to_stat_names = {
-        # "accesses": [""], # Don't worry about this for now as not clear waht this is in gem5 stats.txt
+        # "accesses": [""], # Don't worry about this for now as not clear what this is in gem5 stats.txt
         #                     worst case it can probably be derived but it'd be better if we could extract
         #                     the exact number, probably need a better workload
         "read_access": [".num_reads::total"],
-        "write_access": [".num_writes::total"] # this is speculation, don't see it in minorCPU or O3 CPU
+        "write_access": [".num_writes::total"]  # this is speculation, don't see it in minorCPU or O3 CPU
     }
     off_chip_mem_name_to_full_path_name = {}
     for mem_name in off_chip_mems:
         off_chip_mem_name_to_full_path_name[mem_name] = "system." + mem_name
 
     print("Adding off chip mem action counts")
-    actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(off_chip_mem_name_to_full_path_name, off_chip_memory_action_name_to_fetch_to_stat_names, stat_lines))
+    actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(
+        off_chip_mem_name_to_full_path_name, off_chip_memory_action_name_to_fetch_to_stat_names, stat_lines))
 
     # Get the cache action counts from on_chip_caches
     on_chip_memory_action_name_to_fetch_to_stat_names = {
@@ -311,7 +321,8 @@ def processActionCounts(paths, off_chip_mems, on_chip_caches, tlbs, fu_mappings)
     for cache_name in on_chip_caches:
         on_chip_caches_name_to_full_path_name[cache_name] = "system.chip." + cache_name
     print("Adding on chip cache action counts")
-    actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(on_chip_caches_name_to_full_path_name, on_chip_memory_action_name_to_fetch_to_stat_names, stat_lines))
+    actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(
+        on_chip_caches_name_to_full_path_name, on_chip_memory_action_name_to_fetch_to_stat_names, stat_lines))
 
     # get the operations for each type of fu based on their ops present
     ALU_ops = mergeDictSetValuesForKeys(fu_mappings["ALU_units"])
@@ -331,7 +342,7 @@ def processActionCounts(paths, off_chip_mems, on_chip_caches, tlbs, fu_mappings)
         "mul_instruction": MUL_instructions_executed,
         "fp_instruction": FPU_instructions_executed
     }
-    exec_component_full_path_name = "system..chip.exec"
+    exec_component_full_path_name = "system.chip.exec"
     print("Adding exec action counts")
     actionCountYAMLs.append(createYAMLActionCountComponent(exec_component_full_path_name, exec_action_name_to_count))
 
@@ -351,19 +362,20 @@ def processActionCounts(paths, off_chip_mems, on_chip_caches, tlbs, fu_mappings)
     for tlb in tlbs:
         tlb_name_to_full_path_name[tlb] = "system.chip." + tlb
     print("Adding tlb action counts")
-    actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(tlb_name_to_full_path_name, tlb_action_name_to_fetch_to_stat_names, stat_lines))
-
+    actionCountYAMLs.extend(
+        getActionCountsYAMLsForComponentsFromStats(tlb_name_to_full_path_name, tlb_action_name_to_fetch_to_stat_names,
+                                                   stat_lines))
     # yaml where I add the top level
-    # this is initally just filled with boiler plate
+    # this is initially just filled with boiler plate
     action_counts_yaml = {"action_counts": {
-                            "version": 0.3,
-                            "local": actionCountYAMLs
-                            }
-                        }
+        "version": 0.3,
+        "local": actionCountYAMLs
+    }}
 
-    accelergy_action_counts_file_name = paths["input"] +  "/action_counts.yaml"
+    accelergy_action_counts_file_name = paths["input"] + "/action_counts.yaml"
     with open(accelergy_action_counts_file_name, "w") as file:
         yaml.dump(action_counts_yaml, file, sort_keys=False)
 
-if __name__== "__main__":
+
+if __name__ == "__main__":
     main()

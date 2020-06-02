@@ -1,9 +1,10 @@
 from util_helper import *
 
-def getFunctionalUnitsToOpSetMapping(cpu_info, fu_path, counts_included=False):
-    '''
+
+def getFunctionalUnitsToOpSetMapping(cpu_info, fu_path):
+    """
     Parameters:
-    cpu_info (dict): Mapping of cpu attributes to their values (which may be contain additional 
+    cpu_info (dict): Mapping of cpu attributes to their values (which may be contain additional
                      sub values if they are a dictionary or list)
     fu_path (list of str): Of attributes to follow within the cpu to find the list of functional
                            units. All functional units have a "name" attribute that is prefixed
@@ -13,7 +14,7 @@ def getFunctionalUnitsToOpSetMapping(cpu_info, fu_path, counts_included=False):
     dict: A dictionary where the keys are ALU_units, MUL_units, and FPU_units and each key
           maps to a dictionary of the functional unit number mapped to the operations that
           functional unit has
-    '''
+    """
     current_info = cpu_info
     for i in range(len(fu_path)):
         path_component_found = fu_path[i] in current_info
@@ -61,8 +62,9 @@ def getFunctionalUnitsToOpSetMapping(cpu_info, fu_path, counts_included=False):
             fu_mappings["ALU_units"][fu] = ops
     return fu_mappings
 
+
 def getFuncUnitOpsExecutedInStats(ops, stat_lines):
-    '''
+    """
     Parameters:
     ops (list): List of op names to search for in stat_lines to get the associated action count
     stat_lines: List of m5out stat lines split by whitespace
@@ -70,7 +72,7 @@ def getFuncUnitOpsExecutedInStats(ops, stat_lines):
     Returns:
     dict: Mapping of each operation in ops to the number of times the op occurred as
           reported by the gem5 stats
-    '''
+    """
     instructions_executed = 0
     for op in ops:
         max_value = 0

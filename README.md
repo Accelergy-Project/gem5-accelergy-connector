@@ -37,7 +37,7 @@ In the example run:
       datawidth: 32     (currently required)
         ...             (additional optional attributes)
     ```
-  - mapping of components to their gem5 class names so that component of a type (ie cache) can be found via this class name in the config.json within the m5out. This is currently setup with the naming of the classes present in minorCPU from gem5, and addtional class names can be added to each of these lists as they come up for your architecture and based on how you name your classes in gem5.
+  - mapping of components to their gem5 class names so that component of a type (ie cache) can be found via this class name in the config.json within the m5out. This is currently setup with the naming of the classes present in minorCPU from gem5, and additional class names can be added to each of these lists as they come up for your architecture and based on how you name your classes in gem5.
     ```
       type_to_class_names:
         cache:

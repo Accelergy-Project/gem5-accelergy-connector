@@ -1,28 +1,28 @@
 ART_summary:
   version: 0.3
   table_summary:
-  - name: system_arch.chip.membus
+  - name: system.chip.membus
     area: 1
     primitive_estimations: dummy_table
-  - name: system_arch.chip.l2bus
+  - name: system.chip.l2bus
     area: 1
     primitive_estimations: dummy_table
-  - name: system_arch.chip.decode
+  - name: system.chip.decode
     area: 1
     primitive_estimations: dummy_table
-  - name: system_arch.chip.fetch
+  - name: system.chip.fetch
     area: 1
     primitive_estimations: dummy_table
-  - name: system_arch.chip.itb
+  - name: system.chip.itb
     area: 1
     primitive_estimations: dummy_table
-  - name: system_arch.chip.dtb
+  - name: system.chip.dtb
     area: 1
     primitive_estimations: dummy_table
-  - name: system_arch.mem_ctrl
+  - name: system.mem_ctrl
     area: 1
     primitive_estimations: dummy_table
-  - name: system_arch.chip.l2cache
+  - name: system.chip.l2cache
     area: 189719.4
     primitive_estimations:
     - name: tag_SRAM
@@ -35,7 +35,7 @@ ART_summary:
       area: 94859.7
       area_share: 1
       total_component_area: 94859.7
-  - name: system_arch.chip.icache
+  - name: system.chip.icache
     area: 15084.72
     primitive_estimations:
     - name: tag_SRAM
@@ -48,7 +48,7 @@ ART_summary:
       area: 7542.36
       area_share: 1
       total_component_area: 7542.36
-  - name: system_arch.chip.dcache
+  - name: system.chip.dcache
     area: 52534.6
     primitive_estimations:
     - name: tag_SRAM
@@ -61,7 +61,7 @@ ART_summary:
       area: 26267.3
       area_share: 1
       total_component_area: 26267.3
-  - name: system_arch.chip.exec
+  - name: system.chip.exec
     area: 9918.458
     primitive_estimations:
     - name: alu_unit[0..3].intadder

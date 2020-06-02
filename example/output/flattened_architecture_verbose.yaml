@@ -1,7 +1,7 @@
 architecture:
   version: 0.3
   local:
-  - name: system_arch.chip.l2cache
+  - name: system.chip.l2cache
     class: cache
     attributes:
       associativity: 8
@@ -117,7 +117,7 @@ architecture:
         action: idle
         arguments: null
         action_share: 1
-  - name: system_arch.chip.icache
+  - name: system.chip.icache
     class: cache
     attributes:
       associativity: 2
@@ -233,7 +233,7 @@ architecture:
         action: idle
         arguments: null
         action_share: 1
-  - name: system_arch.chip.dcache
+  - name: system.chip.dcache
     class: cache
     attributes:
       associativity: 2
@@ -349,7 +349,7 @@ architecture:
         action: idle
         arguments: null
         action_share: 1
-  - name: system_arch.chip.exec
+  - name: system.chip.exec
     class: exec
     attributes:
       alu_units: 4
@@ -414,7 +414,7 @@ architecture:
         action: fp_instruction
         arguments: null
         action_share: 1
-  - name: system_arch.chip.membus
+  - name: system.chip.membus
     class: coherentxbar
     actions:
     - name: transfer_random
@@ -423,7 +423,7 @@ architecture:
       arguments: null
     - name: idle
       arguments: null
-  - name: system_arch.chip.l2bus
+  - name: system.chip.l2bus
     class: coherentxbar
     actions:
     - name: transfer_random
@@ -432,31 +432,31 @@ architecture:
       arguments: null
     - name: idle
       arguments: null
-  - name: system_arch.chip.decode
+  - name: system.chip.decode
     class: decode
     actions:
     - name: filler
       arguments: null
-  - name: system_arch.chip.fetch
+  - name: system.chip.fetch
     class: fetch
     actions:
     - name: filler
       arguments: null
-  - name: system_arch.chip.itb
+  - name: system.chip.itb
     class: tlb
     actions:
     - name: read_access
       arguments: null
     - name: write_access
       arguments: null
-  - name: system_arch.chip.dtb
+  - name: system.chip.dtb
     class: tlb
     actions:
     - name: read_access
       arguments: null
     - name: write_access
       arguments: null
-  - name: system_arch.mem_ctrl
+  - name: system.mem_ctrl
     class: memory_controller
     actions:
     - name: read_access

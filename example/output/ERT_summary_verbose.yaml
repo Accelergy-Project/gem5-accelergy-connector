@@ -1,7 +1,7 @@
 ERT_summary:
   version: 0.3
   table_summary:
-  - name: system_arch.chip.membus
+  - name: system.chip.membus
     actions:
     - name: transfer_random
       energy: 1
@@ -10,9 +10,9 @@ ERT_summary:
     - name: idle
       energy: 0
     primitive_estimation(s):
-    - system_arch.chip.membus:
+    - system.chip.membus:
         estimator: dummy_table
-  - name: system_arch.chip.l2bus
+  - name: system.chip.l2bus
     actions:
     - name: transfer_random
       energy: 1
@@ -21,50 +21,50 @@ ERT_summary:
     - name: idle
       energy: 0
     primitive_estimation(s):
-    - system_arch.chip.l2bus:
+    - system.chip.l2bus:
         estimator: dummy_table
-  - name: system_arch.chip.decode
+  - name: system.chip.decode
     actions:
     - name: filler
       energy: 1
     primitive_estimation(s):
-    - system_arch.chip.decode:
+    - system.chip.decode:
         estimator: dummy_table
-  - name: system_arch.chip.fetch
+  - name: system.chip.fetch
     actions:
     - name: filler
       energy: 1
     primitive_estimation(s):
-    - system_arch.chip.fetch:
+    - system.chip.fetch:
         estimator: dummy_table
-  - name: system_arch.chip.itb
+  - name: system.chip.itb
     actions:
     - name: read_access
       energy: 1
     - name: write_access
       energy: 1
     primitive_estimation(s):
-    - system_arch.chip.itb:
+    - system.chip.itb:
         estimator: dummy_table
-  - name: system_arch.chip.dtb
+  - name: system.chip.dtb
     actions:
     - name: read_access
       energy: 1
     - name: write_access
       energy: 1
     primitive_estimation(s):
-    - system_arch.chip.dtb:
+    - system.chip.dtb:
         estimator: dummy_table
-  - name: system_arch.mem_ctrl
+  - name: system.mem_ctrl
     actions:
     - name: read_access
       energy: 1
     - name: write_access
       energy: 1
     primitive_estimation(s):
-    - system_arch.mem_ctrl:
+    - system.mem_ctrl:
         estimator: dummy_table
-  - name: system_arch.chip.l2cache
+  - name: system.chip.l2cache
     actions:
     - name: read_access
       energy: 1652.56
@@ -77,9 +77,9 @@ ERT_summary:
     - name: idle
       energy: 0.057
     primitive_estimation(s):
-    - system_arch.chip.l2cache:
+    - system.chip.l2cache:
         estimator: Cacti
-  - name: system_arch.chip.icache
+  - name: system.chip.icache
     actions:
     - name: read_access
       energy: 79.226
@@ -92,9 +92,9 @@ ERT_summary:
     - name: idle
       energy: 0.001
     primitive_estimation(s):
-    - system_arch.chip.icache:
+    - system.chip.icache:
         estimator: McPat
-  - name: system_arch.chip.dcache
+  - name: system.chip.dcache
     actions:
     - name: read_access
       energy: 126.605
@@ -107,9 +107,9 @@ ERT_summary:
     - name: idle
       energy: 0.003
     primitive_estimation(s):
-    - system_arch.chip.dcache:
+    - system.chip.dcache:
         estimator: Cacti
-  - name: system_arch.chip.exec
+  - name: system.chip.exec
     actions:
     - name: int_instruction
       energy: 0.086

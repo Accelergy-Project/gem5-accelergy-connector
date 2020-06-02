@@ -1,6 +1,6 @@
 def multipleComponentYamlData(components_dict, attr_collector, component_class="",
                               class_remap={}, other_attr_remap={}, add_name_as_attr=""):
-    '''
+    """
     Get the YAML format for a list of components
 
     Parameters:
@@ -20,7 +20,7 @@ def multipleComponentYamlData(components_dict, attr_collector, component_class="
     Returns:
     list: A list of yaml style components representing the components with their respective
           attributes
-    '''
+    """
     yaml_components = []
     for component_name, component_dict in components_dict.items():
         print("Component name is: " + component_name)
@@ -30,10 +30,12 @@ def multipleComponentYamlData(components_dict, attr_collector, component_class="
         yaml_components.append(yaml_component)
     return yaml_components
 
+
 def singleComponentYamlData(component_info, attr_collector, component_name,
+
                             component_class="", class_remap={}, other_attr_remap={},
                             additional_attributes={}, add_name_as_attr=""):
-    '''
+    """
     Get the YAML format for a single component
 
     Parameters:
@@ -46,7 +48,7 @@ def singleComponentYamlData(component_info, attr_collector, component_name,
     Returns:
     dict: A yaml style dict representing the component with its respective
           attributes
-    '''
+    """
     if component_class == "":
         component_class = component_name
     attributes = {}
@@ -67,14 +69,15 @@ def singleComponentYamlData(component_info, attr_collector, component_name,
             value = attributes[attr]
             attr_remap_dict = other_attr_remap[attr]
             if value in attr_remap_dict:
-                attributes[attr] = attr_remap_dict[value] 
+                attributes[attr] = attr_remap_dict[value]
 
     full_yaml_component = {"name": component_name, "class": component_class, "attributes": attributes}
     return full_yaml_component
 
 
-def getActionCountsYAMLsForComponentsFromStats(components_to_full_component_path_name, attributes_to_stat_names, stat_lines):
-    '''
+def getActionCountsYAMLsForComponentsFromStats(components_to_full_component_path_name,
+                                               attributes_to_stat_names, stat_lines):
+    """
     Parameters:
     components_to_full_component_path_name (dict): Mapping of components names to their full path
                                                    name in gem5
@@ -87,45 +90,47 @@ def getActionCountsYAMLsForComponentsFromStats(components_to_full_component_path
     dict: Yaml format of the action counts of each component, which is the name of 
           the component mapped to a list of dictionaries of with keys for the action name
           and action count mapped to their respective values
-    '''
+    """
     component_to_action_name_to_count = {}
     for component, full_component_name in components_to_full_component_path_name.items():
         component_to_action_name_to_count[full_component_name] = {}
 
     for stat_line in stat_lines:
-            # check if op in stat_line and if the stat_line contains a numerical value
-            # which goes second in gem5 when a line is split by whitespace, this is the case if len > 1
-            # from observation
-            if len(stat_line) < 2:
-                continue
-            try:
-                value = int(stat_line[1])
-            except ValueError:
-                # this must not be a data line
-                continue
-            matchFound = False
-            for component, full_component_name in components_to_full_component_path_name.items():
-                for attr, valid_stat_names in attributes_to_stat_names.items():
-                    if attr in component_to_action_name_to_count[full_component_name]:
-                        continue # this means we already found this attribute elsewhere
-                    for valid_stat_name in valid_stat_names: 
-                        if component in stat_line[0] and valid_stat_name in stat_line[0]:
-                            component_to_action_name_to_count[full_component_name][attr] = value
-                            break
-                    if matchFound:
+        # check if op in stat_line and if the stat_line contains a numerical value
+        # which goes second in gem5 when a line is split by whitespace, this is the case if len > 1
+        # from observation
+        if len(stat_line) < 2:
+            continue
+        try:
+            value = int(stat_line[1])
+        except ValueError:
+            # this must not be a data line
+            continue
+        matchFound = False
+        for component, full_component_name in components_to_full_component_path_name.items():
+            for attr, valid_stat_names in attributes_to_stat_names.items():
+                if attr in component_to_action_name_to_count[full_component_name]:
+                    continue  # this means we already found this attribute elsewhere
+                for valid_stat_name in valid_stat_names:
+                    if component in stat_line[0] and valid_stat_name in stat_line[0]:
+                        component_to_action_name_to_count[full_component_name][attr] = value
                         break
                 if matchFound:
                     break
+            if matchFound:
+                break
 
     action_count_yamls = []
     for component in component_to_action_name_to_count:
-        if len(component_to_action_name_to_count[component]) > 0: # if this == 0 then it has no actions so skip
-            action_count_yamls.append(createYAMLActionCountComponent(component, component_to_action_name_to_count[component]))
+        if len(component_to_action_name_to_count[component]) > 0:  # if this == 0 then it has no actions so skip
+            action_count_yamls.append(
+                createYAMLActionCountComponent(component, component_to_action_name_to_count[component]))
 
     return action_count_yamls
 
+
 def createYAMLActionCountComponent(name, action_name_to_count):
-    '''
+    """
     Parameters:
     name (str): The component name
     action_name_to_count: A dictionary of action names to their action count
@@ -133,15 +138,12 @@ def createYAMLActionCountComponent(name, action_name_to_count):
     Returns:
     dict: Yaml format action counts for this component, which is a mapping of a "name" key
           to the component name, and a list of dictionaries for the actions each with a "name"
-          key for the action name and a "counts" key for the number of action occurences
-    '''
-    yaml_component = {}
-    yaml_component["name"] = name
+          key for the action name and a "counts" key for the number of action occurrences
+    """
+    yaml_component = {"name": name}
     action_counts = []
     for action, count in action_name_to_count.items():
-        new_action_count = {}
-        new_action_count["name"] = action
-        new_action_count["counts"] = count
+        new_action_count = {"name": action, "counts": count}
         action_counts.append(new_action_count)
     yaml_component["action_counts"] = action_counts
     return yaml_component

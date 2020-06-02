@@ -1,6 +1,9 @@
 # GEM5 source directory
 gem5/
 
+# PyCharm files
+.idea/
+
 # Temporary files
 __pycache__/
 *.pyc

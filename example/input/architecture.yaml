@@ -38,8 +38,8 @@ architecture:
         attributes:
           replacement_policy: lrurp
           associativity: 8
-          tag_size: 64
           block_size: 64
+          tag_size: 64
           write_buffers: 8
           size: 262144
           mshrs: 20
@@ -52,8 +52,8 @@ architecture:
         attributes:
           replacement_policy: lrurp
           associativity: 2
-          tag_size: 64
           block_size: 64
+          tag_size: 64
           write_buffers: 8
           size: 16384
           mshrs: 4
@@ -66,8 +66,8 @@ architecture:
         attributes:
           replacement_policy: lrurp
           associativity: 2
-          tag_size: 64
           block_size: 64
+          tag_size: 64
           write_buffers: 8
           size: 65536
           mshrs: 4
