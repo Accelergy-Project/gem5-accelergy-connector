@@ -1,17 +1,17 @@
 action_counts:
   version: 0.3
   local:
-  - name: system_arch.mem_ctrl
+  - name: system.mem_ctrl
     action_counts:
     - name: read_access
       counts: 473
-  - name: system_arch.chip.icache
+  - name: system.chip.icache
     action_counts:
     - name: read_access
       counts: 2082
     - name: read_miss
       counts: 366
-  - name: system_arch.chip.dcache
+  - name: system.chip.dcache
     action_counts:
     - name: read_access
       counts: 1283
@@ -21,7 +21,7 @@ action_counts:
       counts: 926
     - name: write_miss
       counts: 131
-  - name: system_arch.chip.exec
+  - name: system..chip.exec
     action_counts:
     - name: int_instruction
       counts: 3839
@@ -29,13 +29,13 @@ action_counts:
       counts: 6
     - name: fp_instruction
       counts: 2212
-  - name: system_arch.chip.itb
+  - name: system.chip.itb
     action_counts:
     - name: read_access
       counts: 0
     - name: write_access
       counts: 0
-  - name: system_arch.chip.dtb
+  - name: system.chip.dtb
     action_counts:
     - name: read_access
       counts: 0

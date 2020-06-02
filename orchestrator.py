@@ -1,7 +1,8 @@
 ''' 
-IMPORTANT
-This file must be run as python3 otherwise encoding issues will arise in the output files
+IMPORTANT: This file must be run as python3 otherwise encoding issues will
+arise in the output files
 '''
+
 import os
 import sys
 import yaml
@@ -10,9 +11,9 @@ import argparse
 from yaml_handler import *
 from fu_helper import *
 from util_helper import *
-from precise_attribute_collector import PreciseAttributeCollector
+from precise_attribute_collector import *
 
-if __name__== "__main__":
+def main():
     # example calling this:
     # python3 orchestrator.py -m m5out -i example_input -o example_output -c example-connector-config.yaml
     parser = argparse.ArgumentParser()
@@ -21,39 +22,34 @@ if __name__== "__main__":
     parser.add_argument("-o", help="the directory path to put the accelergy output", required=True)
     parser.add_argument("-c", help="the config file for this converter", required=True)
     args = parser.parse_args()
-    m5out_directory_path = args.m
-    accelergy_input_dir = args.i
-    accelergy_output_dir = args.o
-    config_file_path = args.c
+    paths = {
+        "m5out": args.m,
+        "input": args.i,
+        "output": args.o,
+        "config": args.c,
+    }
 
-    with open(config_file_path) as file:
+    # generate architecture description
+    off_chip_mems, on_chip_caches, tlbs, fu_mappings = processArchitecture(paths)
+
+    # generate action counts
+    processActionCounts(paths, off_chip_mems, on_chip_caches, tlbs, fu_mappings)
+
+    accelergy_command = "accelergy -o " + paths["output"] + " " + paths["input"] + "/*.yaml "  + "components/*.yaml -v 1"
+    print("Accelergy command:", accelergy_command)
+    os.system(accelergy_command)
+
+def processArchitecture(paths):
+    with open(paths["config"]) as file:
         config_info = yaml.load(file, Loader=yaml.FullLoader)
 
-    gem5_config_file_path = m5out_directory_path + "/config.json"
     # read in accelergy configuration
-    with open(gem5_config_file_path) as f:
+    with open(paths["m5out"] + "/config.json") as f:
         config_data = json.load(f)
     system_info = config_data["system"]
     cpu_info = system_info["cpu"]
-
-    system_attributes = config_info["hardware_attributes"]
-    cpu_attributes = {}
-    on_chip_compound_components = []
-    off_chip_compound_components = []
-
-    # Initialize the gem5 class names to fetch as specific architecture components
-    # To add or remove from this modify the config yaml passed in
-    cache_types = config_info["type_to_class_names"]['cache']
-    off_chip_mem_ctrl_types = config_info["type_to_class_names"]['off_chip_mem_ctrl']
-    off_chip_mem_ctrl_to_mem_type = {}
-    off_chip_mem_ctrl_other_attr_remap = {"memory_type": {}}
-    for off_chip_mem_ctrl_type in off_chip_mem_ctrl_types:
-        off_chip_mem_ctrl_to_mem_type[off_chip_mem_ctrl_type.lower()] = "memory_controller" # as per McPat
-        off_chip_mem_ctrl_other_attr_remap["memory_type"][off_chip_mem_ctrl_type.lower()] = "main_memory"
-    mem_bus_types = config_info["type_to_class_names"]['mem_bus']
-    tlb_types = config_info["type_to_class_names"]['tlb']
-
     # collect the system level attributes we care about
+    system_attributes = config_info["hardware_attributes"]
     system_attr_collector = PreciseAttributeCollector(
         {
             "clockrate": ["clk_domain", "clock"], # in MHz (Megahertz)
@@ -62,8 +58,17 @@ if __name__== "__main__":
         }
     )
     system_attributes.update(system_attr_collector.get_attr_dict(system_info))
+
+    # attributes that memory inherits from the system if not specified for the unit
+    memory_units_inherit_system_attrs = ["technology", "block_size", "clockrate"]
+    memory_units_inherit_attrs = {}
+    for attr in memory_units_inherit_system_attrs:
+        if attr in system_attributes:
+            memory_units_inherit_attrs[attr] = system_attributes[attr]
+
     # collect the cpu level attributes we care about
     # attributes that cpu inherits from the system if not specified for the cpu
+    cpu_attributes = {}
     cpu_inherit_system_attrs = ["datawidth", "technology", "clockrate", "vdd"]
     cpu_inherit_attrs = {}
     for attr in cpu_inherit_system_attrs:
@@ -77,12 +82,52 @@ if __name__== "__main__":
     )
     cpu_attributes.update(cpu_attr_collector.get_attr_dict(cpu_info))
 
-    # attributes that memory inherits from the system if not specified for the unit
-    memory_units_inherit_system_attrs = ["technology", "block_size", "clockrate"]
-    memory_units_inherit_attrs = {}
-    for attr in memory_units_inherit_system_attrs:
-        if attr in system_attributes:
-            memory_units_inherit_attrs[attr] = system_attributes[attr]
+    # this is the path to our list of functional units within our CPU
+    fu_path = []
+    for fu_path_key, fu_path in config_info['fu_unit_cpu_path'].items():
+        if checkIfPathExists(cpu_info, fu_path):
+            print("Using fu_path labeled: " + str(fu_path_key))
+            fu_path = fu_path
+    fu_mappings = getFunctionalUnitsToOpSetMapping(cpu_info, fu_path)
+
+    off_chip_compound_components, off_chip_mems = addOffChipComponents(config_info, system_info, memory_units_inherit_attrs)
+    on_chip_compound_components, on_chip_caches, tlbs = addOnChipComponents(config_info, system_info, cpu_info, cpu_attributes, fu_mappings, memory_units_inherit_attrs)
+
+    # yaml where I add the top level
+    # this is initally just filled with boiler plate
+    architecture_yaml = \
+        {"architecture": {
+            "version": 0.3,
+            "subtree": [
+                    {
+                        "name": "system",
+                        "attributes": system_attributes,
+                        "local": off_chip_compound_components,
+                        "subtree": [
+                            {
+                                "name": "chip",
+                                "attributes": cpu_attributes,
+                                "local":  on_chip_compound_components,
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+
+    with open(paths["input"] + "/architecture.yaml", "w") as file:
+        yaml.dump(architecture_yaml, file, sort_keys=False)
+
+    return off_chip_mems, on_chip_caches, tlbs, fu_mappings
+
+def addOffChipComponents(config_info, system_info, memory_units_inherit_attrs):
+    off_chip_compound_components = []
+    off_chip_mem_ctrl_types = config_info["type_to_class_names"]['off_chip_mem_ctrl']
+    off_chip_mem_ctrl_to_mem_type = {}
+    off_chip_mem_ctrl_other_attr_remap = {"memory_type": {}}
+    for off_chip_mem_ctrl_type in off_chip_mem_ctrl_types:
+        off_chip_mem_ctrl_to_mem_type[off_chip_mem_ctrl_type.lower()] = "memory_controller" # as per McPat
+        off_chip_mem_ctrl_other_attr_remap["memory_type"][off_chip_mem_ctrl_type.lower()] = "main_memory"
 
     off_chip_mems_dict = getComponentsOfTypesDict(system_info, off_chip_mem_ctrl_types)
     off_chip_mems = [key for key in off_chip_mems_dict]
@@ -104,10 +149,14 @@ if __name__== "__main__":
     )
     print("Adding off chip memory units")
     off_chip_compound_components.extend(multipleComponentYamlData(off_chip_mems_dict, off_chip_mem_attr_collector, class_remap=off_chip_mem_ctrl_to_mem_type, other_attr_remap=off_chip_mem_ctrl_other_attr_remap))
+    return off_chip_compound_components, off_chip_mems
 
+def addOnChipComponents(config_info, system_info, cpu_info, cpu_attributes, fu_mappings, memory_units_inherit_attrs):
+    on_chip_compound_components = []
     # I am tentatively treating all cache Components as on-chip, as it appears
     # that as of right now only the icache and dcache can be specified within the cpu,
     # thus the other caches are attributes of the entire system
+    cache_types = config_info["type_to_class_names"]['cache']
     on_chip_caches_dict = getComponentsOfTypesDict(system_info, cache_types)
     on_chip_caches = [key for key in on_chip_caches_dict]
     print(on_chip_caches)
@@ -135,6 +184,7 @@ if __name__== "__main__":
     print("Adding caches")
     on_chip_compound_components.extend(multipleComponentYamlData(on_chip_caches_dict, cache_attr_collector, add_name_as_attr="cache_type"))
 
+    mem_bus_types = config_info["type_to_class_names"]['mem_bus']
     buses_dict = getComponentsOfTypesDict(system_info, mem_bus_types)
     bus_attr_collector = PreciseAttributeCollector(
         {
@@ -168,6 +218,7 @@ if __name__== "__main__":
 
     # Add TLBs (Translation Lookup Buffers), should typically be itlb, dtlb,
     # seem to be referenced in gem5 as itb, dtb
+    tlb_types = config_info["type_to_class_names"]['tlb']
     tlbs_dict = getComponentsOfTypesDict(cpu_info, tlb_types)
     tlbs = [key for key in tlbs_dict]
     tlb_attr_collector = PreciseAttributeCollector(
@@ -177,7 +228,7 @@ if __name__== "__main__":
     )
     print("Adding tlbs")
     on_chip_compound_components.extend(multipleComponentYamlData(tlbs_dict, tlb_attr_collector, component_class="tlb"))
-    
+
     # Add in functional units
     # What I need to fetch from functional units:
     #   opClasses so I can track down action counts in the stats
@@ -185,23 +236,10 @@ if __name__== "__main__":
     # later on opClasses could be an actual class with more data ie: latency
     # or other user specified inputs that could be used, however McPat doesn't seem to use these
 
-    # this is the path to our list of functional units within our CPU
-    fu_path = []
-    for fu_path_key, fu_path in config_info['fu_unit_cpu_path'].items():
-        if checkIfPathExists(cpu_info, fu_path):
-            print("Using fu_path labeled: " + str(fu_path_key))
-            fu_path = fu_path
-    fu_mappings = getFunctionalUnitsToOpSetMapping(cpu_info, fu_path)
-
     # calculate the number of each type of functional unit for config
     num_alu_units = len(fu_mappings["ALU_units"])
     num_mul_units = len(fu_mappings["MUL_units"])
     num_fpu_units = len(fu_mappings["FPU_units"])
-
-    # get the operations for each type of fu based on their ops present
-    ALU_ops = mergeDictSetValuesForKeys(fu_mappings["ALU_units"])
-    MUL_ops = mergeDictSetValuesForKeys(fu_mappings["MUL_units"])
-    FPU_ops = mergeDictSetValuesForKeys(fu_mappings["FPU_units"])
 
     # Now adding the execution unit, it is likely that special code will be required here
     # to not only create the execution unit but link relevant sub components
@@ -219,7 +257,7 @@ if __name__== "__main__":
             "store_buffer_size": ["executeLSQMaxStoreBufferStoresPerCycle"],
             "prediction_width": ["branchPred", "numThreads"] # this stat is for branch predicition, might move later
                                                              # might need to make this it's own component
-        }, 
+        },
         exec_unit_inherit_attrs
     )
     exec_additional_attributes = {
@@ -229,38 +267,12 @@ if __name__== "__main__":
     }
     print("Adding exec")
     on_chip_compound_components.append(singleComponentYamlData(cpu_info, exec_attr_collector, "exec", additional_attributes=exec_additional_attributes))
+    return on_chip_compound_components, on_chip_caches, tlbs
 
-    # arbitrary architecture name chosen
-    accelergy_architecture_name = "system_arch"
-    # yaml where I add the top level 
-    # this is initally just filled with boiler plate
-    architecture_yaml = {"architecture": {
-                            "version": 0.3,
-                            "subtree": [
-                                    {
-                                        "name": accelergy_architecture_name,
-                                        "attributes": system_attributes,
-                                        "local": off_chip_compound_components,
-                                        "subtree": [
-                                            {
-                                                "name": "chip",
-                                                "attributes": cpu_attributes,
-                                                "local":  on_chip_compound_components,
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        }
-
-    with open(accelergy_input_dir + "/architecture.yaml", "w") as file:
-        yaml.dump(architecture_yaml, file, sort_keys=False)
-
-    ######################## Now to get action counts #############################
-    gem5_stats_file_path = m5out_directory_path + "/stats.txt"
+def processActionCounts(paths, off_chip_mems, on_chip_caches, tlbs, fu_mappings):
     # read in accelergy stats
     stat_lines = []
-    with open(gem5_stats_file_path) as f:
+    with open(paths["m5out"] + "/stats.txt") as f:
         stat_lines = f.readlines()
         stat_lines = [stat_line.split() for stat_line in stat_lines]
 
@@ -283,7 +295,7 @@ if __name__== "__main__":
     }
     off_chip_mem_name_to_full_path_name = {}
     for mem_name in off_chip_mems:
-        off_chip_mem_name_to_full_path_name[mem_name] = accelergy_architecture_name + "." + mem_name
+        off_chip_mem_name_to_full_path_name[mem_name] = "system." + mem_name
 
     print("Adding off chip mem action counts")
     actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(off_chip_mem_name_to_full_path_name, off_chip_memory_action_name_to_fetch_to_stat_names, stat_lines))
@@ -297,9 +309,14 @@ if __name__== "__main__":
     }
     on_chip_caches_name_to_full_path_name = {}
     for cache_name in on_chip_caches:
-        on_chip_caches_name_to_full_path_name[cache_name] = accelergy_architecture_name + ".chip." + cache_name
+        on_chip_caches_name_to_full_path_name[cache_name] = "system.chip." + cache_name
     print("Adding on chip cache action counts")
     actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(on_chip_caches_name_to_full_path_name, on_chip_memory_action_name_to_fetch_to_stat_names, stat_lines))
+
+    # get the operations for each type of fu based on their ops present
+    ALU_ops = mergeDictSetValuesForKeys(fu_mappings["ALU_units"])
+    MUL_ops = mergeDictSetValuesForKeys(fu_mappings["MUL_units"])
+    FPU_ops = mergeDictSetValuesForKeys(fu_mappings["FPU_units"])
 
     # Get the exec stage action counts
     # simply search the file for name matches to the operations
@@ -314,10 +331,10 @@ if __name__== "__main__":
         "mul_instruction": MUL_instructions_executed,
         "fp_instruction": FPU_instructions_executed
     }
-    exec_component_full_path_name = accelergy_architecture_name + ".chip.exec"
+    exec_component_full_path_name = "system..chip.exec"
     print("Adding exec action counts")
     actionCountYAMLs.append(createYAMLActionCountComponent(exec_component_full_path_name, exec_action_name_to_count))
-    
+
     # Get TLB data for dtb, itb, and any other cpu tlbs from tlbs
     tlb_action_name_to_fetch_to_stat_names = {
         "read_access": [".read_accesses"],
@@ -332,11 +349,11 @@ if __name__== "__main__":
     }
     tlb_name_to_full_path_name = {}
     for tlb in tlbs:
-        tlb_name_to_full_path_name[tlb] = accelergy_architecture_name + ".chip." + tlb
+        tlb_name_to_full_path_name[tlb] = "system.chip." + tlb
     print("Adding tlb action counts")
     actionCountYAMLs.extend(getActionCountsYAMLsForComponentsFromStats(tlb_name_to_full_path_name, tlb_action_name_to_fetch_to_stat_names, stat_lines))
 
-    # yaml where I add the top level 
+    # yaml where I add the top level
     # this is initally just filled with boiler plate
     action_counts_yaml = {"action_counts": {
                             "version": 0.3,
@@ -344,11 +361,9 @@ if __name__== "__main__":
                             }
                         }
 
-    accelergy_action_counts_file_name = accelergy_input_dir +  "/action_counts.yaml"
+    accelergy_action_counts_file_name = paths["input"] +  "/action_counts.yaml"
     with open(accelergy_action_counts_file_name, "w") as file:
         yaml.dump(action_counts_yaml, file, sort_keys=False)
 
-    accelergy_command = "accelergy -o " + accelergy_output_dir + " " + accelergy_input_dir + "/*.yaml "  + "components/*.yaml -v 1"
-    print("Accelergy command is: ")
-    print(accelergy_command)
-    os.system(accelergy_command)
+if __name__== "__main__":
+    main()

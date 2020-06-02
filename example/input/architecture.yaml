@@ -1,7 +1,7 @@
 architecture:
   version: 0.3
   subtree:
-  - name: system_arch
+  - name: system
     attributes:
       technology: 45nm
       datawidth: 32
