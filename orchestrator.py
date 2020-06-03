@@ -51,9 +51,7 @@ def processArch(paths):
     arch.addSubtree("system", "chip")
     arch.addSourceAttr("system.chip", "number_hardware_threads", "system.cpu", "numThreads")
 
-    # populate architecture
-    addMemoryController(arch)
-
+    populateArch(arch)
     arch_yaml = {
         "architecture": {
             "version": 0.3,
@@ -65,7 +63,8 @@ def processArch(paths):
     return arch
 
 
-def addMemoryController(arch):
+def populateArch(arch):
+    # add memory controllers
     addComponents(arch, "system", "memory_controller", [
         ("memory_type", "main_memory"),
     ], [
@@ -79,6 +78,45 @@ def addMemoryController(arch):
     ], [
         ("port", lambda params: params["port"]["peer"].split(".")[-2])
     ])
+
+    # add caches
+    addComponents(arch, "system.chip", "cache", [], [
+        ("cache_type", "name"),
+        ("replacement_policy", "replacement_policy.type"),
+        ("associativity", "assoc"),
+        ("block_size", "tags.block_size"),
+        ("tag_size", "tags.entry_size"),
+        ("write_buffers", "write_buffers"),
+        ("size", "size"),
+        ("mshrs", "mshrs"),
+        ("response_latency", "response_latency"),
+    ])
+
+    # add coherent xbars
+    addComponents(arch, "system.chip", "coherentxbar", [], [
+        ("response_latency", "response_latency"),
+        ("protocol_response_latency", "snoop_filter.lookup_latency"),
+        ("width", "width"),
+    ])
+
+    # add TLBs
+    addComponents(arch, "system.chip", "tlb", [], [
+        ("number_entries", "size"),
+    ])
+
+    # add exec
+    gemCPU = arch.classMap["cpu"]
+    if gemCPU in arch.classInstances and len(arch.classInstances[gemCPU]) == 1:
+        cpu = arch.classInstances[gemCPU][0]
+    else:
+        raise Exception("Unable to locate cpu " + gemCPU)
+    addComponents(arch, "system.chip", "exec", [
+        ("instruction_buffer_size", arch.getSourceField(cpu + ".executeInputBufferSize")),
+        ("issue_width", arch.getSourceField(cpu + ".executeIssueLimit")),
+        ("commit_width", arch.getSourceField(cpu + ".executeCommitLimit")),
+        ("store_buffer_size", arch.getSourceField(cpu + ".executeLSQStoreBufferSize")),
+        ("prediction_width", arch.getSourceField(cpu + ".branchPred.numThreads")),
+    ], [])
 
 
 def addComponents(arch, path, accelergyClass, staticAttr, sourceAttr, dynamicAttr=()):
@@ -101,6 +139,15 @@ def addComponents(arch, path, accelergyClass, staticAttr, sourceAttr, dynamicAtt
         if accelergyClass not in arch.archMap:
             arch.archMap[accelergyClass] = {}
         arch.archMap[accelergyClass][fullName] = component
+
+    # print diagnostics
+    print("gem5-accelergy-connector:",
+          gemClass, "->", accelergyClass)
+    if accelergyClass in arch.archMap:
+        for key, value in arch.archMap[accelergyClass].items():
+            print("\t", value, "->", key)
+    else:
+        print("\t NO MATCHES FOUND")
 
 
 def processActionCounts(paths, arch):

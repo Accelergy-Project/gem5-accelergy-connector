@@ -4,4 +4,7 @@ system_attributes:
 class_map:
   memory_controller: DRAMCtrl
   cache: Cache
+  coherentxbar: CoherentXBar
   tlb: RiscvTLB
+  cpu: MinorCPU
+  exec: MinorFUPool
