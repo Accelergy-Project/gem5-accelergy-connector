@@ -7,7 +7,7 @@ architecture:
       associativity: 8
       block_size: 64
       cache_type: l2cache
-      clockrate: 1000
+      clockrate: 1001
       datawidth: 32
       hit_latency: 0
       mshrs: 20
@@ -123,7 +123,7 @@ architecture:
       associativity: 2
       block_size: 64
       cache_type: icache
-      clockrate: 1000
+      clockrate: 1001
       datawidth: 32
       hit_latency: 0
       mshrs: 4
@@ -239,7 +239,7 @@ architecture:
       associativity: 2
       block_size: 64
       cache_type: dcache
-      clockrate: 1000
+      clockrate: 1001
       datawidth: 32
       hit_latency: 0
       mshrs: 4
@@ -354,7 +354,7 @@ architecture:
     attributes:
       alu_units: 4
       block_size: 64
-      clockrate: 1000
+      clockrate: 1001
       commit_width: 2
       datawidth: 32
       fpu_units: 2
@@ -387,7 +387,7 @@ architecture:
       class: fpu_unit
       attributes:
         technology: 45nm
-        clockrate: 1000
+        clockrate: 1001
         datawidth: 32
         exponent: 8
         mantissa: 24

@@ -1,0 +1,10 @@
+system_attributes:
+  technology: 45nm
+  datawidth: 32
+class_map:
+  memory_controller: DRAMCtrl
+  cache: Cache
+  coherentxbar: CoherentXBar
+  tlb: RiscvTLB
+  cpu: DerivO3CPU
+  exec: FUPool

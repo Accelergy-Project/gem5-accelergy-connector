@@ -43,7 +43,7 @@ def processArch(paths):
     # system attributes
     arch.addSystemAttr("technology")
     arch.addSystemAttr("datawidth")
-    arch.addSourceAttr("system", "clockrate", "system.clk_domain", "clock")
+    arch.addSourceAttr("system", "clockrate", "system.clk_domain", "clock") # FIXME this is in ps not mHz
     arch.addSourceAttr("system", "block_size", "system", "cache_line_size")
     arch.addSourceAttr("system", "vdd", "system.clk_domain.voltage_domain", "voltage")
 
@@ -58,6 +58,8 @@ def processArch(paths):
             "subtree": arch.arch
         }
     }
+    if not os.path.exists(paths["input"]):
+        os.makedirs(paths["input"])
     with open(paths["input"] + "/architecture.yaml", "w") as file:
         yaml.dump(arch_yaml, file, sort_keys=False)
     return arch

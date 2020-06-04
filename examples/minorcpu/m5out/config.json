@@ -2,9 +2,6 @@
     "name": null, 
     "sim_quantum": 0, 
     "system": {
-        "kernel": "", 
-        "mmap_using_noreserve": false, 
-        "kernel_addr_check": true, 
         "membus": {
             "point_of_coherency": true, 
             "system": "system", 
@@ -16,9 +13,6 @@
             "max_outstanding_snoops": 512, 
             "point_of_unification": true, 
             "width": 16, 
-            "eventq_index": 0, 
-            "default_p_state": "UNDEFINED", 
-            "p_state_clk_gate_max": 1000000000000, 
             "master": {
                 "peer": [
                     "system.mem_ctrl.port"
@@ -26,6 +20,20 @@
                 "is_source": "True", 
                 "role": "GEM5 REQUESTER"
             }, 
+            "power_state": {
+                "default_state": "UNDEFINED", 
+                "name": "power_state", 
+                "possible_states": [], 
+                "clk_gate_min": 1001, 
+                "clk_gate_bins": 20, 
+                "eventq_index": 0, 
+                "clk_gate_max": 1000000000000, 
+                "cxx_class": "PowerState", 
+                "path": "system.membus.power_state", 
+                "type": "PowerState", 
+                "leaders": []
+            }, 
+            "eventq_index": 0, 
             "type": "CoherentXBar", 
             "frontend_latency": 3, 
             "slave": {
@@ -36,7 +44,6 @@
                 "is_source": "False", 
                 "role": "GEM5 RESPONDER"
             }, 
-            "p_state_clk_gate_min": 1000, 
             "snoop_filter": {
                 "name": "snoop_filter", 
                 "system": "system", 
@@ -51,15 +58,14 @@
             "path": "system.membus", 
             "snoop_response_latency": 4, 
             "name": "membus", 
-            "p_state_clk_gate_bins": 20, 
             "use_default_range": false
         }, 
+        "mmap_using_noreserve": false, 
         "redirect_paths": [], 
         "symbolfile": "", 
-        "readfile": "", 
+        "thermal_components": [], 
         "thermal_model": null, 
         "cxx_class": "System", 
-        "load_offset": 0, 
         "work_begin_exit_count": 0, 
         "work_end_ckpt_count": 0, 
         "memories": [
@@ -69,7 +75,7 @@
         "clk_domain": {
             "name": "clk_domain", 
             "clock": [
-                1000
+                1001
             ], 
             "init_perf_level": 0, 
             "voltage_domain": {
@@ -91,8 +97,8 @@
         "mem_ranges": [
             "0:536870912"
         ], 
+        "exit_on_work_items": false, 
         "eventq_index": 0, 
-        "work_begin_cpu_id_exit": -1, 
         "m5ops_base": 0, 
         "dvfs_handler": {
             "enable": false, 
@@ -107,18 +113,30 @@
         }, 
         "work_end_exit_count": 0, 
         "type": "System", 
-        "kernel_extras_addrs": [], 
         "cache_line_size": 64, 
-        "boot_osflags": "a", 
         "system_port": {
             "peer": "system.membus.slave[1]", 
             "is_source": "True", 
             "role": "GEM5 REQUESTER"
         }, 
         "mem_ctrl": {
+            "tBURST_MAX": 5000, 
             "dll": true, 
+            "tBURST_MIN": 5000, 
             "max_accesses_per_row": 16, 
-            "static_backend_latency": 10000, 
+            "power_state": {
+                "default_state": "UNDEFINED", 
+                "name": "power_state", 
+                "possible_states": [], 
+                "clk_gate_min": 1001, 
+                "clk_gate_bins": 20, 
+                "eventq_index": 0, 
+                "clk_gate_max": 1000000000000, 
+                "cxx_class": "PowerState", 
+                "path": "system.mem_ctrl.power_state", 
+                "type": "PowerState", 
+                "leaders": []
+            }, 
             "IDD62": 0.0, 
             "tCCD_L": 0, 
             "IDD2P1": 0.032, 
@@ -130,6 +148,7 @@
             "tCL": 13750, 
             "tCK": 1250, 
             "tBURST": 5000, 
+            "image_file": "", 
             "IDD3P0": 0.0, 
             "IDD3P1": 0.038, 
             "name": "mem_ctrl", 
@@ -152,10 +171,9 @@
             }, 
             "IDD4R": 0.157, 
             "IDD4W": 0.125, 
-            "tWR": 15000, 
+            "tWR": 15001, 
             "banks_per_rank": 8, 
-            "p_state_clk_gate_max": 1000000000000, 
-            "VDD2": 0.0, 
+            "tXAW": 30001, 
             "qos_masters": [
                 "", 
                 "", 
@@ -174,48 +192,53 @@
                 "", 
                 ""
             ], 
-            "p_state_clk_gate_min": 1000, 
             "ranks_per_channel": 2, 
             "qos_q_policy": "fifo", 
             "tRAS": 35000, 
             "static_frontend_latency": 10000, 
             "devices_per_rank": 8, 
+            "tWTR_L": 7501, 
             "range": "0:536870912", 
             "mem_sched_policy": "frfcfs", 
             "IDD2P12": 0.0, 
             "device_rowbuffer_size": 1024, 
             "activation_limit": 4, 
-            "tWTR": 7500, 
+            "tWTR": 7501, 
             "enable_dram_powerdown": false, 
             "qos_syncro_scheduler": false, 
             "path": "system.mem_ctrl", 
             "bank_groups_per_rank": 0, 
+            "tPPD": 0, 
             "IDD2N": 0.032, 
             "qos_turnaround_policy": null, 
             "in_addr_map": true, 
             "tRTW": 2500, 
             "burst_length": 8, 
-            "tRTP": 7500, 
+            "tRTP": 7501, 
             "eventq_index": 0, 
             "IDD2P02": 0.0, 
-            "default_p_state": "UNDEFINED", 
             "addr_mapping": "RoRaBaCoCh", 
             "type": "DRAMCtrl", 
             "IDD3P02": 0.0, 
+            "tAAD": 1250, 
+            "static_backend_latency": 10000, 
+            "beats_per_clock": 2, 
             "conf_table_reported": true, 
             "tXS": 270000, 
-            "tXP": 6000, 
+            "tXP": 6001, 
             "IDD3N": 0.038, 
             "tCCD_L_WR": 0, 
             "kvm_map": true, 
-            "tXAW": 30000, 
+            "VDD2": 0.0, 
+            "data_clock_sync": false, 
             "IDD3P12": 0.0, 
             "IDD3N2": 0.0, 
+            "two_cycle_activate": false, 
             "device_bus_width": 8, 
             "cxx_class": "DRAMCtrl", 
             "null": false, 
             "tRRD_L": 0, 
-            "tRRD": 6000, 
+            "tRRD": 6001, 
             "clk_domain": "system.clk_domain", 
             "IDD6": 0.02, 
             "IDD5": 0.23500000000000001, 
@@ -227,11 +250,11 @@
             "read_buffer_size": 32, 
             "IDD4R2": 0.0, 
             "tXSDLL": 0, 
-            "p_state_clk_gate_bins": 20, 
             "tRP": 13750
         }, 
+        "workload": null, 
         "work_cpus_ckpt_count": 0, 
-        "thermal_components": [], 
+        "readfile": "", 
         "l2cache": {
             "replacement_policy": {
                 "eventq_index": 0, 
@@ -253,12 +276,22 @@
             "cxx_class": "Cache", 
             "write_allocator": null, 
             "size": 262144, 
-            "type": "Cache", 
             "clk_domain": "system.clk_domain", 
             "max_miss_count": 0, 
             "eventq_index": 0, 
-            "default_p_state": "UNDEFINED", 
-            "p_state_clk_gate_max": 1000000000000, 
+            "power_state": {
+                "default_state": "UNDEFINED", 
+                "name": "power_state", 
+                "possible_states": [], 
+                "clk_gate_min": 1001, 
+                "clk_gate_bins": 20, 
+                "eventq_index": 0, 
+                "clk_gate_max": 1000000000000, 
+                "cxx_class": "PowerState", 
+                "path": "system.l2cache.power_state", 
+                "type": "PowerState", 
+                "leaders": []
+            }, 
             "mem_side": {
                 "peer": "system.membus.slave[0]", 
                 "is_source": "True", 
@@ -266,15 +299,11 @@
             }, 
             "mshrs": 20, 
             "writeback_clean": false, 
-            "p_state_clk_gate_min": 1000, 
             "tags": {
                 "tag_latency": 20, 
                 "replacement_policy": "system.l2cache.replacement_policy", 
                 "name": "tags", 
-                "p_state_clk_gate_min": 1000, 
                 "eventq_index": 0, 
-                "p_state_clk_gate_bins": 20, 
-                "default_p_state": "UNDEFINED", 
                 "warmup_percentage": 0, 
                 "clk_domain": "system.clk_domain", 
                 "indexing_policy": {
@@ -291,8 +320,20 @@
                 "sequential_access": false, 
                 "assoc": 8, 
                 "power_model": [], 
+                "power_state": {
+                    "default_state": "UNDEFINED", 
+                    "name": "power_state", 
+                    "possible_states": [], 
+                    "clk_gate_min": 1001, 
+                    "clk_gate_bins": 20, 
+                    "eventq_index": 0, 
+                    "clk_gate_max": 1000000000000, 
+                    "cxx_class": "PowerState", 
+                    "path": "system.l2cache.tags.power_state", 
+                    "type": "PowerState", 
+                    "leaders": []
+                }, 
                 "cxx_class": "BaseSetAssoc", 
-                "p_state_clk_gate_max": 1000000000000, 
                 "path": "system.l2cache.tags", 
                 "entry_size": 64, 
                 "block_size": 64, 
@@ -313,7 +354,7 @@
             "addr_ranges": [
                 "0:18446744073709551615"
             ], 
-            "p_state_clk_gate_bins": 20, 
+            "type": "Cache", 
             "sequential_access": false, 
             "assoc": 8
         }, 
@@ -332,9 +373,6 @@
             "max_outstanding_snoops": 512, 
             "point_of_unification": true, 
             "width": 32, 
-            "eventq_index": 0, 
-            "default_p_state": "UNDEFINED", 
-            "p_state_clk_gate_max": 1000000000000, 
             "master": {
                 "peer": [
                     "system.l2cache.cpu_side"
@@ -342,6 +380,20 @@
                 "is_source": "True", 
                 "role": "GEM5 REQUESTER"
             }, 
+            "power_state": {
+                "default_state": "UNDEFINED", 
+                "name": "power_state", 
+                "possible_states": [], 
+                "clk_gate_min": 1001, 
+                "clk_gate_bins": 20, 
+                "eventq_index": 0, 
+                "clk_gate_max": 1000000000000, 
+                "cxx_class": "PowerState", 
+                "path": "system.l2bus.power_state", 
+                "type": "PowerState", 
+                "leaders": []
+            }, 
+            "eventq_index": 0, 
             "type": "CoherentXBar", 
             "frontend_latency": 1, 
             "slave": {
@@ -352,7 +404,6 @@
                 "is_source": "False", 
                 "role": "GEM5 RESPONDER"
             }, 
-            "p_state_clk_gate_min": 1000, 
             "snoop_filter": {
                 "name": "snoop_filter", 
                 "system": "system", 
@@ -367,11 +418,8 @@
             "path": "system.l2bus", 
             "snoop_response_latency": 1, 
             "name": "l2bus", 
-            "p_state_clk_gate_bins": 20, 
             "use_default_range": false
         }, 
-        "kernel_extras": [], 
-        "load_addr_mask": 18446744073709551615, 
         "cpu": {
             "max_insts_any_thread": 0, 
             "do_statistics_insts": true, 
@@ -382,6 +430,50 @@
             "executeIssueLimit": 2, 
             "power_gating_on_idle": false, 
             "executeLSQMaxStoreBufferStoresPerCycle": 2, 
+            "function_trace": false, 
+            "do_checkpoint_insts": true, 
+            "decodeInputWidth": 2, 
+            "cxx_class": "MinorCPU", 
+            "executeMemoryIssueLimit": 1, 
+            "decodeCycleInput": true, 
+            "syscallRetryLatency": 10000, 
+            "system": "system", 
+            "executeLSQTransfersQueueSize": 2, 
+            "clk_domain": "system.clk_domain", 
+            "function_trace_start": 0, 
+            "cpu_id": -1, 
+            "checker": null, 
+            "eventq_index": 0, 
+            "executeMemoryWidth": 0, 
+            "power_state": {
+                "default_state": "UNDEFINED", 
+                "name": "power_state", 
+                "possible_states": [
+                    "ON", 
+                    "CLK_GATED", 
+                    "OFF"
+                ], 
+                "clk_gate_min": 1001, 
+                "clk_gate_bins": 20, 
+                "eventq_index": 0, 
+                "clk_gate_max": 1000000000000, 
+                "cxx_class": "PowerState", 
+                "path": "system.cpu.power_state", 
+                "type": "PowerState", 
+                "leaders": []
+            }, 
+            "executeBranchDelay": 1, 
+            "executeMemoryCommitLimit": 1, 
+            "do_quiesce": true, 
+            "type": "MinorCPU", 
+            "executeCycleInput": true, 
+            "executeAllowEarlyMemoryIssue": true, 
+            "executeInputBufferSize": 7, 
+            "icache_port": {
+                "peer": "system.cpu.icache.cpu_side", 
+                "is_source": "True", 
+                "role": "GEM5 REQUESTER"
+            }, 
             "icache": {
                 "replacement_policy": {
                     "eventq_index": 0, 
@@ -403,12 +495,22 @@
                 "cxx_class": "Cache", 
                 "write_allocator": null, 
                 "size": 16384, 
-                "type": "Cache", 
                 "clk_domain": "system.clk_domain", 
                 "max_miss_count": 0, 
                 "eventq_index": 0, 
-                "default_p_state": "UNDEFINED", 
-                "p_state_clk_gate_max": 1000000000000, 
+                "power_state": {
+                    "default_state": "UNDEFINED", 
+                    "name": "power_state", 
+                    "possible_states": [], 
+                    "clk_gate_min": 1001, 
+                    "clk_gate_bins": 20, 
+                    "eventq_index": 0, 
+                    "clk_gate_max": 1000000000000, 
+                    "cxx_class": "PowerState", 
+                    "path": "system.cpu.icache.power_state", 
+                    "type": "PowerState", 
+                    "leaders": []
+                }, 
                 "mem_side": {
                     "peer": "system.l2bus.slave[0]", 
                     "is_source": "True", 
@@ -416,15 +518,11 @@
                 }, 
                 "mshrs": 4, 
                 "writeback_clean": false, 
-                "p_state_clk_gate_min": 1000, 
                 "tags": {
                     "tag_latency": 2, 
                     "replacement_policy": "system.cpu.icache.replacement_policy", 
                     "name": "tags", 
-                    "p_state_clk_gate_min": 1000, 
                     "eventq_index": 0, 
-                    "p_state_clk_gate_bins": 20, 
-                    "default_p_state": "UNDEFINED", 
                     "warmup_percentage": 0, 
                     "clk_domain": "system.clk_domain", 
                     "indexing_policy": {
@@ -441,8 +539,20 @@
                     "sequential_access": false, 
                     "assoc": 2, 
                     "power_model": [], 
+                    "power_state": {
+                        "default_state": "UNDEFINED", 
+                        "name": "power_state", 
+                        "possible_states": [], 
+                        "clk_gate_min": 1001, 
+                        "clk_gate_bins": 20, 
+                        "eventq_index": 0, 
+                        "clk_gate_max": 1000000000000, 
+                        "cxx_class": "PowerState", 
+                        "path": "system.cpu.icache.tags.power_state", 
+                        "type": "PowerState", 
+                        "leaders": []
+                    }, 
                     "cxx_class": "BaseSetAssoc", 
-                    "p_state_clk_gate_max": 1000000000000, 
                     "path": "system.cpu.icache.tags", 
                     "entry_size": 64, 
                     "block_size": 64, 
@@ -463,43 +573,12 @@
                 "addr_ranges": [
                     "0:18446744073709551615"
                 ], 
-                "p_state_clk_gate_bins": 20, 
+                "type": "Cache", 
                 "sequential_access": false, 
                 "assoc": 2
             }, 
-            "function_trace": false, 
-            "do_checkpoint_insts": true, 
-            "decodeInputWidth": 2, 
-            "cxx_class": "MinorCPU", 
-            "executeMemoryIssueLimit": 1, 
-            "decodeCycleInput": true, 
-            "syscallRetryLatency": 10000, 
-            "system": "system", 
-            "executeLSQTransfersQueueSize": 2, 
-            "p_state_clk_gate_max": 1000000000000, 
-            "clk_domain": "system.clk_domain", 
-            "function_trace_start": 0, 
-            "cpu_id": -1, 
-            "checker": null, 
-            "eventq_index": 0, 
-            "executeMemoryWidth": 0, 
-            "default_p_state": "UNDEFINED", 
-            "executeBranchDelay": 1, 
-            "executeMemoryCommitLimit": 1, 
-            "do_quiesce": true, 
-            "type": "MinorCPU", 
-            "executeCycleInput": true, 
-            "executeAllowEarlyMemoryIssue": true, 
-            "executeInputBufferSize": 7, 
-            "icache_port": {
-                "peer": "system.cpu.icache.cpu_side", 
-                "is_source": "True", 
-                "role": "GEM5 REQUESTER"
-            }, 
-            "p_state_clk_gate_bins": 20, 
             "socket_id": 0, 
             "progress_interval": 0, 
-            "p_state_clk_gate_min": 1000, 
             "isa": [
                 {
                     "eventq_index": 0, 
@@ -513,6 +592,30 @@
                 "name": "itb", 
                 "eventq_index": 0, 
                 "cxx_class": "RiscvISA::TLB", 
+                "walker": {
+                    "name": "walker", 
+                    "clk_domain": "system.clk_domain", 
+                    "power_model": [], 
+                    "system": "system", 
+                    "eventq_index": 0, 
+                    "power_state": {
+                        "default_state": "UNDEFINED", 
+                        "name": "power_state", 
+                        "possible_states": [], 
+                        "clk_gate_min": 1001, 
+                        "clk_gate_bins": 20, 
+                        "eventq_index": 0, 
+                        "clk_gate_max": 1000000000000, 
+                        "cxx_class": "PowerState", 
+                        "path": "system.cpu.itb.walker.power_state", 
+                        "type": "PowerState", 
+                        "leaders": []
+                    }, 
+                    "cxx_class": "RiscvISA::Walker", 
+                    "path": "system.cpu.itb.walker", 
+                    "type": "RiscvPagetableWalker", 
+                    "num_squash_per_cycle": 4
+                }, 
                 "path": "system.cpu.itb", 
                 "type": "RiscvTLB", 
                 "size": 64
@@ -1310,7 +1413,7 @@
                     "maxStackSize": 67108864, 
                     "ppid": 0, 
                     "type": "Process", 
-                    "cwd": "/home/ubuntu/gem5toAcclergyOrchestration", 
+                    "cwd": "/homes/frwang/urop/gem5-accelergy-connector/examples/minorcpu", 
                     "pgid": 100, 
                     "simpoint": 0, 
                     "euid": 100, 
@@ -1318,7 +1421,7 @@
                     "path": "system.cpu.workload", 
                     "name": "workload", 
                     "cmd": [
-                        "/home/ubuntu/gem5/tests/test-progs/hello/bin/riscv/linux/hello"
+                        "/homes/frwang/urop/gem5-accelergy-connector/examples/minorcpu/../../gem5/tests/test-progs/hello/bin/riscv/linux/hello"
                     ], 
                     "errout": "cerr", 
                     "useArchPT": false, 
@@ -1333,6 +1436,30 @@
                 "name": "dtb", 
                 "eventq_index": 0, 
                 "cxx_class": "RiscvISA::TLB", 
+                "walker": {
+                    "name": "walker", 
+                    "clk_domain": "system.clk_domain", 
+                    "power_model": [], 
+                    "system": "system", 
+                    "eventq_index": 0, 
+                    "power_state": {
+                        "default_state": "UNDEFINED", 
+                        "name": "power_state", 
+                        "possible_states": [], 
+                        "clk_gate_min": 1001, 
+                        "clk_gate_bins": 20, 
+                        "eventq_index": 0, 
+                        "clk_gate_max": 1000000000000, 
+                        "cxx_class": "PowerState", 
+                        "path": "system.cpu.dtb.walker.power_state", 
+                        "type": "PowerState", 
+                        "leaders": []
+                    }, 
+                    "cxx_class": "RiscvISA::Walker", 
+                    "path": "system.cpu.dtb.walker", 
+                    "type": "RiscvPagetableWalker", 
+                    "num_squash_per_cycle": 4
+                }, 
                 "path": "system.cpu.dtb", 
                 "type": "RiscvTLB", 
                 "size": 64
@@ -1405,12 +1532,22 @@
                 "cxx_class": "Cache", 
                 "write_allocator": null, 
                 "size": 65536, 
-                "type": "Cache", 
                 "clk_domain": "system.clk_domain", 
                 "max_miss_count": 0, 
                 "eventq_index": 0, 
-                "default_p_state": "UNDEFINED", 
-                "p_state_clk_gate_max": 1000000000000, 
+                "power_state": {
+                    "default_state": "UNDEFINED", 
+                    "name": "power_state", 
+                    "possible_states": [], 
+                    "clk_gate_min": 1001, 
+                    "clk_gate_bins": 20, 
+                    "eventq_index": 0, 
+                    "clk_gate_max": 1000000000000, 
+                    "cxx_class": "PowerState", 
+                    "path": "system.cpu.dcache.power_state", 
+                    "type": "PowerState", 
+                    "leaders": []
+                }, 
                 "mem_side": {
                     "peer": "system.l2bus.slave[1]", 
                     "is_source": "True", 
@@ -1418,15 +1555,11 @@
                 }, 
                 "mshrs": 4, 
                 "writeback_clean": false, 
-                "p_state_clk_gate_min": 1000, 
                 "tags": {
                     "tag_latency": 2, 
                     "replacement_policy": "system.cpu.dcache.replacement_policy", 
                     "name": "tags", 
-                    "p_state_clk_gate_min": 1000, 
                     "eventq_index": 0, 
-                    "p_state_clk_gate_bins": 20, 
-                    "default_p_state": "UNDEFINED", 
                     "warmup_percentage": 0, 
                     "clk_domain": "system.clk_domain", 
                     "indexing_policy": {
@@ -1443,8 +1576,20 @@
                     "sequential_access": false, 
                     "assoc": 2, 
                     "power_model": [], 
+                    "power_state": {
+                        "default_state": "UNDEFINED", 
+                        "name": "power_state", 
+                        "possible_states": [], 
+                        "clk_gate_min": 1001, 
+                        "clk_gate_bins": 20, 
+                        "eventq_index": 0, 
+                        "clk_gate_max": 1000000000000, 
+                        "cxx_class": "PowerState", 
+                        "path": "system.cpu.dcache.tags.power_state", 
+                        "type": "PowerState", 
+                        "leaders": []
+                    }, 
                     "cxx_class": "BaseSetAssoc", 
-                    "p_state_clk_gate_max": 1000000000000, 
                     "path": "system.cpu.dcache.tags", 
                     "entry_size": 64, 
                     "block_size": 64, 
@@ -1465,7 +1610,7 @@
                 "addr_ranges": [
                     "0:18446744073709551615"
                 ], 
-                "p_state_clk_gate_bins": 20, 
+                "type": "Cache", 
                 "sequential_access": false, 
                 "assoc": 2
             }, 
@@ -1474,9 +1619,9 @@
             "decodeInputBufferSize": 3
         }, 
         "multi_thread": false, 
-        "exit_on_work_items": false, 
+        "num_work_ids": 16, 
         "work_item_id": -1, 
-        "num_work_ids": 16
+        "work_begin_cpu_id_exit": -1
     }, 
     "time_sync_period": 100000000000, 
     "eventq_index": 0, 

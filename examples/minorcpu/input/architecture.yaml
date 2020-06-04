@@ -5,7 +5,7 @@ architecture:
     attributes:
       technology: 45nm
       datawidth: 32
-      clockrate: 1000
+      clockrate: 1001
       block_size: 64
       vdd: 1.0
     local:
@@ -23,14 +23,14 @@ architecture:
         banks_per_rank: 8
         technology: 45nm
         block_size: 64
-        clockrate: 1000
+        clockrate: 1001
     subtree:
     - name: chip
       attributes:
         number_hardware_threads: 1
         datawidth: 32
         technology: 45nm
-        clockrate: 1000
+        clockrate: 1001
         vdd: 1.0
       local:
       - name: l2cache
@@ -38,42 +38,42 @@ architecture:
         attributes:
           replacement_policy: lrurp
           associativity: 8
-          block_size: 64
           tag_size: 64
+          block_size: 64
           write_buffers: 8
           size: 262144
           mshrs: 20
           response_latency: 20
           technology: 45nm
-          clockrate: 1000
+          clockrate: 1001
           cache_type: l2cache
       - name: icache
         class: cache
         attributes:
           replacement_policy: lrurp
           associativity: 2
-          block_size: 64
           tag_size: 64
+          block_size: 64
           write_buffers: 8
           size: 16384
           mshrs: 4
           response_latency: 2
           technology: 45nm
-          clockrate: 1000
+          clockrate: 1001
           cache_type: icache
       - name: dcache
         class: cache
         attributes:
           replacement_policy: lrurp
           associativity: 2
-          block_size: 64
           tag_size: 64
+          block_size: 64
           write_buffers: 8
           size: 65536
           mshrs: 4
           response_latency: 2
           technology: 45nm
-          clockrate: 1000
+          clockrate: 1001
           cache_type: dcache
       - name: membus
         class: coherentxbar
@@ -118,4 +118,4 @@ architecture:
           prediction_width: 1
           datawidth: 32
           technology: 45nm
-          clockrate: 1000
+          clockrate: 1001

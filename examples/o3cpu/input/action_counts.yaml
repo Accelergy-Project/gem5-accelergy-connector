@@ -4,31 +4,31 @@ action_counts:
   - name: system.mem_ctrl
     action_counts:
     - name: read_access
-      counts: 473
+      counts: 434
   - name: system.chip.icache
     action_counts:
     - name: read_access
-      counts: 2082
+      counts: 1274
     - name: read_miss
-      counts: 366
+      counts: 358
   - name: system.chip.dcache
     action_counts:
     - name: read_access
-      counts: 1283
+      counts: 1473
     - name: read_miss
-      counts: 66
+      counts: 153
     - name: write_access
-      counts: 926
+      counts: 690
     - name: write_miss
-      counts: 131
+      counts: 377
   - name: system.chip.exec
     action_counts:
     - name: int_instruction
-      counts: 3839
+      counts: 5853
     - name: mul_instruction
-      counts: 6
+      counts: 8
     - name: fp_instruction
-      counts: 2212
+      counts: 3055
   - name: system.chip.itb
     action_counts:
     - name: read_access
