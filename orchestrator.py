@@ -1,9 +1,11 @@
 import os
+import re
 import sys
 import yaml
 import json
 import argparse
 from arch import Arch
+from action_counts import ActionCounts
 
 
 def main():
@@ -25,7 +27,9 @@ def main():
     processActionCounts(paths, arch)  # generate action counts
 
     accelergy_command = "accelergy -o " + paths["output"] + " " + paths["input"] + "/*.yaml " + "components/*.yaml -v 1"
-    print("Accelergy command:", accelergy_command)
+    print("\n-------- Hand-off to Accelergy  --------")
+    print(accelergy_command)
+    print()
     # FIXME re-enable after refactor
     # os.system(accelergy_command)
 
@@ -66,6 +70,8 @@ def processArch(paths):
 
 
 def populateArch(arch):
+    print("\n-------- Populate Architecture  --------")
+
     # add memory controllers
     addComponents(arch, "system", "memory_controller", [
         ("memory_type", "main_memory"),
@@ -143,7 +149,7 @@ def addComponents(arch, path, accelergyClass, staticAttr, sourceAttr, dynamicAtt
         arch.archMap[accelergyClass][fullName] = component
 
     # print diagnostics
-    print("gem5-accelergy-connector:",
+    print("Converting class",
           gemClass, "->", accelergyClass)
     if accelergyClass in arch.archMap:
         for key, value in arch.archMap[accelergyClass].items():
@@ -153,12 +159,50 @@ def addComponents(arch, path, accelergyClass, staticAttr, sourceAttr, dynamicAtt
 
 
 def processActionCounts(paths, arch):
+    print("\n-------- Populate Action Counts --------")
+
+    stats = {}
+    with open(paths["m5out"] + "/stats.txt", "r") as file:
+        pattern = re.compile(r"(\S+)\s+(\S+).*#")
+        for line in file.readlines():
+            match = pattern.match(line)
+            if match:
+                stats[match.group(1)] = match.group(2)
+    action_counts = ActionCounts(stats)
+
+    # process memory controllers
+    addActionCounts(action_counts, arch, "memory_controller", [
+        ("read_access", "num_reads::total"),
+    ])
+
+    # process caches
+    addActionCounts(action_counts, arch, "cache", [
+        ("read_access", "ReadReq_hits::total"),
+        ("read_miss", "ReadReq_misses::total"),
+        ("write_access", "WriteReq_hits::total"),
+        ("write_miss", "WriteReq_misses::total"),
+    ])
+
+    # process TLBs
+    addActionCounts(action_counts, arch, "tlb", [
+        ("read_access", "read_accesses"),
+        ("write_access", "write_accesses"),
+    ])
+
     action_counts_yaml = {"action_counts": {
         "version": 0.3,
-        "local": []
+        "local": action_counts.get(),
     }}
     with open(paths["input"] + "/action_counts.yaml", "w") as file:
         yaml.dump(action_counts_yaml, file, sort_keys=False)
+
+
+def addActionCounts(action_counts, arch, accelergy_class, attr):
+    print("Collecting action counts for class " + accelergy_class)
+    if accelergy_class in arch.archMap:
+        for arch_path, source_path in arch.archMap[accelergy_class].items():
+            for arch_name, source_name in attr:
+                action_counts.add(arch_path, source_path, arch_name, source_name)
 
 
 if __name__ == "__main__":

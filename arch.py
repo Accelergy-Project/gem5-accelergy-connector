@@ -3,9 +3,9 @@ class Arch:
         self.arch = {"name": "system"}  # architecture tree
         self.connector_config = connector_config
         self.source_config = source_config
-        self.archMap = {}  # component map from arch to source
+        self.archMap = {}                              # component map from arch to source
         self.classMap = connector_config["class_map"]  # class map from accelergy to gem5
-        self.classInstances = {}  # instances of each gem5 class in source
+        self.classInstances = {}                       # instances of each gem5 class in source
 
         def buildClassInstances(source, path):
             if "type" in source:
