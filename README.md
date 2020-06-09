@@ -11,7 +11,7 @@ Downloading and setting up the CLI command "accelergy" is also required. The ins
 ## Run an example
 The `example` directory gives an example of the input and output files. It can be reproduced with the following command.
 
-```python3 orchestrator.py -m example/m5out -i example/input -o example/output -c example/config.yaml```
+```python3 connector.py -m example/m5out -i example/input -o example/output -c example/config.yaml```
 
 In order to reproduce reference outputs, please install
 [accelergy-mcpat-plug-in](https://github.com/Accelergy-Project/accelergy-mcpat-plug-in),

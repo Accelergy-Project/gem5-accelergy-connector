@@ -1,3 +1,74 @@
+import os
+import re
+import sys
+import yaml
+import json
+import argparse
+
+
+def main():
+    # python3 connector.py -m example/m5out -i example/input -o example/output -c example/config.yaml
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-m", help="the gem5 m5out directory path", required=True)
+    parser.add_argument("-i", help="the directory path to put the accelergy input", required=True)
+    parser.add_argument("-o", help="the directory path to put the accelergy output", required=True)
+    parser.add_argument("-c", help="the config file for this converter", required=True)
+    parser.add_argument("-d", help="when present accelergy will not be called", action="store_true")
+    args = parser.parse_args()
+    paths = {
+        "m5out": args.m,
+        "input": args.i,
+        "output": args.o,
+        "config": args.c,
+    }
+
+    # read connector configuration file
+    with open(paths["config"]) as file:
+        connector_config = yaml.load(file, Loader=yaml.FullLoader)
+    # read gem5 source architecture configuration file
+    with open(paths["m5out"] + "/config.json") as f:
+        source_config = json.load(f)
+
+    # populate and write architecture
+    arch = populateArch(connector_config, source_config)
+    arch_yaml = {
+        "architecture": {
+            "version": 0.3,
+            "subtree": [arch.arch]
+        }
+    }
+    if not os.path.exists(paths["input"]):
+        os.makedirs(paths["input"])
+    with open(paths["input"] + "/architecture.yaml", "w") as file:
+        yaml.dump(arch_yaml, file, sort_keys=False)
+
+    # parse stats file
+    stats = {}
+    with open(paths["m5out"] + "/stats.txt", "r") as file:
+        pattern = re.compile(r"(\S+)\s+(\S+).*#")
+        for line in file.readlines():
+            match = pattern.match(line)
+            if match:
+                stats[match.group(1)] = match.group(2)
+
+    # populate and write action counts
+    action_counts = populateActionCounts(arch, stats)
+    action_counts_yaml = {"action_counts": {
+        "version": 0.3,
+        "local": action_counts.get(),
+    }}
+    with open(paths["input"] + "/action_counts.yaml", "w") as file:
+        yaml.dump(action_counts_yaml, file, sort_keys=False)
+
+    # invoke accelergy
+    accelergy_command = "accelergy -o " + paths["output"] + " " + paths["input"] + "/*.yaml " + "components/*.yaml -v 1"
+    print("\n-------- Hand-off to Accelergy  --------")
+    print(accelergy_command)
+    print()
+    if not args.d:
+        os.system(accelergy_command)
+
+
 class Arch:
     def __init__(self, connector_config, source_config):
         self.arch = {"name": "system"}  # architecture tree
@@ -143,16 +214,16 @@ def populateArch(connector_config, source_config):
     arch.addComponents("system", "memory_controller", [
         ("memory_type", "main_memory"),
     ], [
-                           ("response_latency", "tCL"),
-                           ("size", "device_size"),
-                           ("page_size", "device_rowbuffer_size"),
-                           ("burst_length", "burst_length"),
-                           ("bus_width", "device_bus_width"),
-                           ("ranks_per_channel", "ranks_per_channel"),
-                           ("banks_per_rank", "banks_per_rank"),
-                       ], [
-                           ("port", lambda params: params["port"]["peer"].split(".")[-2])
-                       ])
+        ("response_latency", "tCL"),
+        ("size", "device_size"),
+        ("page_size", "device_rowbuffer_size"),
+        ("burst_length", "burst_length"),
+        ("bus_width", "device_bus_width"),
+        ("ranks_per_channel", "ranks_per_channel"),
+        ("banks_per_rank", "banks_per_rank"),
+    ], [
+        ("port", lambda params: params["port"]["peer"].split(".")[-2])
+    ])
 
     # add caches
     arch.addComponents("system.chip", "cache", [], [
@@ -197,3 +268,66 @@ def populateArch(connector_config, source_config):
     ], [])
 
     return arch
+
+
+class ActionCounts:
+    def __init__(self, arch, stats):
+        self.arch = arch
+        self.stats = stats
+        self.action_map = {}
+
+    def addActionCounts(self, accelergy_class, attr):
+        print("Collecting action counts for class " + accelergy_class)
+        if accelergy_class in self.arch.archMap:
+            for arch_path, source_path in self.arch.archMap[accelergy_class].items():
+                for arch_name, source_name in attr:
+                    self.addField(arch_path, source_path, arch_name, source_name)
+
+    def addField(self, arch_path, source_path, arch_name, source_name):
+        field = source_path + "." + source_name
+        if field in self.stats:
+            counts = int(self.stats[field])
+            if arch_path not in self.action_map:
+                self.action_map[arch_path] = []
+            self.action_map[arch_path].append({"name": arch_name, "counts": counts})
+        else:
+            print("\tWARNING: unable to locate field %s for %s.%s" % (field, arch_path, arch_name))
+
+    def get(self):
+        action_counts = []
+        for path, counts in self.action_map.items():
+            action_counts.append({"name": path, "action_counts": counts})
+        return action_counts
+
+
+def populateActionCounts(arch, stats):
+    print("\n-------- Populate Action Counts --------")
+    action_counts = ActionCounts(arch, stats)
+
+    # process memory controllers
+    action_counts.addActionCounts("memory_controller", [
+        ("read_access", "num_reads::total"),
+    ])
+
+    # process caches
+    action_counts.addActionCounts("cache", [
+        ("read_access", "ReadReq_hits::total"),
+        ("read_miss", "ReadReq_misses::total"),
+        ("write_access", "WriteReq_hits::total"),
+        ("write_miss", "WriteReq_misses::total"),
+    ])
+
+    # process TLBs
+    action_counts.addActionCounts("tlb", [
+        ("read_access", "read_accesses"),
+        ("write_access", "write_accesses"),
+    ])
+
+    return action_counts
+
+
+if __name__ == "__main__":
+    if sys.version_info < (3, 0):
+        print("Python 2.x is not supported for connector.py")
+        sys.exit(1)
+    main()
