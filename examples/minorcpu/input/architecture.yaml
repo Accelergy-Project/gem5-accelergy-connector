@@ -8,73 +8,47 @@ architecture:
       clockrate: 1001
       block_size: 64
       vdd: 1.0
-    local:
-    - name: mem_ctrl
-      class: memory_controller
-      attributes:
-        memory_type: main_memory
-        response_latency: 13750
-        size: 536870912
-        page_size: 1024
-        burst_length: 8
-        port: membus
-        bus_width: 8
-        ranks_per_channel: 2
-        banks_per_rank: 8
-        technology: 45nm
-        block_size: 64
-        clockrate: 1001
     subtree:
     - name: chip
       attributes:
         number_hardware_threads: 1
-        datawidth: 32
-        technology: 45nm
-        clockrate: 1001
-        vdd: 1.0
       local:
       - name: l2cache
         class: cache
         attributes:
-          replacement_policy: lrurp
+          cache_type: l2cache
+          replacement_policy: LRURP
           associativity: 8
-          tag_size: 64
           block_size: 64
+          tag_size: 64
           write_buffers: 8
           size: 262144
           mshrs: 20
           response_latency: 20
-          technology: 45nm
-          clockrate: 1001
-          cache_type: l2cache
       - name: icache
         class: cache
         attributes:
-          replacement_policy: lrurp
+          cache_type: icache
+          replacement_policy: LRURP
           associativity: 2
-          tag_size: 64
           block_size: 64
+          tag_size: 64
           write_buffers: 8
           size: 16384
           mshrs: 4
           response_latency: 2
-          technology: 45nm
-          clockrate: 1001
-          cache_type: icache
       - name: dcache
         class: cache
         attributes:
-          replacement_policy: lrurp
+          cache_type: dcache
+          replacement_policy: LRURP
           associativity: 2
-          tag_size: 64
           block_size: 64
+          tag_size: 64
           write_buffers: 8
           size: 65536
           mshrs: 4
           response_latency: 2
-          technology: 45nm
-          clockrate: 1001
-          cache_type: dcache
       - name: membus
         class: coherentxbar
         attributes:
@@ -87,16 +61,6 @@ architecture:
           response_latency: 1
           protocol_response_latency: 0
           width: 32
-      - name: decode
-        class: decode
-        attributes:
-          instr_buffer_size: 3
-          instr_width: 2
-          cycle_delay: 1
-      - name: fetch
-        class: fetch
-        attributes:
-          ports: 1
       - name: itb
         class: tlb
         attributes:
@@ -105,17 +69,27 @@ architecture:
         class: tlb
         attributes:
           number_entries: 64
-      - name: exec
+      - name: executeFuncUnits
         class: exec
         attributes:
-          alu_units: 4
-          mul_units: 2
-          fpu_units: 2
           instruction_buffer_size: 7
           issue_width: 2
           commit_width: 2
-          store_buffer_size: 2
+          store_buffer_size: 5
           prediction_width: 1
-          datawidth: 32
-          technology: 45nm
-          clockrate: 1001
+          alu_units: 1
+          mul_units: 1
+          fpu_units: 1
+    local:
+    - name: mem_ctrl
+      class: memory_controller
+      attributes:
+        memory_type: main_memory
+        response_latency: 13750
+        size: 536870912
+        page_size: 1024
+        burst_length: 8
+        bus_width: 8
+        ranks_per_channel: 2
+        banks_per_rank: 8
+        port: membus

@@ -1,0 +1,665 @@
+{
+    "name": null, 
+    "system": {
+        "membus": {
+            "master": {
+                "peer": [
+                ], 
+            }, 
+            "power_state": {
+                "name": "power_state", 
+                "type": "PowerState", 
+            }, 
+            "type": "CoherentXBar", 
+            "slave": {
+                "peer": [
+                ], 
+            }, 
+            "snoop_filter": {
+                "name": "snoop_filter", 
+                "type": "SnoopFilter", 
+            }, 
+            "name": "membus", 
+        }, 
+        "memories": [
+        ], 
+        "clk_domain": {
+            "name": "clk_domain", 
+            "clock": [
+            ], 
+            "voltage_domain": {
+                "name": "voltage_domain", 
+                "voltage": [
+                ], 
+                "type": "VoltageDomain"
+            }, 
+            "type": "SrcClockDomain", 
+        }, 
+        "mem_ranges": [
+        ], 
+        "dvfs_handler": {
+            "name": "dvfs_handler", 
+            "type": "DVFSHandler"
+        }, 
+        "type": "System", 
+        "system_port": {
+        }, 
+        "mem_ctrl": {
+            "power_state": {
+                "name": "power_state", 
+                "type": "PowerState", 
+            }, 
+            "name": "mem_ctrl", 
+            "port": {
+            }, 
+            "qos_masters": [
+            ], 
+            "type": "DRAMCtrl", 
+        }, 
+        "l2cache": {
+            "replacement_policy": {
+                "type": "LRURP", 
+                "name": "replacement_policy", 
+            }, 
+            "cpu_side": {
+            }, 
+            "power_state": {
+                "name": "power_state", 
+                "type": "PowerState", 
+            }, 
+            "mem_side": {
+            }, 
+            "tags": {
+                "name": "tags", 
+                "indexing_policy": {
+                    "name": "indexing_policy", 
+                    "type": "SetAssociative", 
+                }, 
+                "power_state": {
+                    "name": "power_state", 
+                    "type": "PowerState", 
+                }, 
+                "type": "BaseSetAssoc", 
+            }, 
+            "name": "l2cache", 
+            "addr_ranges": [
+            ], 
+            "type": "Cache", 
+        }, 
+        "name": "system", 
+        "l2bus": {
+            "master": {
+                "peer": [
+                ], 
+            }, 
+            "power_state": {
+                "name": "power_state", 
+                "type": "PowerState", 
+            }, 
+            "type": "CoherentXBar", 
+            "slave": {
+                "peer": [
+                ], 
+            }, 
+            "snoop_filter": {
+                "name": "snoop_filter", 
+                "type": "SnoopFilter", 
+            }, 
+            "name": "l2bus", 
+        }, 
+        "cpu": {
+            "power_state": {
+                "name": "power_state", 
+                "possible_states": [
+                ], 
+                "type": "PowerState", 
+            }, 
+            "type": "MinorCPU", 
+            "icache_port": {
+            }, 
+            "icache": {
+                "replacement_policy": {
+                    "type": "LRURP", 
+                    "name": "replacement_policy", 
+                }, 
+                "cpu_side": {
+                }, 
+                "power_state": {
+                    "name": "power_state", 
+                    "type": "PowerState", 
+                }, 
+                "mem_side": {
+                }, 
+                "tags": {
+                    "name": "tags", 
+                    "indexing_policy": {
+                        "name": "indexing_policy", 
+                        "type": "SetAssociative", 
+                    }, 
+                    "power_state": {
+                        "name": "power_state", 
+                        "type": "PowerState", 
+                    }, 
+                    "type": "BaseSetAssoc", 
+                }, 
+                "name": "icache", 
+                "addr_ranges": [
+                ], 
+                "type": "Cache", 
+            }, 
+            "isa": [
+                {
+                    "type": "RiscvISA", 
+                    "name": "isa", 
+                }
+            ], 
+            "itb": {
+                "name": "itb", 
+                "walker": {
+                    "name": "walker", 
+                    "power_state": {
+                        "name": "power_state", 
+                        "type": "PowerState", 
+                    }, 
+                    "type": "RiscvPagetableWalker", 
+                }, 
+                "type": "RiscvTLB", 
+            }, 
+            "interrupts": [
+                {
+                    "type": "RiscvInterrupts", 
+                    "name": "interrupts", 
+                }
+            ], 
+            "dcache_port": {
+            }, 
+            "executeFuncUnits": {
+                "name": "executeFuncUnits", 
+                "funcUnits": [
+                    {
+                        "name": "funcUnits0", 
+                        "opClasses": {
+                            "name": "opClasses", 
+                            "opClasses": [
+                                {
+                                    "opClass": "IntAlu", 
+                                    "name": "opClasses", 
+                                    "type": "MinorOpClass"
+                                }
+                            ], 
+                            "type": "MinorOpClassSet"
+                        }, 
+                        "timings": [
+                            {
+                                "srcRegsRelativeLats": [
+                                ], 
+                                "opClasses": {
+                                    "name": "opClasses", 
+                                    "type": "MinorOpClassSet"
+                                }, 
+                                "type": "MinorFUTiming", 
+                                "name": "timings"
+                            }
+                        ], 
+                        "type": "MinorFU"
+                    }, 
+                    {
+                        "name": "funcUnits1", 
+                        "opClasses": {
+                            "name": "opClasses", 
+                            "opClasses": [
+                                {
+                                    "opClass": "IntAlu", 
+                                    "name": "opClasses", 
+                                    "type": "MinorOpClass"
+                                }
+                            ], 
+                            "type": "MinorOpClassSet"
+                        }, 
+                        "timings": [
+                            {
+                                "srcRegsRelativeLats": [
+                                ], 
+                                "opClasses": {
+                                    "name": "opClasses", 
+                                    "type": "MinorOpClassSet"
+                                }, 
+                                "type": "MinorFUTiming", 
+                                "name": "timings"
+                            }
+                        ], 
+                        "type": "MinorFU"
+                    }, 
+                    {
+                        "name": "funcUnits2", 
+                        "opClasses": {
+                            "name": "opClasses", 
+                            "opClasses": [
+                                {
+                                    "opClass": "IntMult", 
+                                    "name": "opClasses", 
+                                    "type": "MinorOpClass"
+                                }
+                            ], 
+                            "type": "MinorOpClassSet"
+                        }, 
+                        "timings": [
+                            {
+                                "srcRegsRelativeLats": [
+                                ], 
+                                "opClasses": {
+                                    "name": "opClasses", 
+                                    "type": "MinorOpClassSet"
+                                }, 
+                                "type": "MinorFUTiming", 
+                                "name": "timings"
+                            }
+                        ], 
+                        "type": "MinorFU"
+                    }, 
+                    {
+                        "name": "funcUnits3", 
+                        "opClasses": {
+                            "name": "opClasses", 
+                            "opClasses": [
+                                {
+                                    "opClass": "IntDiv", 
+                                    "name": "opClasses", 
+                                    "type": "MinorOpClass"
+                                }
+                            ], 
+                            "type": "MinorOpClassSet"
+                        }, 
+                        "type": "MinorFU"
+                    }, 
+                    {
+                        "name": "funcUnits4", 
+                        "opClasses": {
+                            "name": "opClasses", 
+                            "opClasses": [
+                                {
+                                    "opClass": "FloatAdd", 
+                                    "name": "opClasses00", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "FloatCmp", 
+                                    "name": "opClasses01", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "FloatCvt", 
+                                    "name": "opClasses02", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "FloatMisc", 
+                                    "name": "opClasses03", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "FloatMult", 
+                                    "name": "opClasses04", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "FloatMultAcc", 
+                                    "name": "opClasses05", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "FloatDiv", 
+                                    "name": "opClasses06", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "FloatSqrt", 
+                                    "name": "opClasses07", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdAdd", 
+                                    "name": "opClasses08", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdAddAcc", 
+                                    "name": "opClasses09", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdAlu", 
+                                    "name": "opClasses10", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdCmp", 
+                                    "name": "opClasses11", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdCvt", 
+                                    "name": "opClasses12", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdMisc", 
+                                    "name": "opClasses13", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdMult", 
+                                    "name": "opClasses14", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdMultAcc", 
+                                    "name": "opClasses15", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdShift", 
+                                    "name": "opClasses16", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdShiftAcc", 
+                                    "name": "opClasses17", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdDiv", 
+                                    "name": "opClasses18", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdSqrt", 
+                                    "name": "opClasses19", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdFloatAdd", 
+                                    "name": "opClasses20", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdFloatAlu", 
+                                    "name": "opClasses21", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdFloatCmp", 
+                                    "name": "opClasses22", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdFloatCvt", 
+                                    "name": "opClasses23", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdFloatDiv", 
+                                    "name": "opClasses24", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdFloatMisc", 
+                                    "name": "opClasses25", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdFloatMult", 
+                                    "name": "opClasses26", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdFloatMultAcc", 
+                                    "name": "opClasses27", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdFloatSqrt", 
+                                    "name": "opClasses28", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdReduceAdd", 
+                                    "name": "opClasses29", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdReduceAlu", 
+                                    "name": "opClasses30", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdReduceCmp", 
+                                    "name": "opClasses31", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdFloatReduceAdd", 
+                                    "name": "opClasses32", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdFloatReduceCmp", 
+                                    "name": "opClasses33", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdAes", 
+                                    "name": "opClasses34", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdAesMix", 
+                                    "name": "opClasses35", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdSha1Hash", 
+                                    "name": "opClasses36", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdSha1Hash2", 
+                                    "name": "opClasses37", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdSha256Hash", 
+                                    "name": "opClasses38", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdSha256Hash2", 
+                                    "name": "opClasses39", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdShaSigma2", 
+                                    "name": "opClasses40", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "SimdShaSigma3", 
+                                    "name": "opClasses41", 
+                                    "type": "MinorOpClass"
+                                }
+                            ], 
+                            "type": "MinorOpClassSet"
+                        }, 
+                        "timings": [
+                            {
+                                "srcRegsRelativeLats": [
+                                ], 
+                                "opClasses": {
+                                    "name": "opClasses", 
+                                    "type": "MinorOpClassSet"
+                                }, 
+                                "type": "MinorFUTiming", 
+                                "name": "timings"
+                            }
+                        ], 
+                        "type": "MinorFU"
+                    }, 
+                    {
+                        "name": "funcUnits5", 
+                        "opClasses": {
+                            "name": "opClasses", 
+                            "opClasses": [
+                                {
+                                    "opClass": "SimdPredAlu", 
+                                    "name": "opClasses", 
+                                    "type": "MinorOpClass"
+                                }
+                            ], 
+                            "type": "MinorOpClassSet"
+                        }, 
+                        "timings": [
+                            {
+                                "srcRegsRelativeLats": [
+                                ], 
+                                "opClasses": {
+                                    "name": "opClasses", 
+                                    "type": "MinorOpClassSet"
+                                }, 
+                                "type": "MinorFUTiming", 
+                                "name": "timings"
+                            }
+                        ], 
+                        "type": "MinorFU"
+                    }, 
+                    {
+                        "name": "funcUnits6", 
+                        "opClasses": {
+                            "name": "opClasses", 
+                            "opClasses": [
+                                {
+                                    "opClass": "MemRead", 
+                                    "name": "opClasses0", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "MemWrite", 
+                                    "name": "opClasses1", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "FloatMemRead", 
+                                    "name": "opClasses2", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "FloatMemWrite", 
+                                    "name": "opClasses3", 
+                                    "type": "MinorOpClass"
+                                }
+                            ], 
+                            "type": "MinorOpClassSet"
+                        }, 
+                        "timings": [
+                            {
+                                "srcRegsRelativeLats": [
+                                ], 
+                                "opClasses": {
+                                    "name": "opClasses", 
+                                    "type": "MinorOpClassSet"
+                                }, 
+                                "type": "MinorFUTiming", 
+                                "name": "timings"
+                            }
+                        ], 
+                        "type": "MinorFU"
+                    }, 
+                    {
+                        "name": "funcUnits7", 
+                        "opClasses": {
+                            "name": "opClasses", 
+                            "opClasses": [
+                                {
+                                    "opClass": "IprAccess", 
+                                    "name": "opClasses0", 
+                                    "type": "MinorOpClass"
+                                }, 
+                                {
+                                    "opClass": "InstPrefetch", 
+                                    "name": "opClasses1", 
+                                    "type": "MinorOpClass"
+                                }
+                            ], 
+                            "type": "MinorOpClassSet"
+                        }, 
+                        "type": "MinorFU"
+                    }
+                ], 
+                "type": "MinorFUPool"
+            }, 
+            "workload": [
+                {
+                    "type": "Process", 
+                    "name": "workload", 
+                    "cmd": [
+                    ], 
+                }
+            ], 
+            "name": "cpu", 
+            "dtb": {
+                "name": "dtb", 
+                "walker": {
+                    "name": "walker", 
+                    "power_state": {
+                        "name": "power_state", 
+                        "type": "PowerState", 
+                    }, 
+                    "type": "RiscvPagetableWalker", 
+                }, 
+                "type": "RiscvTLB", 
+            }, 
+            "tracer": {
+                "type": "ExeTracer", 
+                "name": "tracer", 
+            }, 
+            "branchPred": {
+                "name": "branchPred", 
+                "indirectBranchPred": {
+                    "name": "indirectBranchPred", 
+                    "type": "SimpleIndirectPredictor", 
+                }, 
+                "type": "TournamentBP", 
+            }, 
+            "dcache": {
+                "replacement_policy": {
+                    "type": "LRURP", 
+                    "name": "replacement_policy", 
+                }, 
+                "cpu_side": {
+                }, 
+                "power_state": {
+                    "name": "power_state", 
+                    "type": "PowerState", 
+                }, 
+                "mem_side": {
+                }, 
+                "tags": {
+                    "name": "tags", 
+                    "indexing_policy": {
+                        "name": "indexing_policy", 
+                        "type": "SetAssociative", 
+                    }, 
+                    "power_state": {
+                        "name": "power_state", 
+                        "type": "PowerState", 
+                    }, 
+                    "type": "BaseSetAssoc", 
+                }, 
+                "name": "dcache", 
+                "addr_ranges": [
+                ], 
+                "type": "Cache", 
+            }, 
+        }, 
+    }, 
+    "type": "Root", 
+}

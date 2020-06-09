@@ -21,14 +21,6 @@ action_counts:
       counts: 690
     - name: write_miss
       counts: 377
-  - name: system.chip.exec
-    action_counts:
-    - name: int_instruction
-      counts: 5853
-    - name: mul_instruction
-      counts: 8
-    - name: fp_instruction
-      counts: 3055
   - name: system.chip.itb
     action_counts:
     - name: read_access
