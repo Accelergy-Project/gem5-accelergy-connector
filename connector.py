@@ -43,7 +43,7 @@ def main():
     print("\n----------------- Processing Mappings ------------------")
     arch = Arch(attributes, config)
     action_counts = ActionCounts(stats)
-    for file in os.listdir(paths["mappings"]):
+    for file in sorted(os.listdir(paths["mappings"])):
         path = os.path.join(paths["mappings"], file)
         base, ext = os.path.splitext(path)
         if os.path.isfile(path) and ext == ".py":
@@ -115,11 +115,16 @@ def processMappings(arch, action_counts, module, verbose):
                         if verbose:
                             print("        ATTR     %s = %s" % (attribute[0], value))
                 for action in module.actions:
-                    counts = action_counts.addField(instance, action[1], arch_path, action[0])
-                    if counts is None:
-                        print("        WARNING  cannot locate action count %s.%s" % (instance, action[1]))
-                    elif verbose:
-                        print("        ACTION   %s = %s" % (action[1], counts))
+                    total_counts = 0
+                    for action_name in action[1:]:
+                        counts = action_counts.getActionCounts(instance, action[1], arch_path, action[0])
+                        if counts is None:
+                            print("        WARNING  cannot locate action count %s.%s" % (instance, action[1]))
+                        else:
+                            total_counts += counts
+                    action_counts.addField(arch_path, action[0], total_counts)
+                    if verbose:
+                        print("        ACTION   %s = %s" % (action[1], total_counts))
 
 
 class Arch:
@@ -199,16 +204,17 @@ class ActionCounts:
         self.stats = stats
         self.action_map = {}
 
-    def addField(self, source_path, source_name, arch_path, arch_name):
+    def getActionCounts(self, source_path, source_name, arch_path, arch_name):
         field = source_path + "." + source_name
         if field in self.stats:
-            counts = int(self.stats[field])
-            if arch_path not in self.action_map:
-                self.action_map[arch_path] = []
-            self.action_map[arch_path].append({"name": arch_name, "counts": counts})
-            return counts
+            return int(self.stats[field])
         else:
             return None
+
+    def addField(self, arch_path, arch_name, counts):
+        if arch_path not in self.action_map:
+            self.action_map[arch_path] = []
+        self.action_map[arch_path].append({"name": arch_name, "counts": counts})
 
     def get(self):
         action_counts = []
