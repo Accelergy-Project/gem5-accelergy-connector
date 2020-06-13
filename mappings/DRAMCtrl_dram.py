@@ -2,7 +2,7 @@ gem5_class = "DRAMCtrl"
 accelergy_class = "dram"
 path = "system"
 
-criteria = True
+criteria = False
 
 constants = [
     ("memory_type", "main_memory"),

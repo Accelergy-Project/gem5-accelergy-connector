@@ -1,25 +1,5 @@
 ART:
   version: 0.3
   tables:
-  - name: system.chip.membus
-    area: 1
-  - name: system.chip.l2bus
-    area: 1
-  - name: system.chip.decode
-    area: 1
-  - name: system.chip.fetch
-    area: 1
-  - name: system.chip.itb
-    area: 1
-  - name: system.chip.dtb
-    area: 1
-  - name: system.mem_ctrl
-    area: 1
-  - name: system.chip.l2cache
-    area: 189719.4
   - name: system.chip.icache
-    area: 15084.72
-  - name: system.chip.dcache
-    area: 52534.6
-  - name: system.chip.exec
-    area: 9918.458
+    area: 4973360.0

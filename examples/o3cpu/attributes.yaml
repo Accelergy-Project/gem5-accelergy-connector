@@ -1,3 +1,2 @@
-attributes:
-  technology: 45nm
-  datawidth: 32
+technology: 45nm
+datawidth: 32

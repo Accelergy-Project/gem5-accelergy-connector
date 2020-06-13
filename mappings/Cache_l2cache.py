@@ -3,7 +3,7 @@ accelergy_class = "l2cache"
 path = "system.chip"
 
 def criteria(params):
-    return params["name"] == "l2cache"
+    return False # params["name"] == "l2cache"
 
 constants = []
 

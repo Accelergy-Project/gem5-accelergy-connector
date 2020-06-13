@@ -1,35 +1,9 @@
 action_counts:
   version: 0.3
   local:
-  - name: system.mem_ctrl
-    action_counts:
-    - name: read_access
-      counts: 434
   - name: system.chip.icache
     action_counts:
     - name: read_access
       counts: 1274
     - name: read_miss
       counts: 358
-  - name: system.chip.dcache
-    action_counts:
-    - name: read_access
-      counts: 1473
-    - name: read_miss
-      counts: 153
-    - name: write_access
-      counts: 690
-    - name: write_miss
-      counts: 377
-  - name: system.chip.itb
-    action_counts:
-    - name: read_access
-      counts: 0
-    - name: write_access
-      counts: 0
-  - name: system.chip.dtb
-    action_counts:
-    - name: read_access
-      counts: 0
-    - name: write_access
-      counts: 0

@@ -5,87 +5,23 @@ architecture:
     attributes:
       technology: 45nm
       datawidth: 32
-      clockrate: 1001
-      block_size: 64
-      vdd: 1.0
+      clockrate: 999
     subtree:
     - name: chip
-      attributes:
-        number_hardware_threads: 1
       local:
-      - name: l2cache
-        class: cache
-        attributes:
-          cache_type: l2cache
-          replacement_policy: LRURP
-          associativity: 8
-          block_size: 64
-          tag_size: 64
-          write_buffers: 8
-          size: 262144
-          mshrs: 20
-          response_latency: 20
       - name: icache
         class: cache
+        gem5_class: Cache
         attributes:
+          n_rd_ports: 1
+          n_wr_ports: 1
+          n_rdwr_ports: 1
+          n_banks: 4
           cache_type: icache
-          replacement_policy: LRURP
-          associativity: 2
-          block_size: 64
-          tag_size: 64
-          write_buffers: 8
           size: 16384
-          mshrs: 4
-          response_latency: 2
-      - name: dcache
-        class: cache
-        attributes:
-          cache_type: dcache
-          replacement_policy: LRURP
           associativity: 2
+          data_latency: 2
           block_size: 64
+          mshr_size: 4
           tag_size: 64
-          write_buffers: 8
-          size: 65536
-          mshrs: 4
-          response_latency: 2
-      - name: membus
-        class: coherentxbar
-        attributes:
-          response_latency: 2
-          protocol_response_latency: 1
-          width: 16
-      - name: l2bus
-        class: coherentxbar
-        attributes:
-          response_latency: 1
-          protocol_response_latency: 0
-          width: 32
-      - name: itb
-        class: tlb
-        attributes:
-          number_entries: 64
-      - name: dtb
-        class: tlb
-        attributes:
-          number_entries: 64
-      - name: fuPool
-        class: exec
-        attributes:
-          prediction_width: 1
-          alu_units: 1
-          mul_units: 1
-          fpu_units: 1
-    local:
-    - name: mem_ctrl
-      class: memory_controller
-      attributes:
-        memory_type: main_memory
-        response_latency: 13750
-        size: 536870912
-        page_size: 1024
-        burst_length: 8
-        bus_width: 8
-        ranks_per_channel: 2
-        banks_per_rank: 8
-        port: membus
+          write_buffer_size: 8

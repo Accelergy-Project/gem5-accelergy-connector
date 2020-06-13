@@ -129,14 +129,23 @@ def processMappings(arch, action_counts, module, verbose):
 
 class Arch:
     def __init__(self, attributes, config):
-        self.arch = {"name": "system"}  # architecture tree
+        self.arch = {"name": "system", "attributes": {}}  # architecture tree
         self.config = config
         self.instances = {}  # instances of each gem5 class in config
-        for attribute, value in attributes["attributes"].items():
-            if "attributes" not in self.arch:
-                self.arch["attributes"] = {}
-            self.arch["attributes"][attribute] = value
         self.populateClassInstances(config["system"], "system")
+
+        if "technology" not in attributes:
+            raise Exception("Attribute technology not in attributes.yaml")
+        self.arch["attributes"]["technology"] = attributes["technology"]
+        if "datawidth" not in attributes:
+            raise Exception("Attribute datawidth not in attributes.yaml")
+        self.arch["attributes"]["datawidth"] = attributes["datawidth"]
+        clockrate = self.getParamField("system.clk_domain", "clock")
+        if clockrate is None:
+            raise Exception("Unable to parse clockrate at system.clk_domain.clock")
+        clockrate = int(1e6/(float(clockrate))) # convert ps to MHz
+        self.arch["attributes"]["clockrate"] = clockrate
+
 
     def populateClassInstances(self, source, path):
         if "type" in source:

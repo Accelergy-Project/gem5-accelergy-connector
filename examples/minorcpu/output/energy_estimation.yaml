@@ -1,15 +1,5 @@
 energy_estimation:
   version: 0.3
   components:
-  - name: system.mem_ctrl
-    energy: 477
   - name: system.chip.icache
-    energy: 409932.88
-  - name: system.chip.dcache
-    energy: 402717.441
-  - name: system.chip.exec
-    energy: 54702.146
-  - name: system.chip.itb
-    energy: 0
-  - name: system.chip.dtb
-    energy: 0
+    energy: 635335.488

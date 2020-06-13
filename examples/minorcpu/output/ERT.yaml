@@ -1,121 +1,17 @@
 ERT:
   version: 0.3
   tables:
-  - name: system.chip.membus
-    actions:
-    - name: transfer_random
-      arguments: null
-      energy: 1
-    - name: transfer_repeated
-      arguments: null
-      energy: 1
-    - name: idle
-      arguments: null
-      energy: 0
-  - name: system.chip.l2bus
-    actions:
-    - name: transfer_random
-      arguments: null
-      energy: 1
-    - name: transfer_repeated
-      arguments: null
-      energy: 1
-    - name: idle
-      arguments: null
-      energy: 0
-  - name: system.chip.decode
-    actions:
-    - name: filler
-      arguments: null
-      energy: 1
-  - name: system.chip.fetch
-    actions:
-    - name: filler
-      arguments: null
-      energy: 1
-  - name: system.chip.itb
-    actions:
-    - name: read_access
-      arguments: null
-      energy: 1
-    - name: write_access
-      arguments: null
-      energy: 1
-  - name: system.chip.dtb
-    actions:
-    - name: read_access
-      arguments: null
-      energy: 1
-    - name: write_access
-      arguments: null
-      energy: 1
-  - name: system.mem_ctrl
-    actions:
-    - name: read_access
-      arguments: null
-      energy: 1
-    - name: write_access
-      arguments: null
-      energy: 1
-  - name: system.chip.l2cache
-    actions:
-    - name: read_access
-      arguments: null
-      energy: 1652.56
-    - name: read_miss
-      arguments: null
-      energy: 1
-    - name: write_access
-      arguments: null
-      energy: 2120.07
-    - name: write_miss
-      arguments: null
-      energy: 1
-    - name: idle
-      arguments: null
-      energy: 0.057
   - name: system.chip.icache
     actions:
     - name: read_access
       arguments: null
-      energy: 79.226
+      energy: 166.24
     - name: read_miss
       arguments: null
-      energy: 621.369
+      energy: 692.876
     - name: write_access
       arguments: null
-      energy: 139.944
+      energy: 0.0
     - name: write_miss
       arguments: null
-      energy: 1
-    - name: idle
-      arguments: null
-      energy: 0.001
-  - name: system.chip.dcache
-    actions:
-    - name: read_access
-      arguments: null
-      energy: 126.605
-    - name: read_miss
-      arguments: null
-      energy: 1
-    - name: write_access
-      arguments: null
-      energy: 247.417
-    - name: write_miss
-      arguments: null
-      energy: 1
-    - name: idle
-      arguments: null
-      energy: 0.003
-  - name: system.chip.exec
-    actions:
-    - name: int_instruction
-      arguments: null
-      energy: 0.086
-    - name: mul_instruction
-      arguments: null
-      energy: 8.63
-    - name: fp_instruction
-      arguments: null
-      energy: 23.73
+      energy: 0.0
