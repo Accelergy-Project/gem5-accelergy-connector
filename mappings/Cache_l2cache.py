@@ -3,24 +3,28 @@ accelergy_class = "l2cache"
 path = "system.chip"
 
 def criteria(params):
-    return False # params["name"] == "l2cache"
+    return params["name"] == "l2cache"
 
-constants = []
+constants = [
+    ("n_rd_ports", 1),
+    ("n_wr_ports", 1),
+    ("n_rdwr_ports", 1),
+    ("n_banks", 4)
+]
 
 attributes = [
     ("cache_type", "name"),
-    ("replacement_policy", "replacement_policy.type"),
-    ("associativity", "assoc"),
-    ("block_size", "tags.block_size"),
-    ("tag_size", "tags.entry_size"),
-    ("write_buffers", "write_buffers"),
     ("size", "size"),
-    ("mshrs", "mshrs"),
-    ("response_latency", "response_latency"),
+    ("associativity", "assoc"),
+    ("data_latency", "response_latency"),
+    ("block_size", "tags.block_size"),
+    ("mshr_size", "mshrs"),
+    ("tag_size", "tags.entry_size"),
+    ("write_buffer_size", "write_buffers"),
 ]
 
 actions = [
-    ("read_access", "ReadExReq_hits::total", "ReadSharedReq_hits::total"),
+    # l2cache uses coherency actions ReadEx and ReadShared
+    ("read_access", "ReadExReq_accesses::total", "ReadSharedReq_accesses::total"),
     ("read_miss", "ReadExReq_misses::total", "ReadSharedReq_misses::total"),
-    # TODO figure out miss counts
 ]

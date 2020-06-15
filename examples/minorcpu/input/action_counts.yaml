@@ -4,16 +4,22 @@ action_counts:
   - name: system.chip.dcache
     action_counts:
     - name: read_access
-      counts: 1356
+      counts: 1423
     - name: read_miss
       counts: 67
     - name: write_access
-      counts: 933
+      counts: 1067
     - name: write_miss
       counts: 134
   - name: system.chip.icache
     action_counts:
     - name: read_access
-      counts: 2288
+      counts: 2656
     - name: read_miss
       counts: 368
+  - name: system.chip.l2cache
+    action_counts:
+    - name: read_access
+      counts: 517
+    - name: read_miss
+      counts: 478

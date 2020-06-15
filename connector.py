@@ -117,14 +117,14 @@ def processMappings(arch, action_counts, module, verbose):
                 for action in module.actions:
                     total_counts = 0
                     for action_name in action[1:]:
-                        counts = action_counts.getActionCounts(instance, action[1], arch_path, action[0])
+                        counts = action_counts.getActionCounts(instance, action_name, arch_path, action[0])
                         if counts is None:
-                            print("        WARNING  cannot locate action count %s.%s" % (instance, action[1]))
+                            print("        WARNING  cannot locate action count %s.%s" % (instance, action_name))
                         else:
                             total_counts += counts
                     action_counts.addField(arch_path, action[0], total_counts)
                     if verbose:
-                        print("        ACTION   %s = %s" % (action[1], total_counts))
+                        print("        ACTION   %s = %s" % (action[0], total_counts))
 
 
 class Arch:
