@@ -9,19 +9,36 @@ architecture:
     subtree:
     - name: chip
       local:
-      - name: icache
-        class: cache
+      - name: dcache
+        class: dcache
         gem5_class: Cache
         attributes:
           n_rd_ports: 1
           n_wr_ports: 1
           n_rdwr_ports: 1
-          n_banks: 4
-          cache_type: icache
-          size: 16384
+          n_banks: 1
+          cache_type: dcache
+          size: 65536
           associativity: 2
           data_latency: 2
           block_size: 64
           mshr_size: 4
           tag_size: 64
           write_buffer_size: 8
+    local:
+    - name: icache
+      class: cache
+      gem5_class: Cache
+      attributes:
+        n_rd_ports: 1
+        n_wr_ports: 1
+        n_rdwr_ports: 1
+        n_banks: 1
+        cache_type: icache
+        size: 16384
+        associativity: 2
+        data_latency: 2
+        block_size: 64
+        mshr_size: 4
+        tag_size: 64
+        write_buffer_size: 8

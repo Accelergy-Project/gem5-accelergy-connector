@@ -5,10 +5,10 @@ ERT:
     actions:
     - name: read_access
       arguments: null
-      energy: 166.24
+      energy: 79.226
     - name: read_miss
       arguments: null
-      energy: 692.876
+      energy: 621.368
     - name: write_access
       arguments: null
       energy: 0.0

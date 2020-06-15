@@ -2,4 +2,4 @@ energy_estimation:
   version: 0.3
   components:
   - name: system.chip.icache
-    energy: 635335.488
+    energy: 409932.512

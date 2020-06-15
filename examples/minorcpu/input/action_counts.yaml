@@ -1,6 +1,16 @@
 action_counts:
   version: 0.3
   local:
+  - name: system.chip.dcache
+    action_counts:
+    - name: read_access
+      counts: 1356
+    - name: read_miss
+      counts: 67
+    - name: write_access
+      counts: 933
+    - name: write_miss
+      counts: 134
   - name: system.chip.icache
     action_counts:
     - name: read_access

@@ -9,7 +9,7 @@ constants = [
     ("n_rd_ports", 1),
     ("n_wr_ports", 1),
     ("n_rdwr_ports", 1),
-    ("n_banks", 4)
+    ("n_banks", 1)
 ]
 
 attributes = [

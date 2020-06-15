@@ -2,4 +2,4 @@ ART:
   version: 0.3
   tables:
   - name: system.chip.icache
-    area: 4973360.0
+    area: 569708.0

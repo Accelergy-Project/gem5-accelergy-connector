@@ -2,5 +2,5 @@ ART_summary:
   version: 0.3
   table_summary:
   - name: system.chip.icache
-    area: 4973360.0
+    area: 569708.0
     primitive_estimations: Cacti
