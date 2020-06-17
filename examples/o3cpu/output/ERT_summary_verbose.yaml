@@ -1,16 +1,49 @@
 ERT_summary:
   version: 0.3
   table_summary:
+  - name: system.chip.cpu.cpu_fpu
+    actions:
+    - name: fp_instruction
+      energy: 23.73
+    primitive_estimation(s):
+    - system.chip.cpu.cpu_fpu:
+        estimator: McPat
+  - name: system.chip.dcache
+    actions:
+    - name: read_access
+      energy: 486.678
+    - name: read_miss
+      energy: 1015.166
+    - name: write_access
+      energy: 340.038
+    - name: write_miss
+      energy: 341.287
+    primitive_estimation(s):
+    - system.chip.dcache:
+        estimator: McPat
   - name: system.chip.icache
     actions:
     - name: read_access
-      energy: 166.24
+      energy: 79.226
     - name: read_miss
-      energy: 692.876
+      energy: 700.595
     - name: write_access
-      energy: 0.0
+      energy: 248.116
     - name: write_miss
-      energy: 0.0
+      energy: 1
     primitive_estimation(s):
     - system.chip.icache:
+        estimator: McPat
+  - name: system.chip.l2cache
+    actions:
+    - name: read_access
+      energy: 336.874
+    - name: read_miss
+      energy: 19.936
+    - name: write_access
+      energy: 391.411
+    - name: write_miss
+      energy: 1468.568
+    primitive_estimation(s):
+    - system.chip.l2cache:
         estimator: McPat

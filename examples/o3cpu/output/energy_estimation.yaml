@@ -1,5 +1,11 @@
 energy_estimation:
   version: 0.3
   components:
+  - name: system.chip.dcache
+    energy: 1438144.571
   - name: system.chip.icache
-    energy: 459839.368
+    energy: 380109.842
+  - name: system.chip.l2cache
+    energy: 165635.508
+  - name: system.chip.cpu.cpu_fpu
+    energy: 284.76

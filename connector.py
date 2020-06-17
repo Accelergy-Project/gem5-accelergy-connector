@@ -89,6 +89,8 @@ def processMappings(arch, action_counts, module, verbose):
                 add = module.criteria(param)
             if add:
                 name = instance.split(".")[-1]
+                if module.name_append != "":
+                    name += "_" + module.name_append
                 arch_path = module.path + "." + name
                 print("    %s → %s" % (instance, arch_path))
                 component = arch.addLocal(module.path, name, module.accelergy_class, module.gem5_class)
@@ -173,7 +175,7 @@ class Arch:
             if nextComponent is None:
                 nextComponent = {"name": pathName}
                 component["subtree"].append(nextComponent)
-                component = nextComponent
+            component = nextComponent
         if "local" not in component:
             component["local"] = []
         newComponent = {"name": name, "class": accelergy_class, "gem5_class": gem5_class}

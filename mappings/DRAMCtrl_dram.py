@@ -1,6 +1,7 @@
 gem5_class = "DRAMCtrl"
 accelergy_class = "dram"
 path = "system"
+name_append = ""
 
 criteria = False
 

@@ -1,9 +1,29 @@
 action_counts:
   version: 0.3
   local:
+  - name: system.chip.dcache
+    action_counts:
+    - name: read_access
+      counts: 1626
+    - name: read_miss
+      counts: 153
+    - name: write_access
+      counts: 1067
+    - name: write_miss
+      counts: 377
   - name: system.chip.icache
     action_counts:
     - name: read_access
-      counts: 1274
+      counts: 1632
     - name: read_miss
       counts: 358
+  - name: system.chip.l2cache
+    action_counts:
+    - name: read_access
+      counts: 466
+    - name: read_miss
+      counts: 434
+  - name: system.chip.cpu.cpu_fpu
+    action_counts:
+    - name: fp_instruction
+      counts: 12

@@ -23,3 +23,7 @@ action_counts:
       counts: 517
     - name: read_miss
       counts: 478
+  - name: system.chip.cpu.cpu_fpu
+    action_counts:
+    - name: fp_instruction
+      counts: 0

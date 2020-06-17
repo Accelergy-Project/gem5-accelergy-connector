@@ -1,6 +1,7 @@
 gem5_class = "Cache"
-accelergy_class = "dcache"
+accelergy_class = "cache"
 path = "system.chip"
+name_append = ""
 
 def criteria(params):
     return params["name"] == "dcache"

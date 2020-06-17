@@ -1,6 +1,15 @@
 ART_summary:
   version: 0.3
   table_summary:
+  - name: system.chip.cpu.cpu_fpu
+    area: 1.229
+    primitive_estimations: McPat
+  - name: system.chip.dcache
+    area: 986653.0
+    primitive_estimations: Cacti
   - name: system.chip.icache
-    area: 4973360.0
+    area: 569708.0
+    primitive_estimations: Cacti
+  - name: system.chip.l2cache
+    area: 54298700.0
     primitive_estimations: Cacti

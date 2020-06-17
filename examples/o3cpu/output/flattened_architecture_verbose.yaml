@@ -1,7 +1,34 @@
 architecture:
   version: 0.3
   local:
+  - name: system.chip.cpu.cpu_fpu
+    class: fpu_unit
+    actions:
+    - name: fp_instruction
+      arguments: null
+  - name: system.chip.dcache
+    class: cache
+    actions:
+    - name: read_access
+      arguments: null
+    - name: read_miss
+      arguments: null
+    - name: write_access
+      arguments: null
+    - name: write_miss
+      arguments: null
   - name: system.chip.icache
+    class: cache
+    actions:
+    - name: read_access
+      arguments: null
+    - name: read_miss
+      arguments: null
+    - name: write_access
+      arguments: null
+    - name: write_miss
+      arguments: null
+  - name: system.chip.l2cache
     class: cache
     actions:
     - name: read_access

@@ -9,6 +9,22 @@ architecture:
     subtree:
     - name: chip
       local:
+      - name: dcache
+        class: cache
+        gem5_class: Cache
+        attributes:
+          n_rd_ports: 1
+          n_wr_ports: 1
+          n_rdwr_ports: 1
+          n_banks: 1
+          cache_type: dcache
+          size: 65536
+          associativity: 2
+          data_latency: 2
+          block_size: 64
+          mshr_size: 4
+          tag_size: 64
+          write_buffer_size: 8
       - name: icache
         class: cache
         gem5_class: Cache
@@ -16,7 +32,7 @@ architecture:
           n_rd_ports: 1
           n_wr_ports: 1
           n_rdwr_ports: 1
-          n_banks: 4
+          n_banks: 1
           cache_type: icache
           size: 16384
           associativity: 2
@@ -25,3 +41,25 @@ architecture:
           mshr_size: 4
           tag_size: 64
           write_buffer_size: 8
+      - name: l2cache
+        class: cache
+        gem5_class: Cache
+        attributes:
+          n_rd_ports: 1
+          n_wr_ports: 1
+          n_rdwr_ports: 1
+          n_banks: 4
+          cache_type: l2cache
+          size: 262144
+          associativity: 8
+          data_latency: 20
+          block_size: 64
+          mshr_size: 20
+          tag_size: 64
+          write_buffer_size: 8
+      subtree:
+      - name: cpu
+        local:
+        - name: cpu_fpu
+          class: fpu_unit
+          gem5_class: DerivO3CPU
