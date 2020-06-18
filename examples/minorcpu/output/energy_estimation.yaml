@@ -7,6 +7,10 @@ energy_estimation:
     energy: 468243.216
   - name: system.chip.l2cache
     energy: 183693.266
+  - name: system.chip.membus
+    energy: 174830.994
+  - name: system.chip.l2bus
+    energy: 435428.136
   - name: system.chip.cpu.cpu_fpu
     energy: 0.0
   - name: system.chip.cpu.cpu_int_alu

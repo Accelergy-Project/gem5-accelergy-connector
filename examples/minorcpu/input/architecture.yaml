@@ -57,6 +57,24 @@ architecture:
           mshr_size: 20
           tag_size: 64
           write_buffer_size: 8
+      - name: membus
+        class: xbar
+        gem5_class: CoherentXBar
+        attributes:
+          horizontal_nodes: 1
+          vertical_nodes: 1
+          link_throughput: 1
+          link_latency: 2
+          flit_bytes: 16
+      - name: l2bus
+        class: xbar
+        gem5_class: CoherentXBar
+        attributes:
+          horizontal_nodes: 1
+          vertical_nodes: 1
+          link_throughput: 1
+          link_latency: 1
+          flit_bytes: 32
       subtree:
       - name: cpu
         local:

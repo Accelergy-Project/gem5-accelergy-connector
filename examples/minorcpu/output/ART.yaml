@@ -13,3 +13,7 @@ ART:
     area: 569708.0
   - name: system.chip.l2cache
     area: 54298700.0
+  - name: system.chip.membus
+    area: 0.063
+  - name: system.chip.l2bus
+    area: 0.126

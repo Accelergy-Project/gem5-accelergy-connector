@@ -49,3 +49,13 @@ architecture:
       arguments: null
     - name: write_miss
       arguments: null
+  - name: system.chip.membus
+    class: xbar
+    actions:
+    - name: access
+      arguments: null
+  - name: system.chip.l2bus
+    class: xbar
+    actions:
+    - name: access
+      arguments: null

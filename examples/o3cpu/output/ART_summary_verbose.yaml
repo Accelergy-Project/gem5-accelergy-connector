@@ -19,3 +19,9 @@ ART_summary:
   - name: system.chip.l2cache
     area: 54298700.0
     primitive_estimations: Cacti
+  - name: system.chip.membus
+    area: 0.063
+    primitive_estimations: McPat
+  - name: system.chip.l2bus
+    area: 0.126
+    primitive_estimations: McPat

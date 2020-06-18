@@ -23,6 +23,14 @@ action_counts:
       counts: 466
     - name: read_miss
       counts: 434
+  - name: system.chip.membus
+    action_counts:
+    - name: access
+      counts: 869
+  - name: system.chip.l2bus
+    action_counts:
+    - name: access
+      counts: 1056
   - name: system.chip.cpu.cpu_fpu
     action_counts:
     - name: instruction

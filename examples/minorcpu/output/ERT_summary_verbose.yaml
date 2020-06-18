@@ -61,3 +61,17 @@ ERT_summary:
     primitive_estimation(s):
     - system.chip.l2cache:
         estimator: McPat
+  - name: system.chip.membus
+    actions:
+    - name: access
+      energy: 183.261
+    primitive_estimation(s):
+    - system.chip.membus:
+        estimator: McPat
+  - name: system.chip.l2bus
+    actions:
+    - name: access
+      energy: 366.522
+    primitive_estimation(s):
+    - system.chip.l2bus:
+        estimator: McPat

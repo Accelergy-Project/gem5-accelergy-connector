@@ -58,3 +58,13 @@ ERT:
     - name: write_miss
       arguments: null
       energy: 1468.568
+  - name: system.chip.membus
+    actions:
+    - name: access
+      arguments: null
+      energy: 183.261
+  - name: system.chip.l2bus
+    actions:
+    - name: access
+      arguments: null
+      energy: 366.522
