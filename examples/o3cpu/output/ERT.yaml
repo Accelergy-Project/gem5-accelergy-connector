@@ -3,9 +3,19 @@ ERT:
   tables:
   - name: system.chip.cpu.cpu_fpu
     actions:
-    - name: fp_instruction
+    - name: instruction
       arguments: null
       energy: 23.73
+  - name: system.chip.cpu.cpu_int_alu
+    actions:
+    - name: instruction
+      arguments: null
+      energy: 7.91
+  - name: system.chip.cpu.cpu_mul_alu
+    actions:
+    - name: instruction
+      arguments: null
+      energy: 15.82
   - name: system.chip.dcache
     actions:
     - name: read_access

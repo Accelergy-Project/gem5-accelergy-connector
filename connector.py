@@ -71,7 +71,7 @@ def main():
         yaml.dump(action_counts_yaml, file, sort_keys=False)
 
     # invoke accelergy
-    accelergy_command = "accelergy -o " + paths["output"] + " " + paths["input"] + "/*.yaml " + "components/*.yaml -v 1"
+    accelergy_command = "accelergy -o " + paths["output"] + " " + paths["input"] + "/*.yaml " + " -v 1"
     print("\n---------------- Hand-off to Accelergy  ----------------")
     print(accelergy_command)
     print()

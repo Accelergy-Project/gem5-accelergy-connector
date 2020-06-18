@@ -3,10 +3,24 @@ ERT_summary:
   table_summary:
   - name: system.chip.cpu.cpu_fpu
     actions:
-    - name: fp_instruction
+    - name: instruction
       energy: 23.73
     primitive_estimation(s):
     - system.chip.cpu.cpu_fpu:
+        estimator: McPat
+  - name: system.chip.cpu.cpu_int_alu
+    actions:
+    - name: instruction
+      energy: 7.91
+    primitive_estimation(s):
+    - system.chip.cpu.cpu_int_alu:
+        estimator: McPat
+  - name: system.chip.cpu.cpu_mul_alu
+    actions:
+    - name: instruction
+      energy: 15.82
+    primitive_estimation(s):
+    - system.chip.cpu.cpu_mul_alu:
         estimator: McPat
   - name: system.chip.dcache
     actions:

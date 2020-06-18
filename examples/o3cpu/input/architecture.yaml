@@ -61,5 +61,17 @@ architecture:
       - name: cpu
         local:
         - name: cpu_fpu
-          class: fpu_unit
+          class: func_unit
           gem5_class: DerivO3CPU
+          attributes:
+            type: fpu
+        - name: cpu_int_alu
+          class: func_unit
+          gem5_class: DerivO3CPU
+          attributes:
+            type: int_alu
+        - name: cpu_mul_alu
+          class: func_unit
+          gem5_class: DerivO3CPU
+          attributes:
+            type: mul_alu

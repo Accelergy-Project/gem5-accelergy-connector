@@ -25,5 +25,13 @@ action_counts:
       counts: 434
   - name: system.chip.cpu.cpu_fpu
     action_counts:
-    - name: fp_instruction
-      counts: 12
+    - name: instruction
+      counts: 0
+  - name: system.chip.cpu.cpu_int_alu
+    action_counts:
+    - name: instruction
+      counts: 4115
+  - name: system.chip.cpu.cpu_mul_alu
+    action_counts:
+    - name: instruction
+      counts: 6

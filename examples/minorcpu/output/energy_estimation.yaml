@@ -9,3 +9,7 @@ energy_estimation:
     energy: 183693.266
   - name: system.chip.cpu.cpu_fpu
     energy: 0.0
+  - name: system.chip.cpu.cpu_int_alu
+    energy: 32755.31
+  - name: system.chip.cpu.cpu_mul_alu
+    energy: 94.92
