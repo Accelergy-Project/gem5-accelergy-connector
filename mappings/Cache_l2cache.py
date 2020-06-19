@@ -25,7 +25,8 @@ attributes = [
 ]
 
 actions = [
-    # l2cache uses coherency actions ReadEx and ReadShared
     ("read_access", "ReadExReq_accesses::total", "ReadSharedReq_accesses::total"),
     ("read_miss", "ReadExReq_misses::total", "ReadSharedReq_misses::total"),
+    ("write_access", "WritebackDirty_accesses::total"),
+    ("write_miss", "WritebackDirty_misses::total"),
 ]
