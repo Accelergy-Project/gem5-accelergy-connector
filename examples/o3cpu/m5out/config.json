@@ -509,7 +509,7 @@
                     "path": "system.cpu.workload", 
                     "name": "workload", 
                     "cmd": [
-                        "/homes/frwang/urop/gem5-accelergy-connector/examples/o3cpu/../../gem5/tests/test-progs/hello/bin/riscv/linux/hello"
+                        "../progs/all"
                     ], 
                     "errout": "cerr", 
                     "useArchPT": false, 

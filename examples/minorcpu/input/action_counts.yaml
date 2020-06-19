@@ -4,42 +4,42 @@ action_counts:
   - name: system.chip.dcache
     action_counts:
     - name: read_access
-      counts: 1423
+      counts: 3539082
     - name: read_miss
-      counts: 67
+      counts: 32782
     - name: write_access
-      counts: 1067
+      counts: 1441861
     - name: write_miss
-      counts: 134
+      counts: 32776
   - name: system.chip.icache
     action_counts:
     - name: read_access
-      counts: 2656
+      counts: 2703736
     - name: read_miss
-      counts: 368
+      counts: 20
   - name: system.chip.l2cache
     action_counts:
     - name: read_access
-      counts: 517
+      counts: 49190
     - name: read_miss
-      counts: 478
+      counts: 32806
   - name: system.chip.membus
     action_counts:
     - name: access
-      counts: 954
+      counts: 94302
   - name: system.chip.l2bus
     action_counts:
     - name: access
-      counts: 1188
+      counts: 146526
   - name: system.chip.cpu.cpu_fpu
     action_counts:
     - name: instruction
-      counts: 0
+      counts: 131072
   - name: system.chip.cpu.cpu_int_alu
     action_counts:
     - name: instruction
-      counts: 4141
+      counts: 12321048
   - name: system.chip.cpu.cpu_mul_alu
     action_counts:
     - name: instruction
-      counts: 6
+      counts: 0
