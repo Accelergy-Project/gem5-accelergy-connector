@@ -93,6 +93,16 @@ architecture:
           gem5_class: MinorCPU
           attributes:
             type: mul_alu
+        - name: cpu_regfile_fp
+          class: cpu_regfile
+          gem5_class: MinorCPU
+          attributes:
+            type: fp
+        - name: cpu_regfile_int
+          class: cpu_regfile
+          gem5_class: MinorCPU
+          attributes:
+            type: int
         - name: branchPred
           class: tournament_bp
           gem5_class: TournamentBP

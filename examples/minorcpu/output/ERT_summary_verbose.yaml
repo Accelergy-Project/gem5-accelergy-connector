@@ -22,6 +22,24 @@ ERT_summary:
     primitive_estimation(s):
     - system.chip.cpu.cpu_mul_alu:
         estimator: McPat
+  - name: system.chip.cpu.cpu_regfile_fp
+    actions:
+    - name: read
+      energy: 3.729
+    - name: write
+      energy: 4.811
+    primitive_estimation(s):
+    - system.chip.cpu.cpu_regfile_fp:
+        estimator: McPat
+  - name: system.chip.cpu.cpu_regfile_int
+    actions:
+    - name: read
+      energy: 5.526
+    - name: write
+      energy: 7.292
+    primitive_estimation(s):
+    - system.chip.cpu.cpu_regfile_int:
+        estimator: McPat
   - name: system.chip.cpu.branchPred
     actions:
     - name: access

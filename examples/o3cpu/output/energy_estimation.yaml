@@ -17,5 +17,9 @@ energy_estimation:
     energy: 67392606.75
   - name: system.chip.cpu.cpu_mul_alu
     energy: 4147118.08
+  - name: system.chip.cpu.cpu_regfile_fp
+    energy: 3358287.994
+  - name: system.chip.cpu.cpu_regfile_int
+    energy: 162989140.478
   - name: system.chip.cpu.branchPred
     energy: 10814594.385

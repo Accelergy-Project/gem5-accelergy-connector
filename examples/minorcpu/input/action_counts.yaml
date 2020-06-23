@@ -47,6 +47,18 @@ action_counts:
     action_counts:
     - name: instruction
       counts: 262144
+  - name: system.chip.cpu.cpu_regfile_fp
+    action_counts:
+    - name: read
+      counts: 393217
+    - name: write
+      counts: 393217
+  - name: system.chip.cpu.cpu_regfile_int
+    action_counts:
+    - name: read
+      counts: 18612775
+    - name: write
+      counts: 11665720
   - name: system.chip.cpu.branchPred
     action_counts:
     - name: access

@@ -16,6 +16,22 @@ ERT:
     - name: instruction
       arguments: null
       energy: 15.82
+  - name: system.chip.cpu.cpu_regfile_fp
+    actions:
+    - name: read
+      arguments: null
+      energy: 3.729
+    - name: write
+      arguments: null
+      energy: 4.811
+  - name: system.chip.cpu.cpu_regfile_int
+    actions:
+    - name: read
+      arguments: null
+      energy: 5.526
+    - name: write
+      arguments: null
+      energy: 7.292
   - name: system.chip.cpu.branchPred
     actions:
     - name: access
