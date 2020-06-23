@@ -22,6 +22,15 @@ ERT_summary:
     primitive_estimation(s):
     - system.chip.cpu.cpu_mul_alu:
         estimator: McPat
+  - name: system.chip.cpu.branchPred
+    actions:
+    - name: access
+      energy: 18.319
+    - name: miss
+      energy: 26.099
+    primitive_estimation(s):
+    - system.chip.cpu.branchPred:
+        estimator: McPat
   - name: system.chip.dcache
     actions:
     - name: read_access

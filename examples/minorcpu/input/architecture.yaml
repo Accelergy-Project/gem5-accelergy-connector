@@ -93,3 +93,13 @@ architecture:
           gem5_class: MinorCPU
           attributes:
             type: mul_alu
+        - name: branchPred
+          class: tournament_bp
+          gem5_class: TournamentBP
+          attributes:
+            local_pred_entries: 2048
+            local_pred_bits: 2
+            global_pred_entries: 8192
+            global_pred_bits: 2
+            choice_pred_entries: 8192
+            choice_pred_bits: 2

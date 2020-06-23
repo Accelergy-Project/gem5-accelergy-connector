@@ -47,3 +47,9 @@ action_counts:
     action_counts:
     - name: instruction
       counts: 262144
+  - name: system.chip.cpu.branchPred
+    action_counts:
+    - name: access
+      counts: 590018
+    - name: miss
+      counts: 105

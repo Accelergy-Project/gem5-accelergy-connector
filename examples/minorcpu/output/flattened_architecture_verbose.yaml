@@ -16,6 +16,13 @@ architecture:
     actions:
     - name: instruction
       arguments: null
+  - name: system.chip.cpu.branchPred
+    class: tournament_bp
+    actions:
+    - name: access
+      arguments: null
+    - name: miss
+      arguments: null
   - name: system.chip.dcache
     class: cache
     actions:

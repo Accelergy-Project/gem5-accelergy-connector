@@ -16,6 +16,14 @@ ERT:
     - name: instruction
       arguments: null
       energy: 15.82
+  - name: system.chip.cpu.branchPred
+    actions:
+    - name: access
+      arguments: null
+      energy: 18.319
+    - name: miss
+      arguments: null
+      energy: 26.099
   - name: system.chip.dcache
     actions:
     - name: read_access

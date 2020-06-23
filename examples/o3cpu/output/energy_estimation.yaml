@@ -17,3 +17,5 @@ energy_estimation:
     energy: 67392606.75
   - name: system.chip.cpu.cpu_mul_alu
     energy: 4147118.08
+  - name: system.chip.cpu.branchPred
+    energy: 10814594.385

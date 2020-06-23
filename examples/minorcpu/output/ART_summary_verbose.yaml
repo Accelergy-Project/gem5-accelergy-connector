@@ -10,6 +10,9 @@ ART_summary:
   - name: system.chip.cpu.cpu_mul_alu
     area: 0.118
     primitive_estimations: McPat
+  - name: system.chip.cpu.branchPred
+    area: 1
+    primitive_estimations: dummy_table
   - name: system.chip.dcache
     area: 986653.0
     primitive_estimations: Cacti

@@ -7,6 +7,8 @@ ART:
     area: 0.118
   - name: system.chip.cpu.cpu_mul_alu
     area: 0.118
+  - name: system.chip.cpu.branchPred
+    area: 1
   - name: system.chip.dcache
     area: 986653.0
   - name: system.chip.icache
