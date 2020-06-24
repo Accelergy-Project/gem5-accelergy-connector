@@ -1,4 +1,6 @@
-# gem5 to Accelergy Connector
+# Gem5 to Accelergy Connector
+The Gem5 to Accelergy connector converts Gem5 `m5out` descriptions and statistics into the Accelergy format for power
+and area estimations. Most of the components use McPat as the backend estimator.
 
 ## Get started
 Required packages
@@ -9,53 +11,90 @@ Required packages
 Downloading and setting up the CLI command "accelergy" is also required. The installation for this can be found [here](https://github.com/Accelergy-Project/accelergy).
 
 ## Run an example
-The `example` directory gives an example of the input and output files. It can be reproduced with the following command.
-
-```python3 connector.py -m example/m5out -i example/input -o example/output -c example/attributes.yaml```
+The `examples` directory gives examples of the input and output files for the Gem5 in order model `MinorCPU` and the out
+of order model `O3CPU`. It can be reproduced with the script `run.sh`.
 
 In order to reproduce reference outputs, please install
 [accelergy-mcpat-plug-in](https://github.com/Accelergy-Project/accelergy-mcpat-plug-in),
 [accelergy-cacti-plug-in](https://github.com/Accelergy-Project/accelergy-cacti-plug-in), and
 [accelergy-aladdin-plug-in](https://github.com/Accelergy-Project/accelergy-aladdin-plug-in).
 
-In the example run:
-
-- mcpat estimates icache and dcache read energy
-- cacti estimates icache and dcache write energy and l2 cache energy
-- aladdin estimates integer fu energy
-
-### Input Flags
-- ```-m``` : specifies the gem5 m5out directory path that will be used to generate the accelergy data
-- ```-i``` : specifies the directory to put the accelergy input, for details of what this contains view the accelergy documentation.
-- ```-o``` : specifies the directory to put the accelergy output, for details of what this contains view the accelergy documentation.
+## Input Flags
+- ```-m``` : specifies the gem5 m5out directory path that will be used to generate the Accelergy data
+- ```-i``` : specifies the directory to put the Accelergy input, for details of what this contains view the Accelergy documentation.
+- ```-o``` : specifies the directory to put the Accelergy output, for details of what this contains view the Accelergy documentation.
 - ```-a``` : specifies the attributes file for this conversion, detailing some misc required information
-- ```-d``` : when present accelergy will not be called
+- ```-d``` : when present Accelergy will not be called
 - ```-v``` : when present output will be verbose 
 
-### Config File
-  - hardware attributes used to specify system hardware attributes that can't be inferred from gem5
-    ```
-      technology: 45nm  (currently required)
-      datawidth: 32     (currently required)
-        ...             (additional optional attributes)
-    ```
-  - mapping of components to their gem5 class names so that component of a type (ie cache) can be found via this class name in the attributes.json within the m5out. This is currently setup with the naming of the classes present in minorCPU from gem5, and additional class names can be added to each of these lists as they come up for your architecture and based on how you name your classes in gem5.
-    ```
-      type_to_class_names:
-        cache:
-          - Cache          # Look for any component with class "Cache" and make those cache components
-        off_chip_mem_ctrl:
-          - DRAMCtrl       # Look for any component with class "DRAMCtrl" and make those off chip memory controllers
-        mem_bus:
-          - CoherentXBar   # Look for any component with class "CoherentXBar" and make those memory buses
-        tlb:
-          - RiscvTLB       # Look for any component with class "RiscvTLB" and make those a tlb
-          ....
-    ```
-  - Functional unit potential paths within the cpu of the attributes.json from m5out. As you create your own architectures you can add their paths here, and the first found path will be used, and it is assumed there would only be a single match. If no match is found functional unit information will not be included in the output
-    ```
-      fu_unit_cpu_path:
-        minorCPU:            # This lists the path to functional units for the gem5 minorCPU example
-          - executeFuncUnits
-          - funcUnits
-    ```
+## Attributes File
+Hardware attributes file `attributes.yaml` is used to specify system hardware attributes that can't be inferred from gem5
+   
+```yaml
+  technology: 45nm
+  datawidth: 32
+```
+    
+## Mapping files
+Mappings from Gem5 classes to Accelergy classes are specified in the `mappings` directory. Each file represents a pair
+of mappings. An example from the data cache is shown below.
+
+```python
+gem5_class = "Cache"
+accelergy_class = "cache"
+path = "system.chip"
+name_append = ""
+
+def criteria(params):
+    return params["name"] == "dcache"
+
+constants = [
+    ("n_banks", 1)
+]
+
+attributes = [
+    ("size", "size"),
+    ("associativity", "assoc"),
+]
+
+actions = [
+    ("read_access", "ReadReq_accesses::total"),
+    ("read_miss", "ReadReq_misses::total"),
+    ("write_access", "WriteReq_accesses::total"),
+    ("write_miss", "WriteReq_misses::total"),
+]
+```
+
+## Modelled components
+### Caches
+All caches are modelled with the `cache` Accelergy class, with the type (`icache`, `dcache`, or `l2cache`) specified in
+the `cache_type` attribute.
+
+Supported actions: `read_access`, `read_miss`, `write_access`, `write_miss`
+
+### Crossbar
+Crossbars between levels of the memory hierarchy are modelled with the `xbar` Accelergy class.
+
+Supported actions: `access`
+
+### CPU functional unit
+CPU functional units are modelled with the `func_unit` Accelergy class, with the type (`fpu`, `int_alu`, `mul_alu`)
+specified in the `type` attribute.
+
+Supported actions: `instruction`
+
+### CPU register file
+CPU register files are modelled with the `cpu_regfile` Accelergy component, with the type (`fp`, `int`) specified in the
+`type` attribute.
+
+Supported actions: `read`, `write`
+
+### Tournament BP
+A tournament style predictor is modelled with the `tournament_bp` Accelergy class.
+
+Supported actions: `access`, `miss`
+
+### TLB
+TLBs for both data and instructions are modelled with the `tlb` Accelergy class.
+
+Suppported actions: `access`, `miss`
