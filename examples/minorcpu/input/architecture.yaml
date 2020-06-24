@@ -103,6 +103,16 @@ architecture:
           gem5_class: MinorCPU
           attributes:
             type: int
+        - name: itb
+          class: tlb
+          gem5_class: RiscvTLB
+          attributes:
+            entries: 64
+        - name: dtb
+          class: tlb
+          gem5_class: RiscvTLB
+          attributes:
+            entries: 64
         - name: branchPred
           class: tournament_bp
           gem5_class: TournamentBP

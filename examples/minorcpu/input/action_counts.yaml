@@ -59,6 +59,18 @@ action_counts:
       counts: 18612775
     - name: write
       counts: 11665720
+  - name: system.chip.cpu.itb
+    action_counts:
+    - name: access
+      counts: 0
+    - name: miss
+      counts: 0
+  - name: system.chip.cpu.dtb
+    action_counts:
+    - name: access
+      counts: 0
+    - name: miss
+      counts: 0
   - name: system.chip.cpu.branchPred
     action_counts:
     - name: access

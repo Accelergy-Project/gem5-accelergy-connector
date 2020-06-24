@@ -40,12 +40,30 @@ ERT_summary:
     primitive_estimation(s):
     - system.chip.cpu.cpu_regfile_int:
         estimator: McPat
+  - name: system.chip.cpu.itb
+    actions:
+    - name: access
+      energy: 4.68
+    - name: miss
+      energy: 2.3
+    primitive_estimation(s):
+    - system.chip.cpu.itb:
+        estimator: McPat
+  - name: system.chip.cpu.dtb
+    actions:
+    - name: access
+      energy: 4.68
+    - name: miss
+      energy: 2.3
+    primitive_estimation(s):
+    - system.chip.cpu.dtb:
+        estimator: McPat
   - name: system.chip.cpu.branchPred
     actions:
     - name: access
       energy: 18.319
     - name: miss
-      energy: 26.099
+      energy: 12.957
     primitive_estimation(s):
     - system.chip.cpu.branchPred:
         estimator: McPat
@@ -54,11 +72,11 @@ ERT_summary:
     - name: read_access
       energy: 486.678
     - name: read_miss
-      energy: 1015.166
+      energy: 528.487
     - name: write_access
       energy: 340.038
     - name: write_miss
-      energy: 341.287
+      energy: 1.249
     primitive_estimation(s):
     - system.chip.dcache:
         estimator: McPat
@@ -67,7 +85,7 @@ ERT_summary:
     - name: read_access
       energy: 79.226
     - name: read_miss
-      energy: 700.595
+      energy: 621.368
     - name: write_access
       energy: 248.116
     - name: write_miss
@@ -80,11 +98,11 @@ ERT_summary:
     - name: read_access
       energy: 336.874
     - name: read_miss
-      energy: 19.936
+      energy: 0.0
     - name: write_access
       energy: 391.411
     - name: write_miss
-      energy: 1468.568
+      energy: 1077.153
     primitive_estimation(s):
     - system.chip.l2cache:
         estimator: McPat

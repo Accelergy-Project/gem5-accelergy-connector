@@ -32,6 +32,22 @@ ERT:
     - name: write
       arguments: null
       energy: 7.292
+  - name: system.chip.cpu.itb
+    actions:
+    - name: access
+      arguments: null
+      energy: 4.68
+    - name: miss
+      arguments: null
+      energy: 2.3
+  - name: system.chip.cpu.dtb
+    actions:
+    - name: access
+      arguments: null
+      energy: 4.68
+    - name: miss
+      arguments: null
+      energy: 2.3
   - name: system.chip.cpu.branchPred
     actions:
     - name: access
@@ -39,7 +55,7 @@ ERT:
       energy: 18.319
     - name: miss
       arguments: null
-      energy: 26.099
+      energy: 12.957
   - name: system.chip.dcache
     actions:
     - name: read_access
@@ -47,13 +63,13 @@ ERT:
       energy: 486.678
     - name: read_miss
       arguments: null
-      energy: 1015.166
+      energy: 528.487
     - name: write_access
       arguments: null
       energy: 340.038
     - name: write_miss
       arguments: null
-      energy: 341.287
+      energy: 1.249
   - name: system.chip.icache
     actions:
     - name: read_access
@@ -61,7 +77,7 @@ ERT:
       energy: 79.226
     - name: read_miss
       arguments: null
-      energy: 700.595
+      energy: 621.368
     - name: write_access
       arguments: null
       energy: 248.116
@@ -75,13 +91,13 @@ ERT:
       energy: 336.874
     - name: read_miss
       arguments: null
-      energy: 19.936
+      energy: 0.0
     - name: write_access
       arguments: null
       energy: 391.411
     - name: write_miss
       arguments: null
-      energy: 1468.568
+      energy: 1077.153
   - name: system.chip.membus
     actions:
     - name: access

@@ -30,6 +30,20 @@ architecture:
       arguments: null
     - name: write
       arguments: null
+  - name: system.chip.cpu.itb
+    class: tlb
+    actions:
+    - name: access
+      arguments: null
+    - name: miss
+      arguments: null
+  - name: system.chip.cpu.dtb
+    class: tlb
+    actions:
+    - name: access
+      arguments: null
+    - name: miss
+      arguments: null
   - name: system.chip.cpu.branchPred
     class: tournament_bp
     actions:

@@ -11,6 +11,10 @@ ART:
     area: 1
   - name: system.chip.cpu.cpu_regfile_int
     area: 1
+  - name: system.chip.cpu.itb
+    area: 1
+  - name: system.chip.cpu.dtb
+    area: 1
   - name: system.chip.cpu.branchPred
     area: 1
   - name: system.chip.dcache
