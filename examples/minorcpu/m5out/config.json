@@ -1421,7 +1421,7 @@
                     "path": "system.cpu.workload", 
                     "name": "workload", 
                     "cmd": [
-                        "../progs/all"
+                        "../progs/qsort"
                     ], 
                     "errout": "cerr", 
                     "useArchPT": false, 

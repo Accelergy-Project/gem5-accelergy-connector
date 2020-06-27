@@ -4,61 +4,61 @@ action_counts:
   - name: system.chip.dcache
     action_counts:
     - name: read_access
-      counts: 1858184
+      counts: 6490579
     - name: read_miss
-      counts: 16429
+      counts: 43287
     - name: write_access
-      counts: 1179710
+      counts: 2133221
     - name: write_miss
-      counts: 190926
+      counts: 64
   - name: system.chip.icache
     action_counts:
     - name: read_access
-      counts: 1442292
+      counts: 2775745
     - name: read_miss
-      counts: 36
+      counts: 51
   - name: system.chip.l2cache
     action_counts:
     - name: read_access
-      counts: 40988
+      counts: 12959
     - name: read_miss
-      counts: 32811
+      counts: 4178
     - name: write_access
-      counts: 39953
+      counts: 11900
     - name: write_miss
       counts: 0
   - name: system.chip.membus
     action_counts:
     - name: access
-      counts: 94349
+      counts: 8410
   - name: system.chip.l2bus
     action_counts:
     - name: access
-      counts: 121964
+      counts: 37822
   - name: system.chip.cpu.cpu_fpu
     action_counts:
     - name: instruction
-      counts: 131072
+      counts: 0
   - name: system.chip.cpu.cpu_int_alu
     action_counts:
     - name: instruction
-      counts: 8519925
+      counts: 6124352
   - name: system.chip.cpu.cpu_mul_alu
     action_counts:
     - name: instruction
-      counts: 262144
+      counts: 0
   - name: system.chip.cpu.cpu_regfile_fp
     action_counts:
     - name: read
-      counts: 393223
+      counts: 0
     - name: write
-      counts: 393257
+      counts: 0
   - name: system.chip.cpu.cpu_regfile_int
     action_counts:
     - name: read
-      counts: 14878349
+      counts: 23002299
     - name: write
-      counts: 11076712
+      counts: 14032124
   - name: system.chip.cpu.itb
     action_counts:
     - name: access
@@ -74,6 +74,6 @@ action_counts:
   - name: system.chip.cpu.branchPred
     action_counts:
     - name: access
-      counts: 590169
+      counts: 2429134
     - name: miss
-      counts: 126
+      counts: 488411

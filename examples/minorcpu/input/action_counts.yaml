@@ -4,61 +4,61 @@ action_counts:
   - name: system.chip.dcache
     action_counts:
     - name: read_access
-      counts: 2621567
+      counts: 7073718
     - name: read_miss
-      counts: 16402
+      counts: 12900
     - name: write_access
-      counts: 1179710
+      counts: 2133221
     - name: write_miss
-      counts: 49162
+      counts: 54
   - name: system.chip.icache
     action_counts:
     - name: read_access
-      counts: 2539835
+      counts: 6240022
     - name: read_miss
-      counts: 22
+      counts: 33
   - name: system.chip.l2cache
     action_counts:
     - name: read_access
-      counts: 41005
+      counts: 12967
     - name: read_miss
-      counts: 32829
+      counts: 4177
     - name: write_access
-      counts: 39954
+      counts: 11905
     - name: write_miss
       counts: 0
   - name: system.chip.membus
     action_counts:
     - name: access
-      counts: 94369
+      counts: 8403
   - name: system.chip.l2bus
     action_counts:
     - name: access
-      counts: 121969
+      counts: 37844
   - name: system.chip.cpu.cpu_fpu
     action_counts:
     - name: instruction
-      counts: 131072
+      counts: 0
   - name: system.chip.cpu.cpu_int_alu
     action_counts:
     - name: instruction
-      counts: 8519925
+      counts: 6124352
   - name: system.chip.cpu.cpu_mul_alu
     action_counts:
     - name: instruction
-      counts: 262144
+      counts: 0
   - name: system.chip.cpu.cpu_regfile_fp
     action_counts:
     - name: read
-      counts: 393217
+      counts: 0
     - name: write
-      counts: 393217
+      counts: 0
   - name: system.chip.cpu.cpu_regfile_int
     action_counts:
     - name: read
-      counts: 18612775
+      counts: 14381925
     - name: write
-      counts: 11665720
+      counts: 12765425
   - name: system.chip.cpu.itb
     action_counts:
     - name: access
@@ -74,6 +74,6 @@ action_counts:
   - name: system.chip.cpu.branchPred
     action_counts:
     - name: access
-      counts: 590018
+      counts: 2124070
     - name: miss
-      counts: 105
+      counts: 484493
