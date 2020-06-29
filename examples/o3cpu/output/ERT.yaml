@@ -32,6 +32,22 @@ ERT:
     - name: write
       arguments: null
       energy: 7.292
+  - name: system.chip.cpu.cpu_rename_unit
+    actions:
+    - name: read
+      arguments: null
+      energy: 1.704
+    - name: write
+      arguments: null
+      energy: 0.703
+  - name: system.chip.cpu.cpu_reorder_buffer
+    actions:
+    - name: read
+      arguments: null
+      energy: 9.18
+    - name: write
+      arguments: null
+      energy: 11.475
   - name: system.chip.cpu.itb
     actions:
     - name: access
@@ -48,7 +64,15 @@ ERT:
     - name: miss
       arguments: null
       energy: 2.3
-  - name: system.chip.cpu.branchPred
+  - name: system.chip.cpu.branchPred_btb
+    actions:
+    - name: read
+      arguments: null
+      energy: 7.323
+    - name: write
+      arguments: null
+      energy: 11.464
+  - name: system.chip.cpu.branchPred_bp
     actions:
     - name: access
       arguments: null

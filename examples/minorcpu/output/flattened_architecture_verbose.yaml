@@ -44,7 +44,14 @@ architecture:
       arguments: null
     - name: miss
       arguments: null
-  - name: system.chip.cpu.branchPred
+  - name: system.chip.cpu.branchPred_btb
+    class: btb
+    actions:
+    - name: read
+      arguments: null
+    - name: write
+      arguments: null
+  - name: system.chip.cpu.branchPred_bp
     class: tournament_bp
     actions:
     - name: access

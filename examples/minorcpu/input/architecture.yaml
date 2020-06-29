@@ -113,7 +113,15 @@ architecture:
           gem5_class: RiscvTLB
           attributes:
             entries: 64
-        - name: branchPred
+        - name: branchPred_btb
+          class: btb
+          gem5_class: TournamentBP
+          attributes:
+            block_width: 4
+            associativity: 2
+            banks: 2
+            entries: 4096
+        - name: branchPred_bp
           class: tournament_bp
           gem5_class: TournamentBP
           attributes:

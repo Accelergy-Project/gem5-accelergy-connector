@@ -48,7 +48,15 @@ ERT:
     - name: miss
       arguments: null
       energy: 2.3
-  - name: system.chip.cpu.branchPred
+  - name: system.chip.cpu.branchPred_btb
+    actions:
+    - name: read
+      arguments: null
+      energy: 7.323
+    - name: write
+      arguments: null
+      energy: 11.464
+  - name: system.chip.cpu.branchPred_bp
     actions:
     - name: access
       arguments: null

@@ -58,14 +58,23 @@ ERT_summary:
     primitive_estimation(s):
     - system.chip.cpu.dtb:
         estimator: McPat
-  - name: system.chip.cpu.branchPred
+  - name: system.chip.cpu.branchPred_btb
+    actions:
+    - name: read
+      energy: 7.323
+    - name: write
+      energy: 11.464
+    primitive_estimation(s):
+    - system.chip.cpu.branchPred_btb:
+        estimator: McPat
+  - name: system.chip.cpu.branchPred_bp
     actions:
     - name: access
       energy: 18.319
     - name: miss
       energy: 12.957
     primitive_estimation(s):
-    - system.chip.cpu.branchPred:
+    - system.chip.cpu.branchPred_bp:
         estimator: McPat
   - name: system.chip.dcache
     actions:

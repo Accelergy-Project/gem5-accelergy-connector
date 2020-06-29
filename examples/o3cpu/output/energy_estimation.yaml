@@ -21,9 +21,15 @@ energy_estimation:
     energy: 0.0
   - name: system.chip.cpu.cpu_regfile_int
     energy: 229432952.482
+  - name: system.chip.cpu.cpu_rename_unit
+    energy: 61615494.254
+  - name: system.chip.cpu.cpu_reorder_buffer
+    energy: 842520428.91
   - name: system.chip.cpu.itb
     energy: 0.0
   - name: system.chip.cpu.dtb
     energy: 0.0
-  - name: system.chip.cpu.branchPred
+  - name: system.chip.cpu.branchPred_btb
+    energy: 33205815.843000002
+  - name: system.chip.cpu.branchPred_bp
     energy: 50827647.073

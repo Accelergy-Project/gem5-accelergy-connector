@@ -30,6 +30,20 @@ architecture:
       arguments: null
     - name: write
       arguments: null
+  - name: system.chip.cpu.cpu_rename_unit
+    class: renaming_unit
+    actions:
+    - name: read
+      arguments: null
+    - name: write
+      arguments: null
+  - name: system.chip.cpu.cpu_reorder_buffer
+    class: reorder_buffer
+    actions:
+    - name: read
+      arguments: null
+    - name: write
+      arguments: null
   - name: system.chip.cpu.itb
     class: tlb
     actions:
@@ -44,7 +58,14 @@ architecture:
       arguments: null
     - name: miss
       arguments: null
-  - name: system.chip.cpu.branchPred
+  - name: system.chip.cpu.branchPred_btb
+    class: btb
+    actions:
+    - name: read
+      arguments: null
+    - name: write
+      arguments: null
+  - name: system.chip.cpu.branchPred_bp
     class: tournament_bp
     actions:
     - name: access

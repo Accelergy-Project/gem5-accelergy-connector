@@ -103,6 +103,14 @@ architecture:
           gem5_class: DerivO3CPU
           attributes:
             type: int
+        - name: cpu_rename_unit
+          class: renaming_unit
+          gem5_class: DerivO3CPU
+        - name: cpu_reorder_buffer
+          class: reorder_buffer
+          gem5_class: DerivO3CPU
+          attributes:
+            entries: 192
         - name: itb
           class: tlb
           gem5_class: RiscvTLB
@@ -113,7 +121,15 @@ architecture:
           gem5_class: RiscvTLB
           attributes:
             entries: 64
-        - name: branchPred
+        - name: branchPred_btb
+          class: btb
+          gem5_class: TournamentBP
+          attributes:
+            block_width: 4
+            associativity: 2
+            banks: 2
+            entries: 4096
+        - name: branchPred_bp
           class: tournament_bp
           gem5_class: TournamentBP
           attributes:

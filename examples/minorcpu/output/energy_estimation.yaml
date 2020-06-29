@@ -25,5 +25,7 @@ energy_estimation:
     energy: 0.0
   - name: system.chip.cpu.dtb
     energy: 0.0
-  - name: system.chip.cpu.branchPred
+  - name: system.chip.cpu.branchPred_btb
+    energy: 29082463.87
+  - name: system.chip.cpu.branchPred_bp
     energy: 45188414.131

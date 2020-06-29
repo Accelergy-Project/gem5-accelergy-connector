@@ -15,7 +15,9 @@ ART:
     area: 1
   - name: system.chip.cpu.dtb
     area: 1
-  - name: system.chip.cpu.branchPred
+  - name: system.chip.cpu.branchPred_btb
+    area: 1
+  - name: system.chip.cpu.branchPred_bp
     area: 1
   - name: system.chip.dcache
     area: 986653.0

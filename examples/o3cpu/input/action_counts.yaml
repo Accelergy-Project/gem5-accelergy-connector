@@ -59,6 +59,18 @@ action_counts:
       counts: 23002299
     - name: write
       counts: 14032124
+  - name: system.chip.cpu.cpu_rename_unit
+    action_counts:
+    - name: read
+      counts: 29016223
+    - name: write
+      counts: 17314154
+  - name: system.chip.cpu.cpu_reorder_buffer
+    action_counts:
+    - name: read
+      counts: 35974747
+    - name: write
+      counts: 44642462
   - name: system.chip.cpu.itb
     action_counts:
     - name: access
@@ -71,7 +83,13 @@ action_counts:
       counts: 0
     - name: miss
       counts: 0
-  - name: system.chip.cpu.branchPred
+  - name: system.chip.cpu.branchPred_btb
+    action_counts:
+    - name: read
+      counts: 1767489
+    - name: write
+      counts: 1767489
+  - name: system.chip.cpu.branchPred_bp
     action_counts:
     - name: access
       counts: 2429134

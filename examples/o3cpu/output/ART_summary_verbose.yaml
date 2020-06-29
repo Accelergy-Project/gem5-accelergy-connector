@@ -16,13 +16,22 @@ ART_summary:
   - name: system.chip.cpu.cpu_regfile_int
     area: 1
     primitive_estimations: dummy_table
+  - name: system.chip.cpu.cpu_rename_unit
+    area: 1
+    primitive_estimations: dummy_table
+  - name: system.chip.cpu.cpu_reorder_buffer
+    area: 1
+    primitive_estimations: dummy_table
   - name: system.chip.cpu.itb
     area: 1
     primitive_estimations: dummy_table
   - name: system.chip.cpu.dtb
     area: 1
     primitive_estimations: dummy_table
-  - name: system.chip.cpu.branchPred
+  - name: system.chip.cpu.branchPred_btb
+    area: 1
+    primitive_estimations: dummy_table
+  - name: system.chip.cpu.branchPred_bp
     area: 1
     primitive_estimations: dummy_table
   - name: system.chip.dcache

@@ -71,7 +71,13 @@ action_counts:
       counts: 0
     - name: miss
       counts: 0
-  - name: system.chip.cpu.branchPred
+  - name: system.chip.cpu.branchPred_btb
+    action_counts:
+    - name: read
+      counts: 1548010
+    - name: write
+      counts: 1548010
+  - name: system.chip.cpu.branchPred_bp
     action_counts:
     - name: access
       counts: 2124070

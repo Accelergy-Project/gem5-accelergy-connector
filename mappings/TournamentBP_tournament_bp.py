@@ -1,7 +1,7 @@
 gem5_class = "TournamentBP"
 accelergy_class = "tournament_bp"
 path = "system.chip.cpu"
-name_append = ""
+name_append = "bp"
 
 criteria = True
 
