@@ -43,6 +43,10 @@ action_counts:
     action_counts:
     - name: instruction
       counts: 6124352
+  - name: system.chip.cpu.cpu_load_queue
+    action_counts:
+    - name: access
+      counts: 9036959
   - name: system.chip.cpu.cpu_mul_alu
     action_counts:
     - name: instruction
@@ -71,6 +75,10 @@ action_counts:
       counts: 35974747
     - name: write
       counts: 44642462
+  - name: system.chip.cpu.cpu_store_queue
+    action_counts:
+    - name: access
+      counts: 2404935
   - name: system.chip.cpu.itb
     action_counts:
     - name: access

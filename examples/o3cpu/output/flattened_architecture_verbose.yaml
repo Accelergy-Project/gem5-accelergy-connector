@@ -11,6 +11,11 @@ architecture:
     actions:
     - name: instruction
       arguments: null
+  - name: system.chip.cpu.cpu_load_queue
+    class: load_store_queue
+    actions:
+    - name: access
+      arguments: null
   - name: system.chip.cpu.cpu_mul_alu
     class: func_unit
     actions:
@@ -43,6 +48,11 @@ architecture:
     - name: read
       arguments: null
     - name: write
+      arguments: null
+  - name: system.chip.cpu.cpu_store_queue
+    class: load_store_queue
+    actions:
+    - name: access
       arguments: null
   - name: system.chip.cpu.itb
     class: tlb

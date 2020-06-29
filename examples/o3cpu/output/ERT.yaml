@@ -11,6 +11,11 @@ ERT:
     - name: instruction
       arguments: null
       energy: 7.91
+  - name: system.chip.cpu.cpu_load_queue
+    actions:
+    - name: access
+      arguments: null
+      energy: 11.224
   - name: system.chip.cpu.cpu_mul_alu
     actions:
     - name: instruction
@@ -48,6 +53,11 @@ ERT:
     - name: write
       arguments: null
       energy: 11.475
+  - name: system.chip.cpu.cpu_store_queue
+    actions:
+    - name: access
+      arguments: null
+      energy: 22.449
   - name: system.chip.cpu.itb
     actions:
     - name: access
