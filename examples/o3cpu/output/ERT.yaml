@@ -115,13 +115,13 @@ ERT:
     actions:
     - name: read_access
       arguments: null
-      energy: 925.39
+      energy: 105.152
     - name: read_miss
       arguments: null
       energy: 566.845
     - name: write_access
       arguments: null
-      energy: 591.866
+      energy: 132.24
     - name: write_miss
       arguments: null
       energy: 1.414
@@ -143,16 +143,16 @@ ERT:
     actions:
     - name: read_access
       arguments: null
-      energy: 488.545
+      energy: 257.345
     - name: read_miss
       arguments: null
       energy: 0.0
     - name: write_access
       arguments: null
-      energy: 657.28
+      energy: 344.255
     - name: write_miss
       arguments: null
-      energy: 1190.083
+      energy: 962.371
   - name: system.chip.membus
     actions:
     - name: access

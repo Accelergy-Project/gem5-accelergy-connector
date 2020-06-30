@@ -91,11 +91,11 @@ ERT_summary:
   - name: system.chip.dcache
     actions:
     - name: read_access
-      energy: 925.39
+      energy: 105.152
     - name: read_miss
       energy: 566.845
     - name: write_access
-      energy: 591.866
+      energy: 132.24
     - name: write_miss
       energy: 1.414
     primitive_estimation(s):
@@ -117,13 +117,13 @@ ERT_summary:
   - name: system.chip.l2cache
     actions:
     - name: read_access
-      energy: 488.545
+      energy: 257.345
     - name: read_miss
       energy: 0.0
     - name: write_access
-      energy: 657.28
+      energy: 344.255
     - name: write_miss
-      energy: 1190.083
+      energy: 962.371
     primitive_estimation(s):
     - system.chip.l2cache:
         estimator: McPat
