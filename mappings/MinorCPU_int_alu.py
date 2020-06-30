@@ -12,5 +12,6 @@ constants = [
 attributes = []
 
 actions = [
-    ("instruction", "op_class_0::IntAlu")
+    ("instruction", "op_class_0::IntAlu"),
+    ("idle", "CYCLES")
 ]

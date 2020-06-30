@@ -20,5 +20,6 @@ actions = [
      "commit.op_class_0::FloatMultAcc",
      "commit.op_class_0::FloatDiv",
      "commit.op_class_0::FloatMisc",
-     "commit.op_class_0::FloatSqrt")
+     "commit.op_class_0::FloatSqrt"),
+    ("idle", "CYCLES")
 ]

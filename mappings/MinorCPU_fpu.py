@@ -20,5 +20,6 @@ actions = [
      "op_class_0::FloatMultAcc",
      "op_class_0::FloatDiv",
      "op_class_0::FloatMisc",
-     "op_class_0::FloatSqrt")
+     "op_class_0::FloatSqrt"),
+    ("idle", "CYCLES")
 ]

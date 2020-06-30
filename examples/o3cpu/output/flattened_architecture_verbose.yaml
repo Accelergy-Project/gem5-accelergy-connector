@@ -6,10 +6,14 @@ architecture:
     actions:
     - name: instruction
       arguments: null
+    - name: idle
+      arguments: null
   - name: system.chip.cpu.cpu_int_alu
     class: func_unit
     actions:
     - name: instruction
+      arguments: null
+    - name: idle
       arguments: null
   - name: system.chip.cpu.cpu_load_queue
     class: load_store_queue
@@ -20,6 +24,8 @@ architecture:
     class: func_unit
     actions:
     - name: instruction
+      arguments: null
+    - name: idle
       arguments: null
   - name: system.chip.cpu.cpu_regfile_fp
     class: cpu_regfile

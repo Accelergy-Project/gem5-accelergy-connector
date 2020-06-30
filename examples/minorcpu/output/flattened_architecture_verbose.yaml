@@ -6,15 +6,21 @@ architecture:
     actions:
     - name: instruction
       arguments: null
+    - name: idle
+      arguments: null
   - name: system.chip.cpu.cpu_int_alu
     class: func_unit
     actions:
     - name: instruction
       arguments: null
+    - name: idle
+      arguments: null
   - name: system.chip.cpu.cpu_mul_alu
     class: func_unit
     actions:
     - name: instruction
+      arguments: null
+    - name: idle
       arguments: null
   - name: system.chip.cpu.cpu_regfile_fp
     class: cpu_regfile

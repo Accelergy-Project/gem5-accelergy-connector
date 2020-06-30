@@ -2,13 +2,13 @@ ART:
   version: 0.3
   tables:
   - name: system.chip.cpu.cpu_fpu
-    area: 1.229
+    area: 1
   - name: system.chip.cpu.cpu_int_alu
-    area: 0.118
+    area: 1
   - name: system.chip.cpu.cpu_load_queue
-    area: 0.015
+    area: 0.027
   - name: system.chip.cpu.cpu_mul_alu
-    area: 0.118
+    area: 1
   - name: system.chip.cpu.cpu_regfile_fp
     area: 1
   - name: system.chip.cpu.cpu_regfile_int
@@ -18,7 +18,7 @@ ART:
   - name: system.chip.cpu.cpu_reorder_buffer
     area: 1
   - name: system.chip.cpu.cpu_store_queue
-    area: 0.015
+    area: 0.027
   - name: system.chip.cpu.itb
     area: 1
   - name: system.chip.cpu.dtb
@@ -34,6 +34,6 @@ ART:
   - name: system.chip.l2cache
     area: 54298700.0
   - name: system.chip.membus
-    area: 0.063
+    area: 0.127
   - name: system.chip.l2bus
-    area: 0.126
+    area: 0.255

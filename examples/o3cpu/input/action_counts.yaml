@@ -39,10 +39,14 @@ action_counts:
     action_counts:
     - name: instruction
       counts: 0
+    - name: idle
+      counts: 15335321
   - name: system.chip.cpu.cpu_int_alu
     action_counts:
     - name: instruction
       counts: 6124352
+    - name: idle
+      counts: 15335321
   - name: system.chip.cpu.cpu_load_queue
     action_counts:
     - name: access
@@ -51,6 +55,8 @@ action_counts:
     action_counts:
     - name: instruction
       counts: 0
+    - name: idle
+      counts: 15335321
   - name: system.chip.cpu.cpu_regfile_fp
     action_counts:
     - name: read
