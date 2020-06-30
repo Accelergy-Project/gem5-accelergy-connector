@@ -119,7 +119,10 @@ def processMappings(arch, action_counts, module, verbose):
                 for action in module.actions:
                     total_counts = 0
                     for action_name in action[1:]:
-                        counts = action_counts.getActionCounts(instance, action_name, arch_path, action[0])
+                        if action_name == "CYCLES":
+                            counts = action_counts.getActionCounts("system.cpu", "numCycles")
+                        else:
+                            counts = action_counts.getActionCounts(instance, action_name)
                         if counts is None:
                             print("        WARNING  cannot locate action count %s.%s" % (instance, action_name))
                         else:
@@ -215,7 +218,7 @@ class ActionCounts:
         self.stats = stats
         self.action_map = {}
 
-    def getActionCounts(self, source_path, source_name, arch_path, arch_name):
+    def getActionCounts(self, source_path, source_name):
         field = source_path + "." + source_name
         if field in self.stats:
             return int(self.stats[field])

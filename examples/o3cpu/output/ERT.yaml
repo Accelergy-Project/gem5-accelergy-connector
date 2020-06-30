@@ -29,6 +29,9 @@ ERT:
     - name: write
       arguments: null
       energy: 4.811
+    - name: idle
+      arguments: null
+      energy: 1.865
   - name: system.chip.cpu.cpu_regfile_int
     actions:
     - name: read
@@ -37,6 +40,9 @@ ERT:
     - name: write
       arguments: null
       energy: 7.292
+    - name: idle
+      arguments: null
+      energy: 2.763
   - name: system.chip.cpu.cpu_rename_unit
     actions:
     - name: read
@@ -45,6 +51,9 @@ ERT:
     - name: write
       arguments: null
       energy: 0.703
+    - name: idle
+      arguments: null
+      energy: 0.249
   - name: system.chip.cpu.cpu_reorder_buffer
     actions:
     - name: read
@@ -90,6 +99,9 @@ ERT:
     - name: miss
       arguments: null
       energy: 12.957
+    - name: idle
+      arguments: null
+      energy: 5.176
   - name: system.chip.dcache
     actions:
     - name: read_access

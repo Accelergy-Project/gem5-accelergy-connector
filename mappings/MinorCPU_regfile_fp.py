@@ -31,4 +31,5 @@ actions = [
         "op_class_0::FloatMisc",
         "op_class_0::FloatSqrt",
         "op_class_0::FloatMemRead"),
+    ("idle", "CYCLES")
 ]

@@ -24,6 +24,9 @@ ERT:
     - name: write
       arguments: null
       energy: 4.811
+    - name: idle
+      arguments: null
+      energy: 1.865
   - name: system.chip.cpu.cpu_regfile_int
     actions:
     - name: read
@@ -32,6 +35,9 @@ ERT:
     - name: write
       arguments: null
       energy: 7.292
+    - name: idle
+      arguments: null
+      energy: 2.763
   - name: system.chip.cpu.itb
     actions:
     - name: access
@@ -64,6 +70,9 @@ ERT:
     - name: miss
       arguments: null
       energy: 12.957
+    - name: idle
+      arguments: null
+      energy: 5.176
   - name: system.chip.dcache
     actions:
     - name: read_access

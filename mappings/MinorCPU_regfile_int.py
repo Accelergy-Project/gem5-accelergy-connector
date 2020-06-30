@@ -20,5 +20,6 @@ actions = [
      "op_class_0::IntAlu",
      "op_class_0::IntMult",
      "op_class_0::IntDiv",
-     "op_class_0::MemRead")
+     "op_class_0::MemRead"),
+    ("idle", "CYCLES")
 ]

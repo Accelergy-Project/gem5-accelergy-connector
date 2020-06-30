@@ -28,6 +28,8 @@ architecture:
       arguments: null
     - name: write
       arguments: null
+    - name: idle
+      arguments: null
   - name: system.chip.cpu.cpu_regfile_int
     class: cpu_regfile
     actions:
@@ -35,12 +37,16 @@ architecture:
       arguments: null
     - name: write
       arguments: null
+    - name: idle
+      arguments: null
   - name: system.chip.cpu.cpu_rename_unit
     class: renaming_unit
     actions:
     - name: read
       arguments: null
     - name: write
+      arguments: null
+    - name: idle
       arguments: null
   - name: system.chip.cpu.cpu_reorder_buffer
     class: reorder_buffer
@@ -81,6 +87,8 @@ architecture:
     - name: access
       arguments: null
     - name: miss
+      arguments: null
+    - name: idle
       arguments: null
   - name: system.chip.dcache
     class: cache

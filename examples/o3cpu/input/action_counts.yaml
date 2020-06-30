@@ -57,18 +57,24 @@ action_counts:
       counts: 0
     - name: write
       counts: 0
+    - name: idle
+      counts: 15335321
   - name: system.chip.cpu.cpu_regfile_int
     action_counts:
     - name: read
       counts: 23002299
     - name: write
       counts: 14032124
+    - name: idle
+      counts: 15335321
   - name: system.chip.cpu.cpu_rename_unit
     action_counts:
     - name: read
       counts: 29016223
     - name: write
       counts: 17314154
+    - name: idle
+      counts: 15335321
   - name: system.chip.cpu.cpu_reorder_buffer
     action_counts:
     - name: read
@@ -103,3 +109,5 @@ action_counts:
       counts: 2429134
     - name: miss
       counts: 488411
+    - name: idle
+      counts: 15335321
