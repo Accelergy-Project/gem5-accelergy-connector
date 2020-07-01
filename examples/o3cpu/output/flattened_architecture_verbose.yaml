@@ -1,6 +1,11 @@
 architecture:
   version: 0.3
   local:
+  - name: system.chip.cpu.cpu_fetch_buffer
+    class: fetch_buffer
+    actions:
+    - name: access
+      arguments: null
   - name: system.chip.cpu.cpu_fpu
     class: func_unit
     actions:

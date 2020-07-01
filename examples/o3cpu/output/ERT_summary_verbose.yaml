@@ -1,6 +1,13 @@
 ERT_summary:
   version: 0.3
   table_summary:
+  - name: system.chip.cpu.cpu_fetch_buffer
+    actions:
+    - name: access
+      energy: 20.816
+    primitive_estimation(s):
+    - system.chip.cpu.cpu_fetch_buffer:
+        estimator: McPat
   - name: system.chip.cpu.cpu_fpu
     actions:
     - name: instruction
@@ -60,11 +67,11 @@ ERT_summary:
   - name: system.chip.cpu.cpu_rename_unit
     actions:
     - name: read
-      energy: 1.717
+      energy: 20.501
     - name: write
-      energy: 0.716
+      energy: 20.221
     - name: idle
-      energy: 0.256
+      energy: 18.767
     primitive_estimation(s):
     - system.chip.cpu.cpu_rename_unit:
         estimator: McPat

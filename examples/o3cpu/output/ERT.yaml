@@ -1,6 +1,11 @@
 ERT:
   version: 0.3
   tables:
+  - name: system.chip.cpu.cpu_fetch_buffer
+    actions:
+    - name: access
+      arguments: null
+      energy: 20.816
   - name: system.chip.cpu.cpu_fpu
     actions:
     - name: instruction
@@ -56,13 +61,13 @@ ERT:
     actions:
     - name: read
       arguments: null
-      energy: 1.717
+      energy: 20.501
     - name: write
       arguments: null
-      energy: 0.716
+      energy: 20.221
     - name: idle
       arguments: null
-      energy: 0.256
+      energy: 18.767
   - name: system.chip.cpu.cpu_reorder_buffer
     actions:
     - name: read

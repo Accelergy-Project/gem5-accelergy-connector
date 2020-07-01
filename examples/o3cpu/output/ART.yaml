@@ -1,6 +1,8 @@
 ART:
   version: 0.3
   tables:
+  - name: system.chip.cpu.cpu_fetch_buffer
+    area: 0.026
   - name: system.chip.cpu.cpu_fpu
     area: 1
   - name: system.chip.cpu.cpu_int_alu

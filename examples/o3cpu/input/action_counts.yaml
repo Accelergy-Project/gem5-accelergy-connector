@@ -35,6 +35,10 @@ action_counts:
     action_counts:
     - name: access
       counts: 37822
+  - name: system.chip.cpu.cpu_fetch_buffer
+    action_counts:
+    - name: access
+      counts: 25129209
   - name: system.chip.cpu.cpu_fpu
     action_counts:
     - name: instruction

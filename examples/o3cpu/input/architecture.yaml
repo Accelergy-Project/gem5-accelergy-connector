@@ -78,6 +78,11 @@ architecture:
       subtree:
       - name: cpu
         local:
+        - name: cpu_fetch_buffer
+          class: fetch_buffer
+          gem5_class: DerivO3CPU
+          attributes:
+            entries: 64
         - name: cpu_fpu
           class: func_unit
           gem5_class: DerivO3CPU
