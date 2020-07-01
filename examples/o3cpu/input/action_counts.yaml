@@ -35,6 +35,10 @@ action_counts:
     action_counts:
     - name: access
       counts: 37822
+  - name: system.chip.cpu.cpu_decoder
+    action_counts:
+    - name: access
+      counts: 25129209
   - name: system.chip.cpu.cpu_fetch_buffer
     action_counts:
     - name: access
@@ -45,6 +49,22 @@ action_counts:
       counts: 0
     - name: idle
       counts: 15335321
+  - name: system.chip.cpu.cpu_inst_queue_fp
+    action_counts:
+    - name: read
+      counts: 0
+    - name: write
+      counts: 0
+    - name: wakeup
+      counts: 0
+  - name: system.chip.cpu.cpu_inst_queue_int
+    action_counts:
+    - name: read
+      counts: 55020833
+    - name: write
+      counts: 18395961
+    - name: wakeup
+      counts: 28686251
   - name: system.chip.cpu.cpu_int_alu
     action_counts:
     - name: instruction
@@ -53,8 +73,10 @@ action_counts:
       counts: 15335321
   - name: system.chip.cpu.cpu_load_queue
     action_counts:
-    - name: access
+    - name: load
       counts: 9036959
+    - name: store
+      counts: 2404935
   - name: system.chip.cpu.cpu_mul_alu
     action_counts:
     - name: instruction
@@ -93,7 +115,9 @@ action_counts:
       counts: 44642462
   - name: system.chip.cpu.cpu_store_queue
     action_counts:
-    - name: access
+    - name: load
+      counts: 9036959
+    - name: store
       counts: 2404935
   - name: system.chip.cpu.itb
     action_counts:

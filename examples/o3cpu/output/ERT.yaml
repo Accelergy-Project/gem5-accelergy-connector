@@ -1,6 +1,11 @@
 ERT:
   version: 0.3
   tables:
+  - name: system.chip.cpu.cpu_decoder
+    actions:
+    - name: access
+      arguments: null
+      energy: 20.741
   - name: system.chip.cpu.cpu_fetch_buffer
     actions:
     - name: access
@@ -14,6 +19,28 @@ ERT:
     - name: idle
       arguments: null
       energy: 103.56
+  - name: system.chip.cpu.cpu_inst_queue_fp
+    actions:
+    - name: read
+      arguments: null
+      energy: 1.952
+    - name: write
+      arguments: null
+      energy: 5.847
+    - name: wakeup
+      arguments: null
+      energy: 3.958
+  - name: system.chip.cpu.cpu_inst_queue_int
+    actions:
+    - name: read
+      arguments: null
+      energy: 11.145
+    - name: write
+      arguments: null
+      energy: 3.049
+    - name: wakeup
+      arguments: null
+      energy: 5.264
   - name: system.chip.cpu.cpu_int_alu
     actions:
     - name: instruction
@@ -24,7 +51,10 @@ ERT:
       energy: 34.52
   - name: system.chip.cpu.cpu_load_queue
     actions:
-    - name: access
+    - name: load
+      arguments: null
+      energy: 11.743
+    - name: store
       arguments: null
       energy: 11.743
   - name: system.chip.cpu.cpu_mul_alu
@@ -78,9 +108,12 @@ ERT:
       energy: 11.942
   - name: system.chip.cpu.cpu_store_queue
     actions:
-    - name: access
+    - name: load
       arguments: null
-      energy: 23.487
+      energy: 46.974
+    - name: store
+      arguments: null
+      energy: 46.974
   - name: system.chip.cpu.itb
     actions:
     - name: access

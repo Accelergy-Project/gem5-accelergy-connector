@@ -1,6 +1,11 @@
 architecture:
   version: 0.3
   local:
+  - name: system.chip.cpu.cpu_decoder
+    class: decoder
+    actions:
+    - name: access
+      arguments: null
   - name: system.chip.cpu.cpu_fetch_buffer
     class: fetch_buffer
     actions:
@@ -13,6 +18,24 @@ architecture:
       arguments: null
     - name: idle
       arguments: null
+  - name: system.chip.cpu.cpu_inst_queue_fp
+    class: inst_queue
+    actions:
+    - name: read
+      arguments: null
+    - name: write
+      arguments: null
+    - name: wakeup
+      arguments: null
+  - name: system.chip.cpu.cpu_inst_queue_int
+    class: inst_queue
+    actions:
+    - name: read
+      arguments: null
+    - name: write
+      arguments: null
+    - name: wakeup
+      arguments: null
   - name: system.chip.cpu.cpu_int_alu
     class: func_unit
     actions:
@@ -23,7 +46,9 @@ architecture:
   - name: system.chip.cpu.cpu_load_queue
     class: load_store_queue
     actions:
-    - name: access
+    - name: load
+      arguments: null
+    - name: store
       arguments: null
   - name: system.chip.cpu.cpu_mul_alu
     class: func_unit
@@ -69,7 +94,9 @@ architecture:
   - name: system.chip.cpu.cpu_store_queue
     class: load_store_queue
     actions:
-    - name: access
+    - name: load
+      arguments: null
+    - name: store
       arguments: null
   - name: system.chip.cpu.itb
     class: tlb

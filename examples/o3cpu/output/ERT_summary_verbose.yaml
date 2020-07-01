@@ -1,6 +1,13 @@
 ERT_summary:
   version: 0.3
   table_summary:
+  - name: system.chip.cpu.cpu_decoder
+    actions:
+    - name: access
+      energy: 20.741
+    primitive_estimation(s):
+    - system.chip.cpu.cpu_decoder:
+        estimator: McPat
   - name: system.chip.cpu.cpu_fetch_buffer
     actions:
     - name: access
@@ -17,6 +24,28 @@ ERT_summary:
     primitive_estimation(s):
     - system.chip.cpu.cpu_fpu:
         estimator: McPat
+  - name: system.chip.cpu.cpu_inst_queue_fp
+    actions:
+    - name: read
+      energy: 1.952
+    - name: write
+      energy: 5.847
+    - name: wakeup
+      energy: 3.958
+    primitive_estimation(s):
+    - system.chip.cpu.cpu_inst_queue_fp:
+        estimator: McPat
+  - name: system.chip.cpu.cpu_inst_queue_int
+    actions:
+    - name: read
+      energy: 11.145
+    - name: write
+      energy: 3.049
+    - name: wakeup
+      energy: 5.264
+    primitive_estimation(s):
+    - system.chip.cpu.cpu_inst_queue_int:
+        estimator: McPat
   - name: system.chip.cpu.cpu_int_alu
     actions:
     - name: instruction
@@ -28,7 +57,9 @@ ERT_summary:
         estimator: McPat
   - name: system.chip.cpu.cpu_load_queue
     actions:
-    - name: access
+    - name: load
+      energy: 11.743
+    - name: store
       energy: 11.743
     primitive_estimation(s):
     - system.chip.cpu.cpu_load_queue:
@@ -86,8 +117,10 @@ ERT_summary:
         estimator: McPat
   - name: system.chip.cpu.cpu_store_queue
     actions:
-    - name: access
-      energy: 23.487
+    - name: load
+      energy: 46.974
+    - name: store
+      energy: 46.974
     primitive_estimation(s):
     - system.chip.cpu.cpu_store_queue:
         estimator: McPat

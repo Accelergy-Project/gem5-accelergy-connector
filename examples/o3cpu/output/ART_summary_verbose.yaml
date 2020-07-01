@@ -1,18 +1,27 @@
 ART_summary:
   version: 0.3
   table_summary:
+  - name: system.chip.cpu.cpu_decoder
+    area: 0.024
+    primitive_estimations: McPat
   - name: system.chip.cpu.cpu_fetch_buffer
     area: 0.026
     primitive_estimations: McPat
   - name: system.chip.cpu.cpu_fpu
     area: 1
     primitive_estimations: dummy_table
+  - name: system.chip.cpu.cpu_inst_queue_fp
+    area: 1
+    primitive_estimations: dummy_table
+  - name: system.chip.cpu.cpu_inst_queue_int
+    area: 1
+    primitive_estimations: dummy_table
   - name: system.chip.cpu.cpu_int_alu
     area: 1
     primitive_estimations: dummy_table
   - name: system.chip.cpu.cpu_load_queue
-    area: 0.027
-    primitive_estimations: McPat
+    area: 1
+    primitive_estimations: dummy_table
   - name: system.chip.cpu.cpu_mul_alu
     area: 1
     primitive_estimations: dummy_table
@@ -29,8 +38,8 @@ ART_summary:
     area: 1
     primitive_estimations: dummy_table
   - name: system.chip.cpu.cpu_store_queue
-    area: 0.027
-    primitive_estimations: McPat
+    area: 1
+    primitive_estimations: dummy_table
   - name: system.chip.cpu.itb
     area: 1
     primitive_estimations: dummy_table

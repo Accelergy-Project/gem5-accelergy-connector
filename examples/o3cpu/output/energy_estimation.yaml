@@ -11,14 +11,20 @@ energy_estimation:
     energy: 1772003.82
   - name: system.chip.l2bus
     energy: 15938266.444
+  - name: system.chip.cpu.cpu_decoder
+    energy: 521204923.869
   - name: system.chip.cpu.cpu_fetch_buffer
     energy: 523089614.54399997
   - name: system.chip.cpu.cpu_fpu
     energy: 1588125842.76
+  - name: system.chip.cpu.cpu_inst_queue_fp
+    energy: 0.0
+  - name: system.chip.cpu.cpu_inst_queue_int
+    energy: 820300894.138
   - name: system.chip.cpu.cpu_int_alu
     energy: 1031449657.8800001
   - name: system.chip.cpu.cpu_load_queue
-    energy: 106121009.537
+    energy: 134362161.242
   - name: system.chip.cpu.cpu_mul_alu
     energy: 1058735226.519
   - name: system.chip.cpu.cpu_regfile_fp
@@ -30,7 +36,7 @@ energy_estimation:
   - name: system.chip.cpu.cpu_reorder_buffer
     energy: 880168665.513
   - name: system.chip.cpu.cpu_store_queue
-    energy: 56484708.345
+    energy: 537471528.756
   - name: system.chip.cpu.itb
     energy: 0.0
   - name: system.chip.cpu.dtb

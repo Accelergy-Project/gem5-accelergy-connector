@@ -14,5 +14,6 @@ attributes = [
 ]
 
 actions = [
-    ("access", "iew.exec_stores")
+    ("load", "iew.iewExecLoadInsts"),
+    ("store", "iew.exec_stores")
 ]

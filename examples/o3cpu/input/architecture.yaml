@@ -78,6 +78,11 @@ architecture:
       subtree:
       - name: cpu
         local:
+        - name: cpu_decoder
+          class: decoder
+          gem5_class: DerivO3CPU
+          attributes:
+            width: 8
         - name: cpu_fetch_buffer
           class: fetch_buffer
           gem5_class: DerivO3CPU
@@ -88,6 +93,18 @@ architecture:
           gem5_class: DerivO3CPU
           attributes:
             type: fpu
+        - name: cpu_inst_queue_fp
+          class: inst_queue
+          gem5_class: DerivO3CPU
+          attributes:
+            type: fp
+            entries: 64
+        - name: cpu_inst_queue_int
+          class: inst_queue
+          gem5_class: DerivO3CPU
+          attributes:
+            type: int
+            entries: 64
         - name: cpu_int_alu
           class: func_unit
           gem5_class: DerivO3CPU
