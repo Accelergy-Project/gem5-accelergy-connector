@@ -2,46 +2,46 @@ energy_estimation:
   version: 0.3
   components:
   - name: system.chip.dcache
-    energy: 989131618.059
+    energy: 2206317495.415
   - name: system.chip.icache
-    energy: 234170754.465
-  - name: system.chip.l2cache
-    energy: 7431568.355
+    energy: 633294193.4339999
+  - name: system.chip.l2
+    energy: 284804395.296
   - name: system.chip.membus
-    energy: 1772003.82
-  - name: system.chip.l2bus
-    energy: 15938266.444
+    energy: 78564454.74
+  - name: system.chip.tol2bus
+    energy: 181632690.04
   - name: system.chip.cpu.cpu_decoder
-    energy: 521204923.869
+    energy: 1328264072.723
   - name: system.chip.cpu.cpu_fetch_buffer
-    energy: 523089614.54399997
+    energy: 1333067110.448
   - name: system.chip.cpu.cpu_fpu
-    energy: 1588125842.76
+    energy: 7639127320.872
   - name: system.chip.cpu.cpu_inst_queue_fp
-    energy: 0.0
+    energy: 86257380.839
   - name: system.chip.cpu.cpu_inst_queue_int
-    energy: 820300894.138
+    energy: 2386494659.693
   - name: system.chip.cpu.cpu_int_alu
-    energy: 1031449657.8800001
+    energy: 4466829726.780001
   - name: system.chip.cpu.cpu_load_queue
-    energy: 134362161.242
+    energy: 313638197.332
   - name: system.chip.cpu.cpu_mul_alu
-    energy: 1058735226.519
+    energy: 4576913786.907001
   - name: system.chip.cpu.cpu_regfile_fp
-    energy: 29796528.703
+    energy: 175237637.037
   - name: system.chip.cpu.cpu_regfile_int
-    energy: 283016999.703
+    energy: 859978309.876
   - name: system.chip.cpu.cpu_rename_unit
-    energy: 1232769064.964
+    energy: 3753233912.314
   - name: system.chip.cpu.cpu_reorder_buffer
-    energy: 880168665.513
+    energy: 2675972157.432
   - name: system.chip.cpu.cpu_store_queue
-    energy: 537471528.756
+    energy: 1254606206.376
   - name: system.chip.cpu.itb
     energy: 0.0
   - name: system.chip.cpu.dtb
     energy: 0.0
   - name: system.chip.cpu.branchPred_btb
-    energy: 43542091.515
+    energy: 101883068.04
   - name: system.chip.cpu.branchPred_bp
-    energy: 140935708.121
+    energy: 463219826.023

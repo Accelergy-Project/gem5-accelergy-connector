@@ -4,9 +4,10 @@ path = "system.chip"
 name_append = ""
 
 def criteria(params):
-    return params["name"] == "l2cache"
+    return params["name"] in ["l2cache", "l2"]
 
 constants = [
+    ("cache_type", "l2cache"),
     ("n_rd_ports", 1),
     ("n_wr_ports", 1),
     ("n_rdwr_ports", 1),
@@ -14,7 +15,6 @@ constants = [
 ]
 
 attributes = [
-    ("cache_type", "name"),
     ("size", "size"),
     ("associativity", "assoc"),
     ("data_latency", "response_latency"),

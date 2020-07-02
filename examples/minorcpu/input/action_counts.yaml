@@ -4,71 +4,71 @@ action_counts:
   - name: system.chip.dcache
     action_counts:
     - name: read_access
-      counts: 7073718
+      counts: 15462311
     - name: read_miss
-      counts: 12900
+      counts: 78420
     - name: write_access
-      counts: 2133221
+      counts: 6851816
     - name: write_miss
-      counts: 54
+      counts: 131123
   - name: system.chip.icache
     action_counts:
     - name: read_access
-      counts: 6240022
+      counts: 14366543
     - name: read_miss
-      counts: 33
-  - name: system.chip.l2cache
+      counts: 36
+  - name: system.chip.l2
     action_counts:
     - name: read_access
-      counts: 12967
+      counts: 143991
     - name: read_miss
-      counts: 4177
+      counts: 135191
     - name: write_access
-      counts: 11905
+      counts: 142963
     - name: write_miss
       counts: 0
   - name: system.chip.membus
     action_counts:
     - name: access
-      counts: 8403
-  - name: system.chip.l2bus
+      counts: 372877
+  - name: system.chip.tol2bus
     action_counts:
     - name: access
-      counts: 37844
+      counts: 431021
   - name: system.chip.cpu.cpu_fpu
     action_counts:
     - name: instruction
-      counts: 0
+      counts: 3145728
     - name: idle
-      counts: 24590863
+      counts: 90688063
   - name: system.chip.cpu.cpu_int_alu
     action_counts:
     - name: instruction
-      counts: 6124352
+      counts: 26571599
     - name: idle
-      counts: 24590863
+      counts: 90688063
   - name: system.chip.cpu.cpu_mul_alu
     action_counts:
     - name: instruction
       counts: 0
     - name: idle
-      counts: 24590863
+      counts: 90688063
   - name: system.chip.cpu.cpu_regfile_fp
     action_counts:
     - name: read
-      counts: 0
+      counts: 7340032
     - name: write
-      counts: 0
+      counts: 5242880
     - name: idle
-      counts: 24590863
+      counts: 90688063
   - name: system.chip.cpu.cpu_regfile_int
     action_counts:
     - name: read
-      counts: 14381925
+      counts: 58946438
     - name: write
-      counts: 12765425
+      counts: 41601283
     - name: idle
-      counts: 24590863
+      counts: 90688063
   - name: system.chip.cpu.itb
     action_counts:
     - name: access
@@ -84,14 +84,14 @@ action_counts:
   - name: system.chip.cpu.branchPred_btb
     action_counts:
     - name: read
-      counts: 1548010
+      counts: 3907343
     - name: write
-      counts: 1548010
+      counts: 3907343
   - name: system.chip.cpu.branchPred_bp
     action_counts:
     - name: access
-      counts: 2124070
+      counts: 4483382
     - name: miss
-      counts: 484493
+      counts: 484517
     - name: idle
-      counts: 24590863
+      counts: 90688063

@@ -177,26 +177,26 @@ ERT:
     - name: write_miss
       arguments: null
       energy: 1
-  - name: system.chip.l2cache
+  - name: system.chip.l2
     actions:
     - name: read_access
       arguments: null
-      energy: 257.345
+      energy: 963.387
     - name: read_miss
       arguments: null
       energy: 0.0
     - name: write_access
       arguments: null
-      energy: 344.255
+      energy: 1021.812
     - name: write_miss
       arguments: null
-      energy: 962.371
+      energy: 972.721
   - name: system.chip.membus
     actions:
     - name: access
       arguments: null
       energy: 210.702
-  - name: system.chip.l2bus
+  - name: system.chip.tol2bus
     actions:
     - name: access
       arguments: null

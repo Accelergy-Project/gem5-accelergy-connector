@@ -92,7 +92,7 @@ architecture:
       arguments: null
     - name: write_miss
       arguments: null
-  - name: system.chip.l2cache
+  - name: system.chip.l2
     class: cache
     actions:
     - name: read_access
@@ -108,7 +108,7 @@ architecture:
     actions:
     - name: access
       arguments: null
-  - name: system.chip.l2bus
+  - name: system.chip.tol2bus
     class: xbar
     actions:
     - name: access

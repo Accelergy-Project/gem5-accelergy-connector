@@ -7,6 +7,7 @@ def criteria(params):
     return params["name"] == "icache"
 
 constants = [
+    ("cache_type", "icache"),
     ("n_rd_ports", 1),
     ("n_wr_ports", 1),
     ("n_rdwr_ports", 1),
@@ -14,7 +15,6 @@ constants = [
 ]
 
 attributes = [
-    ("cache_type", "name"),
     ("size", "size"),
     ("associativity", "assoc"),
     ("data_latency", "response_latency"),

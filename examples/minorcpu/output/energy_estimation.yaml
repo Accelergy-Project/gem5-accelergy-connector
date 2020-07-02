@@ -2,30 +2,30 @@ energy_estimation:
   version: 0.3
   components:
   - name: system.chip.dcache
-    energy: 1033225117.0320001
+    energy: 2576614466.934
   - name: system.chip.icache
-    energy: 526374023.232
-  - name: system.chip.l2cache
-    energy: 7435348.390000001
+    energy: 1211856189.513
+  - name: system.chip.l2
+    energy: 284800366.473
   - name: system.chip.membus
-    energy: 1770528.906
-  - name: system.chip.l2bus
-    energy: 15947537.287999999
+    energy: 78565929.654
+  - name: system.chip.tol2bus
+    energy: 181633111.442
   - name: system.chip.cpu.cpu_fpu
-    energy: 2546629772.28
+    energy: 10165313002.872002
   - name: system.chip.cpu.cpu_int_alu
-    energy: 1350950967.7200003
+    energy: 5308891620.780001
   - name: system.chip.cpu.cpu_mul_alu
-    energy: 1697728590.657
+    energy: 6261013181.457
   - name: system.chip.cpu.cpu_regfile_fp
-    energy: 47780046.809
+    energy: 230784238.63300002
   - name: system.chip.cpu.cpu_regfile_int
-    energy: 250392393.84399998
+    energy: 916239175.9390001
   - name: system.chip.cpu.itb
     energy: 0.0
   - name: system.chip.cpu.dtb
     energy: 0.0
   - name: system.chip.cpu.branchPred_btb
-    energy: 38135226.35
+    energy: 96257394.805
   - name: system.chip.cpu.branchPred_bp
-    energy: 183828162.279
+    energy: 586696433.639

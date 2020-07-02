@@ -188,18 +188,18 @@ ERT_summary:
     primitive_estimation(s):
     - system.chip.icache:
         estimator: McPat
-  - name: system.chip.l2cache
+  - name: system.chip.l2
     actions:
     - name: read_access
-      energy: 257.345
+      energy: 963.387
     - name: read_miss
       energy: 0.0
     - name: write_access
-      energy: 344.255
+      energy: 1021.812
     - name: write_miss
-      energy: 962.371
+      energy: 972.721
     primitive_estimation(s):
-    - system.chip.l2cache:
+    - system.chip.l2:
         estimator: McPat
   - name: system.chip.membus
     actions:
@@ -208,10 +208,10 @@ ERT_summary:
     primitive_estimation(s):
     - system.chip.membus:
         estimator: McPat
-  - name: system.chip.l2bus
+  - name: system.chip.tol2bus
     actions:
     - name: access
       energy: 421.402
     primitive_estimation(s):
-    - system.chip.l2bus:
+    - system.chip.tol2bus:
         estimator: McPat

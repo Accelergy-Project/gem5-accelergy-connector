@@ -13,11 +13,11 @@ architecture:
         class: cache
         gem5_class: Cache
         attributes:
+          cache_type: dcache
           n_rd_ports: 1
           n_wr_ports: 1
           n_rdwr_ports: 1
           n_banks: 1
-          cache_type: dcache
           size: 65536
           associativity: 2
           data_latency: 2
@@ -29,11 +29,11 @@ architecture:
         class: cache
         gem5_class: Cache
         attributes:
+          cache_type: icache
           n_rd_ports: 1
           n_wr_ports: 1
           n_rdwr_ports: 1
           n_banks: 1
-          cache_type: icache
           size: 16384
           associativity: 2
           data_latency: 2
@@ -41,16 +41,16 @@ architecture:
           mshr_size: 4
           tag_size: 64
           write_buffer_size: 8
-      - name: l2cache
+      - name: l2
         class: cache
         gem5_class: Cache
         attributes:
+          cache_type: l2cache
           n_rd_ports: 1
           n_wr_ports: 1
           n_rdwr_ports: 1
           n_banks: 4
-          cache_type: l2cache
-          size: 262144
+          size: 2097152
           associativity: 8
           data_latency: 20
           block_size: 64
@@ -66,7 +66,7 @@ architecture:
           link_throughput: 1
           link_latency: 2
           flit_bytes: 16
-      - name: l2bus
+      - name: tol2bus
         class: xbar
         gem5_class: CoherentXBar
         attributes:

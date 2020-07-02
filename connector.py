@@ -160,6 +160,8 @@ class Arch:
         for key, value in source.items():
             if type(value) == dict:
                 self.populateClassInstances(value, path + "." + key)
+            if type(value) == list and len(value) == 1 and type(value[0]) == dict:
+                self.populateClassInstances(value[0], path + "." + key)
 
     def addLocal(self, path, name, accelergy_class, gem5_class):
         pathNames = path.split(".")
@@ -191,6 +193,8 @@ class Arch:
         for name in names:
             if name in source:
                 source = source[name]
+                if type(source) == list:
+                    source = source[0]
             else:
                 raise Exception("Unable to find source component" + path)
         return source
@@ -201,6 +205,8 @@ class Arch:
         for name in names[:-1]:
             if name in source:
                 source = source[name]
+                if type(source) == list:
+                    source = source[0]
             else:
                 return None
         if names[-1] in source:

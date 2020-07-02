@@ -58,12 +58,12 @@ ART_summary:
   - name: system.chip.icache
     area: 569708.0
     primitive_estimations: Cacti
-  - name: system.chip.l2cache
-    area: 54298700.0
+  - name: system.chip.l2
+    area: 74420400.0
     primitive_estimations: Cacti
   - name: system.chip.membus
     area: 0.127
     primitive_estimations: McPat
-  - name: system.chip.l2bus
+  - name: system.chip.tol2bus
     area: 0.255
     primitive_estimations: McPat
