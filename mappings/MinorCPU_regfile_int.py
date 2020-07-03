@@ -5,7 +5,10 @@ name_append = "regfile_int"
 
 criteria = True
 
-constants = [("type", "int")]
+constants = [
+    ("type", "int"),
+    ("phys_size", 64)
+]
 
 attributes = []
 

@@ -7,7 +7,9 @@ criteria = True
 
 constants = [("type", "int")]
 
-attributes = []
+attributes = [
+    ("phys_size", "numPhysFloatRegs")
+]
 
 actions = [
     ("read", "int_regfile_reads"),

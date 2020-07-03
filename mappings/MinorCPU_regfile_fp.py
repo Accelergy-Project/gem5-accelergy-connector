@@ -5,7 +5,10 @@ name_append = "regfile_fp"
 
 criteria = True
 
-constants = [("type", "fp")]
+constants = [
+    ("type", "fp"),
+    ("phys_size", 64)
+]
 
 attributes = []
 

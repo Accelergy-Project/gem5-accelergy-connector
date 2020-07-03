@@ -4,49 +4,49 @@ ERT_summary:
   - name: system.chip.cpu.cpu_fpu
     actions:
     - name: instruction
-      energy: 245.939
+      energy: 142.379
     - name: idle
-      energy: 103.56
+      energy: 0.0
     primitive_estimation(s):
     - system.chip.cpu.cpu_fpu:
         estimator: McPat
   - name: system.chip.cpu.cpu_int_alu
     actions:
     - name: instruction
-      energy: 81.98
+      energy: 47.46
     - name: idle
-      energy: 34.52
+      energy: 0.0
     primitive_estimation(s):
     - system.chip.cpu.cpu_int_alu:
         estimator: McPat
   - name: system.chip.cpu.cpu_mul_alu
     actions:
     - name: instruction
-      energy: 163.959
+      energy: 94.92
     - name: idle
-      energy: 69.039
+      energy: 0.0
     primitive_estimation(s):
     - system.chip.cpu.cpu_mul_alu:
         estimator: McPat
   - name: system.chip.cpu.cpu_regfile_fp
     actions:
     - name: read
-      energy: 3.887
-    - name: write
-      energy: 4.968
-    - name: idle
       energy: 1.943
+    - name: write
+      energy: 3.025
+    - name: idle
+      energy: 0.002
     primitive_estimation(s):
     - system.chip.cpu.cpu_regfile_fp:
         estimator: McPat
   - name: system.chip.cpu.cpu_regfile_int
     actions:
     - name: read
-      energy: 5.777
-    - name: write
-      energy: 7.543
-    - name: idle
       energy: 2.888
+    - name: write
+      energy: 4.654
+    - name: idle
+      energy: 0.003
     primitive_estimation(s):
     - system.chip.cpu.cpu_regfile_int:
         estimator: McPat
@@ -80,11 +80,11 @@ ERT_summary:
   - name: system.chip.cpu.branchPred_bp
     actions:
     - name: access
-      energy: 21.182
+      energy: 15.843
     - name: miss
-      energy: 15.574
+      energy: 10.235
     - name: idle
-      energy: 5.339
+      energy: 0.005
     primitive_estimation(s):
     - system.chip.cpu.branchPred_bp:
         estimator: McPat
@@ -119,9 +119,9 @@ ERT_summary:
     - name: read_access
       energy: 963.387
     - name: read_miss
-      energy: 0.0
+      energy: -951.177
     - name: write_access
-      energy: 1021.812
+      energy: 0.001
     - name: write_miss
       energy: 972.721
     primitive_estimation(s):

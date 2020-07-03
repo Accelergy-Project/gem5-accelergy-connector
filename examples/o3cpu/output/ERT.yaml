@@ -15,10 +15,10 @@ ERT:
     actions:
     - name: instruction
       arguments: null
-      energy: 245.939
+      energy: 142.379
     - name: idle
       arguments: null
-      energy: 103.56
+      energy: 0.0
   - name: system.chip.cpu.cpu_inst_queue_fp
     actions:
     - name: read
@@ -45,10 +45,10 @@ ERT:
     actions:
     - name: instruction
       arguments: null
-      energy: 81.98
+      energy: 47.46
     - name: idle
       arguments: null
-      energy: 34.52
+      energy: 0.0
   - name: system.chip.cpu.cpu_load_queue
     actions:
     - name: load
@@ -61,43 +61,43 @@ ERT:
     actions:
     - name: instruction
       arguments: null
-      energy: 163.959
+      energy: 94.92
     - name: idle
       arguments: null
-      energy: 69.039
+      energy: 0.0
   - name: system.chip.cpu.cpu_regfile_fp
     actions:
     - name: read
       arguments: null
-      energy: 3.887
+      energy: 4.378
     - name: write
       arguments: null
-      energy: 4.968
+      energy: 6.043
     - name: idle
       arguments: null
-      energy: 1.943
+      energy: 0.004
   - name: system.chip.cpu.cpu_regfile_int
     actions:
     - name: read
       arguments: null
-      energy: 5.777
+      energy: 6.692
     - name: write
       arguments: null
-      energy: 7.543
+      energy: 9.319
     - name: idle
       arguments: null
-      energy: 2.888
+      energy: 0.007
   - name: system.chip.cpu.cpu_rename_unit
     actions:
     - name: read
       arguments: null
-      energy: 20.501
+      energy: 1.734
     - name: write
       arguments: null
-      energy: 20.221
+      energy: 1.454
     - name: idle
       arguments: null
-      energy: 18.767
+      energy: 0.0
   - name: system.chip.cpu.cpu_reorder_buffer
     actions:
     - name: read
@@ -142,13 +142,13 @@ ERT:
     actions:
     - name: access
       arguments: null
-      energy: 21.182
+      energy: 15.843
     - name: miss
       arguments: null
-      energy: 15.574
+      energy: 10.235
     - name: idle
       arguments: null
-      energy: 5.339
+      energy: 0.005
   - name: system.chip.dcache
     actions:
     - name: read_access
@@ -184,10 +184,10 @@ ERT:
       energy: 963.387
     - name: read_miss
       arguments: null
-      energy: 0.0
+      energy: -951.177
     - name: write_access
       arguments: null
-      energy: 1021.812
+      energy: 0.001
     - name: write_miss
       arguments: null
       energy: 972.721

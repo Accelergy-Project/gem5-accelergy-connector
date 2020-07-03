@@ -126,11 +126,13 @@ architecture:
           gem5_class: DerivO3CPU
           attributes:
             type: fp
+            phys_size: 256
         - name: cpu_regfile_int
           class: cpu_regfile
           gem5_class: DerivO3CPU
           attributes:
             type: int
+            phys_size: 256
         - name: cpu_rename_unit
           class: renaming_unit
           gem5_class: DerivO3CPU
