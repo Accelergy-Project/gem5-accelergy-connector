@@ -8,7 +8,7 @@ ERT:
       energy: 142.379
     - name: idle
       arguments: null
-      energy: 0.0
+      energy: 103.56
   - name: system.chip.cpu.cpu_int_alu
     actions:
     - name: instruction
@@ -16,7 +16,7 @@ ERT:
       energy: 47.46
     - name: idle
       arguments: null
-      energy: 0.0
+      energy: 34.52
   - name: system.chip.cpu.cpu_mul_alu
     actions:
     - name: instruction
@@ -24,7 +24,7 @@ ERT:
       energy: 94.92
     - name: idle
       arguments: null
-      energy: 0.0
+      energy: 69.039
   - name: system.chip.cpu.cpu_regfile_fp
     actions:
     - name: read
@@ -33,9 +33,6 @@ ERT:
     - name: write
       arguments: null
       energy: 3.025
-    - name: idle
-      arguments: null
-      energy: 0.002
   - name: system.chip.cpu.cpu_regfile_int
     actions:
     - name: read
@@ -44,9 +41,6 @@ ERT:
     - name: write
       arguments: null
       energy: 4.654
-    - name: idle
-      arguments: null
-      energy: 0.003
   - name: system.chip.cpu.itb
     actions:
     - name: access
@@ -79,9 +73,6 @@ ERT:
     - name: miss
       arguments: null
       energy: 10.235
-    - name: idle
-      arguments: null
-      energy: 0.005
   - name: system.chip.dcache
     actions:
     - name: read_access

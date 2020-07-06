@@ -59,16 +59,12 @@ action_counts:
       counts: 7340032
     - name: write
       counts: 5242880
-    - name: idle
-      counts: 90688063
   - name: system.chip.cpu.cpu_regfile_int
     action_counts:
     - name: read
       counts: 58946438
     - name: write
       counts: 41601283
-    - name: idle
-      counts: 90688063
   - name: system.chip.cpu.itb
     action_counts:
     - name: access
@@ -93,5 +89,3 @@ action_counts:
       counts: 4483382
     - name: miss
       counts: 484517
-    - name: idle
-      counts: 90688063

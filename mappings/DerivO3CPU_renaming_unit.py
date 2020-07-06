@@ -7,7 +7,9 @@ criteria = True
 
 constants = []
 
-attributes = []
+attributes = [
+    ("decode_width", "decodeWidth")
+]
 
 actions = [
     ("read", "rename.RenameLookups"),

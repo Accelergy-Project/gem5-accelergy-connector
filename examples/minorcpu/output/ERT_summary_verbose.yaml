@@ -6,7 +6,7 @@ ERT_summary:
     - name: instruction
       energy: 142.379
     - name: idle
-      energy: 0.0
+      energy: 103.56
     primitive_estimation(s):
     - system.chip.cpu.cpu_fpu:
         estimator: McPat
@@ -15,7 +15,7 @@ ERT_summary:
     - name: instruction
       energy: 47.46
     - name: idle
-      energy: 0.0
+      energy: 34.52
     primitive_estimation(s):
     - system.chip.cpu.cpu_int_alu:
         estimator: McPat
@@ -24,7 +24,7 @@ ERT_summary:
     - name: instruction
       energy: 94.92
     - name: idle
-      energy: 0.0
+      energy: 69.039
     primitive_estimation(s):
     - system.chip.cpu.cpu_mul_alu:
         estimator: McPat
@@ -34,8 +34,6 @@ ERT_summary:
       energy: 1.943
     - name: write
       energy: 3.025
-    - name: idle
-      energy: 0.002
     primitive_estimation(s):
     - system.chip.cpu.cpu_regfile_fp:
         estimator: McPat
@@ -45,8 +43,6 @@ ERT_summary:
       energy: 2.888
     - name: write
       energy: 4.654
-    - name: idle
-      energy: 0.003
     primitive_estimation(s):
     - system.chip.cpu.cpu_regfile_int:
         estimator: McPat
@@ -83,8 +79,6 @@ ERT_summary:
       energy: 15.843
     - name: miss
       energy: 10.235
-    - name: idle
-      energy: 0.005
     primitive_estimation(s):
     - system.chip.cpu.branchPred_bp:
         estimator: McPat

@@ -136,6 +136,8 @@ architecture:
         - name: cpu_rename_unit
           class: renaming_unit
           gem5_class: DerivO3CPU
+          attributes:
+            decode_width: 8
         - name: cpu_reorder_buffer
           class: reorder_buffer
           gem5_class: DerivO3CPU

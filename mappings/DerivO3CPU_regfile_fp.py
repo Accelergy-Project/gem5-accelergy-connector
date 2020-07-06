@@ -13,6 +13,5 @@ attributes = [
 
 actions = [
     ("read", "fp_regfile_reads"),
-    ("write", "fp_regfile_writes"),
-    ("idle", "CYCLES")
+    ("write", "fp_regfile_writes")
 ]
