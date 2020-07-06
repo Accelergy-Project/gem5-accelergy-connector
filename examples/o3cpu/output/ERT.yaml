@@ -178,7 +178,7 @@ ERT:
       energy: -951.177
     - name: write_access
       arguments: null
-      energy: 0.001
+      energy: 1021.812
     - name: write_miss
       arguments: null
       energy: 972.721

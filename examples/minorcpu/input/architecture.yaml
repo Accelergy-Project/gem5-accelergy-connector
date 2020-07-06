@@ -5,6 +5,7 @@ architecture:
     attributes:
       technology: 45nm
       datawidth: 32
+      device_type: lop
       clockrate: 999
     subtree:
     - name: chip

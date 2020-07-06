@@ -145,6 +145,9 @@ class Arch:
         if "datawidth" not in attributes:
             raise Exception("Attribute datawidth not in attributes.yaml")
         self.arch["attributes"]["datawidth"] = attributes["datawidth"]
+        if "device_type" not in attributes:
+            raise Exception("Attribute device_type not in attributes.yaml")
+        self.arch["attributes"]["device_type"] = attributes["device_type"]
         clockrate = self.getParamField("system.clk_domain", "clock")
         if clockrate is None:
             raise Exception("Unable to parse clockrate at system.clk_domain.clock")

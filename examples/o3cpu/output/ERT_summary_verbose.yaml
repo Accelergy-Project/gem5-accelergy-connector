@@ -189,7 +189,7 @@ ERT_summary:
     - name: read_miss
       energy: -951.177
     - name: write_access
-      energy: 0.001
+      energy: 1021.812
     - name: write_miss
       energy: 972.721
     primitive_estimation(s):

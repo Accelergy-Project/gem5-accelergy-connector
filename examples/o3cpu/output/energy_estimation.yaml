@@ -6,7 +6,7 @@ energy_estimation:
   - name: system.chip.icache
     energy: 633294193.4339999
   - name: system.chip.l2
-    energy: 10130545.239999974
+    energy: 156214776.66599995
   - name: system.chip.membus
     energy: 78564454.74
   - name: system.chip.tol2bus
