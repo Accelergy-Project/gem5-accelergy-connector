@@ -10,7 +10,9 @@ constants = [
     ("phys_size", 64)
 ]
 
-attributes = []
+attributes = [
+    ("issue_width", "executeIssueLimit")
+]
 
 # assuming alu actions are 2R1W
 actions = [

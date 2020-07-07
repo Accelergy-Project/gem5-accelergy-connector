@@ -58,9 +58,9 @@ ERT_summary:
   - name: system.chip.cpu.cpu_load_queue
     actions:
     - name: load
-      energy: 11.743
+      energy: 18.235
     - name: store
-      energy: 11.743
+      energy: 18.235
     primitive_estimation(s):
     - system.chip.cpu.cpu_load_queue:
         estimator: McPat
@@ -76,29 +76,29 @@ ERT_summary:
   - name: system.chip.cpu.cpu_regfile_fp
     actions:
     - name: read
-      energy: 4.378
+      energy: 7.462
     - name: write
-      energy: 6.043
+      energy: 10.41
     primitive_estimation(s):
     - system.chip.cpu.cpu_regfile_fp:
         estimator: McPat
   - name: system.chip.cpu.cpu_regfile_int
     actions:
     - name: read
-      energy: 6.692
+      energy: 7.462
     - name: write
-      energy: 9.319
+      energy: 10.41
     primitive_estimation(s):
     - system.chip.cpu.cpu_regfile_int:
         estimator: McPat
   - name: system.chip.cpu.cpu_rename_unit
     actions:
     - name: read
-      energy: 35.29
+      energy: 37.962
     - name: write
-      energy: 2.677
+      energy: 4.469
     - name: idle
-      energy: 20.889
+      energy: 22.402
     primitive_estimation(s):
     - system.chip.cpu.cpu_rename_unit:
         estimator: McPat
@@ -114,9 +114,9 @@ ERT_summary:
   - name: system.chip.cpu.cpu_store_queue
     actions:
     - name: load
-      energy: 46.974
+      energy: 36.469
     - name: store
-      energy: 46.974
+      energy: 36.469
     primitive_estimation(s):
     - system.chip.cpu.cpu_store_queue:
         estimator: McPat

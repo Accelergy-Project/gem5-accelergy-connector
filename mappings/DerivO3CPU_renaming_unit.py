@@ -8,7 +8,10 @@ criteria = True
 constants = []
 
 attributes = [
-    ("decode_width", "decodeWidth")
+    ("decode_width", "decodeWidth"),
+    ("commit_width", "commitWidth"),
+    ("phys_irf_size", "numPhysIntRegs"),
+    ("phys_frf_size", "numPhysFloatRegs")
 ]
 
 actions = [

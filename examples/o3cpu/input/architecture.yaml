@@ -116,6 +116,7 @@ architecture:
           gem5_class: DerivO3CPU
           attributes:
             type: load
+            ports: 2
             entries: 32
         - name: cpu_mul_alu
           class: func_unit
@@ -128,17 +129,22 @@ architecture:
           attributes:
             type: fp
             phys_size: 256
+            issue_width: 8
         - name: cpu_regfile_int
           class: cpu_regfile
           gem5_class: DerivO3CPU
           attributes:
             type: int
             phys_size: 256
+            issue_width: 8
         - name: cpu_rename_unit
           class: renaming_unit
           gem5_class: DerivO3CPU
           attributes:
             decode_width: 8
+            commit_width: 8
+            phys_irf_size: 256
+            phys_frf_size: 256
         - name: cpu_reorder_buffer
           class: reorder_buffer
           gem5_class: DerivO3CPU
@@ -149,6 +155,7 @@ architecture:
           gem5_class: DerivO3CPU
           attributes:
             type: store
+            ports: 2
             entries: 32
         - name: itb
           class: tlb

@@ -6,7 +6,8 @@ name_append = "store_queue"
 criteria = True
 
 constants = [
-    ("type", "store")
+    ("type", "store"),
+    ("ports", 2)
 ]
 
 attributes = [

@@ -8,7 +8,8 @@ criteria = True
 constants = [("type", "fp")]
 
 attributes = [
-    ("phys_size", "numPhysIntRegs")
+    ("phys_size", "numPhysFloatRegs"),
+    ("issue_width", "issueWidth")
 ]
 
 actions = [

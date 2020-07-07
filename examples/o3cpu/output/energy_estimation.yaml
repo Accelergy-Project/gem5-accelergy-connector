@@ -24,19 +24,19 @@ energy_estimation:
   - name: system.chip.cpu.cpu_int_alu
     energy: 3549578129.3
   - name: system.chip.cpu.cpu_load_queue
-    energy: 313638197.332
+    energy: 487029935.14
   - name: system.chip.cpu.cpu_mul_alu
     energy: 4576913786.907001
   - name: system.chip.cpu.cpu_regfile_fp
-    energy: 54637860.072
+    energy: 93703860.90799999
   - name: system.chip.cpu.cpu_regfile_int
-    energy: 797999120.519
+    energy: 890579375.9760001
   - name: system.chip.cpu.cpu_rename_unit
-    energy: 4126271077.764
+    energy: 4512180048.609
   - name: system.chip.cpu.cpu_reorder_buffer
     energy: 2675972157.432
   - name: system.chip.cpu.cpu_store_queue
-    energy: 1254606206.376
+    energy: 974033161.756
   - name: system.chip.cpu.itb
     energy: 0.0
   - name: system.chip.cpu.dtb

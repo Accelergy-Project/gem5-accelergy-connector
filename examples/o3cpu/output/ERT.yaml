@@ -53,10 +53,10 @@ ERT:
     actions:
     - name: load
       arguments: null
-      energy: 11.743
+      energy: 18.235
     - name: store
       arguments: null
-      energy: 11.743
+      energy: 18.235
   - name: system.chip.cpu.cpu_mul_alu
     actions:
     - name: instruction
@@ -69,29 +69,29 @@ ERT:
     actions:
     - name: read
       arguments: null
-      energy: 4.378
+      energy: 7.462
     - name: write
       arguments: null
-      energy: 6.043
+      energy: 10.41
   - name: system.chip.cpu.cpu_regfile_int
     actions:
     - name: read
       arguments: null
-      energy: 6.692
+      energy: 7.462
     - name: write
       arguments: null
-      energy: 9.319
+      energy: 10.41
   - name: system.chip.cpu.cpu_rename_unit
     actions:
     - name: read
       arguments: null
-      energy: 35.29
+      energy: 37.962
     - name: write
       arguments: null
-      energy: 2.677
+      energy: 4.469
     - name: idle
       arguments: null
-      energy: 20.889
+      energy: 22.402
   - name: system.chip.cpu.cpu_reorder_buffer
     actions:
     - name: read
@@ -104,10 +104,10 @@ ERT:
     actions:
     - name: load
       arguments: null
-      energy: 46.974
+      energy: 36.469
     - name: store
       arguments: null
-      energy: 46.974
+      energy: 36.469
   - name: system.chip.cpu.itb
     actions:
     - name: access
