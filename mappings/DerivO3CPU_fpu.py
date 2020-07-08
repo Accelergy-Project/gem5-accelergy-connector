@@ -12,14 +12,6 @@ constants = [
 attributes = []
 
 actions = [
-    ("instruction",
-     "commit.op_class_0::FloatAdd",
-     "commit.op_class_0::FloatCmp",
-     "commit.op_class_0::FloatCvt",
-     "commit.op_class_0::FloatMult",
-     "commit.op_class_0::FloatMultAcc",
-     "commit.op_class_0::FloatDiv",
-     "commit.op_class_0::FloatMisc",
-     "commit.op_class_0::FloatSqrt"),
+    ("instruction", "iq.fp_alu_accesses"),
     ("idle", "CYCLES")
 ]

@@ -29,18 +29,18 @@ ERT:
     actions:
     - name: read
       arguments: null
-      energy: 1.943
+      energy: 1.239
     - name: write
       arguments: null
-      energy: 3.025
+      energy: 1.967
   - name: system.chip.cpu.cpu_regfile_int
     actions:
     - name: read
       arguments: null
-      energy: 2.888
+      energy: 1.239
     - name: write
       arguments: null
-      energy: 4.654
+      energy: 1.967
   - name: system.chip.cpu.itb
     actions:
     - name: access

@@ -46,7 +46,7 @@ action_counts:
   - name: system.chip.cpu.cpu_fpu
     action_counts:
     - name: instruction
-      counts: 3145728
+      counts: 6291801
     - name: idle
       counts: 66294613
   - name: system.chip.cpu.cpu_inst_queue_fp
@@ -68,7 +68,7 @@ action_counts:
   - name: system.chip.cpu.cpu_int_alu
     action_counts:
     - name: instruction
-      counts: 26571599
+      counts: 52494760
     - name: idle
       counts: 66294613
   - name: system.chip.cpu.cpu_load_queue

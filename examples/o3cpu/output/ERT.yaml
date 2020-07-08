@@ -23,24 +23,24 @@ ERT:
     actions:
     - name: read
       arguments: null
-      energy: 1.952
+      energy: 1.895
     - name: write
       arguments: null
-      energy: 5.847
+      energy: 5.997
     - name: wakeup
       arguments: null
-      energy: 3.958
+      energy: 2.877
   - name: system.chip.cpu.cpu_inst_queue_int
     actions:
     - name: read
       arguments: null
-      energy: 11.145
+      energy: 7.67
     - name: write
       arguments: null
-      energy: 3.049
+      energy: 2.797
     - name: wakeup
       arguments: null
-      energy: 5.264
+      energy: 3.925
   - name: system.chip.cpu.cpu_int_alu
     actions:
     - name: instruction

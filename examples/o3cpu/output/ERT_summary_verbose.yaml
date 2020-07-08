@@ -27,22 +27,22 @@ ERT_summary:
   - name: system.chip.cpu.cpu_inst_queue_fp
     actions:
     - name: read
-      energy: 1.952
+      energy: 1.895
     - name: write
-      energy: 5.847
+      energy: 5.997
     - name: wakeup
-      energy: 3.958
+      energy: 2.877
     primitive_estimation(s):
     - system.chip.cpu.cpu_inst_queue_fp:
         estimator: McPat
   - name: system.chip.cpu.cpu_inst_queue_int
     actions:
     - name: read
-      energy: 11.145
+      energy: 7.67
     - name: write
-      energy: 3.049
+      energy: 2.797
     - name: wakeup
-      energy: 5.264
+      energy: 3.925
     primitive_estimation(s):
     - system.chip.cpu.cpu_inst_queue_int:
         estimator: McPat

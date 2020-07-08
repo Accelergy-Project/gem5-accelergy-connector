@@ -10,7 +10,8 @@ constants = [
 ]
 
 attributes = [
-    ("entries", "numIQEntries")
+    ("entries", "fetchQueueSize"),
+    ("issue_width", "issueWidth")
 ]
 
 actions = [

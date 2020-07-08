@@ -100,12 +100,14 @@ architecture:
           attributes:
             type: fp
             phys_size: 64
+            issue_width: 2
         - name: cpu_regfile_int
           class: cpu_regfile
           gem5_class: MinorCPU
           attributes:
             type: int
             phys_size: 64
+            issue_width: 2
         - name: itb
           class: tlb
           gem5_class: RiscvTLB

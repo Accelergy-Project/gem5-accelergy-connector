@@ -16,13 +16,13 @@ energy_estimation:
   - name: system.chip.cpu.cpu_fetch_buffer
     energy: 1333067110.448
   - name: system.chip.cpu.cpu_fpu
-    energy: 7313355729.191999
+    energy: 7761290456.858999
   - name: system.chip.cpu.cpu_inst_queue_fp
-    energy: 86257380.839
+    energy: 79681422.801
   - name: system.chip.cpu.cpu_inst_queue_int
-    energy: 2386494659.693
+    energy: 1696585616.9640002
   - name: system.chip.cpu.cpu_int_alu
-    energy: 3549578129.3
+    energy: 4779891350.360001
   - name: system.chip.cpu.cpu_load_queue
     energy: 487029935.14
   - name: system.chip.cpu.cpu_mul_alu

@@ -31,18 +31,18 @@ ERT_summary:
   - name: system.chip.cpu.cpu_regfile_fp
     actions:
     - name: read
-      energy: 1.943
+      energy: 1.239
     - name: write
-      energy: 3.025
+      energy: 1.967
     primitive_estimation(s):
     - system.chip.cpu.cpu_regfile_fp:
         estimator: McPat
   - name: system.chip.cpu.cpu_regfile_int
     actions:
     - name: read
-      energy: 2.888
+      energy: 1.239
     - name: write
-      energy: 4.654
+      energy: 1.967
     primitive_estimation(s):
     - system.chip.cpu.cpu_regfile_int:
         estimator: McPat
