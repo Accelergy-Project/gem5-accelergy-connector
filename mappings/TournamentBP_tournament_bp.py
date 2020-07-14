@@ -17,6 +17,6 @@ attributes = [
 ]
 
 actions = [
-    ("access", "condPredicted"),
-    ("miss", "condIncorrect")
+    ("hit", ["condPredicted"], ["condIncorrect"]),
+    ("miss", ["condIncorrect"])
 ]

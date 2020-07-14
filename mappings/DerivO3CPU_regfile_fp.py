@@ -13,6 +13,6 @@ attributes = [
 ]
 
 actions = [
-    ("read", "fp_regfile_reads"),
-    ("write", "fp_regfile_writes")
+    ("read", ["fp_regfile_reads"]),
+    ("write", ["fp_regfile_writes"])
 ]

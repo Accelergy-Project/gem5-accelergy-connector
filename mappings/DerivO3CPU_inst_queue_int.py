@@ -15,7 +15,7 @@ attributes = [
 ]
 
 actions = [
-    ("read", "iq.int_inst_queue_reads"),
-    ("write", "iq.int_inst_queue_wakeup_accesses"),
-    ("wakeup", "iq.int_inst_queue_writes")
+    ("read", ["iq.int_inst_queue_reads"]),
+    ("write", ["iq.int_inst_queue_wakeup_accesses"]),
+    ("wakeup", ["iq.int_inst_queue_writes"])
 ]

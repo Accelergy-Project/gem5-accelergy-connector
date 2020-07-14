@@ -3,25 +3,25 @@ ERT:
   tables:
   - name: system.chip.cpu.cpu_fpu
     actions:
-    - name: instruction
+    - name: access
       arguments: null
-      energy: 142.379
+      energy: 245.939
     - name: idle
       arguments: null
       energy: 103.56
   - name: system.chip.cpu.cpu_int_alu
     actions:
-    - name: instruction
+    - name: access
       arguments: null
-      energy: 47.46
+      energy: 81.98
     - name: idle
       arguments: null
       energy: 34.52
   - name: system.chip.cpu.cpu_mul_alu
     actions:
-    - name: instruction
+    - name: access
       arguments: null
-      energy: 94.92
+      energy: 163.959
     - name: idle
       arguments: null
       energy: 69.039
@@ -43,20 +43,20 @@ ERT:
       energy: 1.967
   - name: system.chip.cpu.itb
     actions:
-    - name: access
+    - name: hit
       arguments: null
       energy: 4.732
     - name: miss
       arguments: null
-      energy: 2.411
+      energy: 7.143
   - name: system.chip.cpu.dtb
     actions:
-    - name: access
+    - name: hit
       arguments: null
       energy: 4.732
     - name: miss
       arguments: null
-      energy: 2.411
+      energy: 7.143
   - name: system.chip.cpu.branchPred_btb
     actions:
     - name: read
@@ -67,54 +67,54 @@ ERT:
       energy: 14.675
   - name: system.chip.cpu.branchPred_bp
     actions:
-    - name: access
+    - name: hit
       arguments: null
       energy: 15.843
     - name: miss
       arguments: null
-      energy: 10.235
+      energy: 26.078
   - name: system.chip.dcache
     actions:
-    - name: read_access
+    - name: read_hit
       arguments: null
       energy: 105.152
     - name: read_miss
       arguments: null
-      energy: 566.845
-    - name: write_access
+      energy: 671.997
+    - name: write_hit
       arguments: null
       energy: 132.24
     - name: write_miss
       arguments: null
-      energy: 1.414
+      energy: 133.655
   - name: system.chip.icache
     actions:
-    - name: read_access
+    - name: read_hit
       arguments: null
       energy: 84.351
     - name: read_miss
       arguments: null
-      energy: 664.47
-    - name: write_access
+      energy: 748.821
+    - name: write_hit
       arguments: null
-      energy: 248.116
+      energy: 1
     - name: write_miss
       arguments: null
       energy: 1
   - name: system.chip.l2
     actions:
-    - name: read_access
+    - name: read_hit
       arguments: null
       energy: 963.387
     - name: read_miss
       arguments: null
-      energy: -951.177
-    - name: write_access
+      energy: 12.211
+    - name: write_hit
       arguments: null
       energy: 1021.812
     - name: write_miss
       arguments: null
-      energy: 972.721
+      energy: 1994.535
   - name: system.chip.membus
     actions:
     - name: access

@@ -12,6 +12,6 @@ attributes = [
 ]
 
 actions = [
-    ("access", "accesses"),
-    ("miss", "misses")
+    ("hit", ["hits"]),
+    ("miss", ["misses"])
 ]

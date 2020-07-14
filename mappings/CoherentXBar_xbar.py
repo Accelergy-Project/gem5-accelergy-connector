@@ -17,5 +17,5 @@ attributes = [
 ]
 
 actions = [
-    ("access", "pkt_count::total")
+    ("access", ["pkt_count::total"])
 ]

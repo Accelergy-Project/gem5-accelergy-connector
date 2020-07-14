@@ -58,12 +58,15 @@ attributes = [
 ]
 
 actions = [
-    ("read_access", "ReadReq_accesses::total"),
-    ("read_miss", "ReadReq_misses::total"),
-    ("write_access", "WriteReq_accesses::total"),
-    ("write_miss", "WriteReq_misses::total"),
+    ("read_access", ["ReadReq_accesses::total"]),
+    ("read_miss", ["ReadReq_misses::total"]),
+    ("write_access", ["WriteReq_accesses::total"]),
+    ("write_miss", ["WriteReq_misses::total"]),
 ]
 ```
+
+When two lists of stats are supplied for an action, stats from the second list are subtracted from the first list. This
+is used for instance to subtract the number of active cycles from total cycles to obtain the number of idle cycles.
 
 ## Modelled components
 ### Caches

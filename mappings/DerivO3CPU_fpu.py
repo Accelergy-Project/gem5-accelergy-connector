@@ -12,6 +12,6 @@ constants = [
 attributes = []
 
 actions = [
-    ("instruction", "iq.fp_alu_accesses"),
-    ("idle", "CYCLES")
+    ("access", ["iq.fp_alu_accesses"]),
+    ("idle", ["system.cpu.numCycles"], ["iq.fp_alu_accesses"])
 ]

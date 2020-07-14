@@ -4,21 +4,21 @@ architecture:
   - name: system.chip.cpu.cpu_fpu
     class: func_unit
     actions:
-    - name: instruction
+    - name: access
       arguments: null
     - name: idle
       arguments: null
   - name: system.chip.cpu.cpu_int_alu
     class: func_unit
     actions:
-    - name: instruction
+    - name: access
       arguments: null
     - name: idle
       arguments: null
   - name: system.chip.cpu.cpu_mul_alu
     class: func_unit
     actions:
-    - name: instruction
+    - name: access
       arguments: null
     - name: idle
       arguments: null
@@ -39,14 +39,14 @@ architecture:
   - name: system.chip.cpu.itb
     class: tlb
     actions:
-    - name: access
+    - name: hit
       arguments: null
     - name: miss
       arguments: null
   - name: system.chip.cpu.dtb
     class: tlb
     actions:
-    - name: access
+    - name: hit
       arguments: null
     - name: miss
       arguments: null
@@ -60,40 +60,40 @@ architecture:
   - name: system.chip.cpu.branchPred_bp
     class: tournament_bp
     actions:
-    - name: access
+    - name: hit
       arguments: null
     - name: miss
       arguments: null
   - name: system.chip.dcache
     class: cache
     actions:
-    - name: read_access
+    - name: read_hit
       arguments: null
     - name: read_miss
       arguments: null
-    - name: write_access
+    - name: write_hit
       arguments: null
     - name: write_miss
       arguments: null
   - name: system.chip.icache
     class: cache
     actions:
-    - name: read_access
+    - name: read_hit
       arguments: null
     - name: read_miss
       arguments: null
-    - name: write_access
+    - name: write_hit
       arguments: null
     - name: write_miss
       arguments: null
   - name: system.chip.l2
     class: cache
     actions:
-    - name: read_access
+    - name: read_hit
       arguments: null
     - name: read_miss
       arguments: null
-    - name: write_access
+    - name: write_hit
       arguments: null
     - name: write_miss
       arguments: null

@@ -12,6 +12,6 @@ constants = [
 attributes = []
 
 actions = [
-    ("instruction", "commit.op_class_0::IntMult", "commit.op_class_0::IntDiv"),
-    ("idle", "CYCLES")
+    ("access", ["commit.op_class_0::IntMult", "commit.op_class_0::IntDiv"]),
+    ("idle", ["system.cpu.numCycles"])
 ]

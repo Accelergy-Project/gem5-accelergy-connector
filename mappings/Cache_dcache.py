@@ -25,8 +25,8 @@ attributes = [
 ]
 
 actions = [
-    ("read_access", "ReadReq_accesses::total"),
-    ("read_miss", "ReadReq_misses::total"),
-    ("write_access", "WriteReq_accesses::total"),
-    ("write_miss", "WriteReq_misses::total"),
+    ("read_hit", ["ReadReq_hits::total"]),
+    ("read_miss", ["ReadReq_misses::total"]),
+    ("write_hit", ["WriteReq_hits::total"]),
+    ("write_miss", ["WriteReq_misses::total"]),
 ]

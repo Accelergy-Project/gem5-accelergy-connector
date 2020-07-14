@@ -12,5 +12,5 @@ attributes = [
 ]
 
 actions = [
-    ("access", "fetch.Insts")
+    ("access", ["fetch.Insts"])
 ]

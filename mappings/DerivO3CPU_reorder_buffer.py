@@ -12,6 +12,6 @@ attributes = [
 ]
 
 actions = [
-    ("read", "rob.rob_reads"),
-    ("write", "rob.rob_writes")
+    ("read", ["rob.rob_reads"]),
+    ("write", ["rob.rob_writes"])
 ]

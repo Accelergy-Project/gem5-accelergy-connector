@@ -3,8 +3,8 @@ ERT_summary:
   table_summary:
   - name: system.chip.cpu.cpu_fpu
     actions:
-    - name: instruction
-      energy: 142.379
+    - name: access
+      energy: 245.939
     - name: idle
       energy: 103.56
     primitive_estimation(s):
@@ -12,8 +12,8 @@ ERT_summary:
         estimator: McPat
   - name: system.chip.cpu.cpu_int_alu
     actions:
-    - name: instruction
-      energy: 47.46
+    - name: access
+      energy: 81.98
     - name: idle
       energy: 34.52
     primitive_estimation(s):
@@ -21,8 +21,8 @@ ERT_summary:
         estimator: McPat
   - name: system.chip.cpu.cpu_mul_alu
     actions:
-    - name: instruction
-      energy: 94.92
+    - name: access
+      energy: 163.959
     - name: idle
       energy: 69.039
     primitive_estimation(s):
@@ -48,19 +48,19 @@ ERT_summary:
         estimator: McPat
   - name: system.chip.cpu.itb
     actions:
-    - name: access
+    - name: hit
       energy: 4.732
     - name: miss
-      energy: 2.411
+      energy: 7.143
     primitive_estimation(s):
     - system.chip.cpu.itb:
         estimator: McPat
   - name: system.chip.cpu.dtb
     actions:
-    - name: access
+    - name: hit
       energy: 4.732
     - name: miss
-      energy: 2.411
+      energy: 7.143
     primitive_estimation(s):
     - system.chip.cpu.dtb:
         estimator: McPat
@@ -75,34 +75,34 @@ ERT_summary:
         estimator: McPat
   - name: system.chip.cpu.branchPred_bp
     actions:
-    - name: access
+    - name: hit
       energy: 15.843
     - name: miss
-      energy: 10.235
+      energy: 26.078
     primitive_estimation(s):
     - system.chip.cpu.branchPred_bp:
         estimator: McPat
   - name: system.chip.dcache
     actions:
-    - name: read_access
+    - name: read_hit
       energy: 105.152
     - name: read_miss
-      energy: 566.845
-    - name: write_access
+      energy: 671.997
+    - name: write_hit
       energy: 132.24
     - name: write_miss
-      energy: 1.414
+      energy: 133.655
     primitive_estimation(s):
     - system.chip.dcache:
         estimator: McPat
   - name: system.chip.icache
     actions:
-    - name: read_access
+    - name: read_hit
       energy: 84.351
     - name: read_miss
-      energy: 664.47
-    - name: write_access
-      energy: 248.116
+      energy: 748.821
+    - name: write_hit
+      energy: 1
     - name: write_miss
       energy: 1
     primitive_estimation(s):
@@ -110,14 +110,14 @@ ERT_summary:
         estimator: McPat
   - name: system.chip.l2
     actions:
-    - name: read_access
+    - name: read_hit
       energy: 963.387
     - name: read_miss
-      energy: -951.177
-    - name: write_access
+      energy: 12.211
+    - name: write_hit
       energy: 1021.812
     - name: write_miss
-      energy: 972.721
+      energy: 1994.535
     primitive_estimation(s):
     - system.chip.l2:
         estimator: McPat

@@ -16,6 +16,6 @@ attributes = [
 ]
 
 actions = [
-    ("read", "BTBLookups"),
-    ("write", "BTBLookups")
+    ("read", ["BTBLookups"]),
+    ("write", ["BTBLookups"])
 ]

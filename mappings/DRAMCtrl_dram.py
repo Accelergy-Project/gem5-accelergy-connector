@@ -21,5 +21,5 @@ attributes = [
 ]
 
 actions = [
-    ("read_access", "num_reads::total"),
+    ("read_access", ["num_reads::total"]),
 ]

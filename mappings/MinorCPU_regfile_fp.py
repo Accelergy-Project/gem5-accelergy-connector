@@ -17,7 +17,7 @@ attributes = [
 # assuming alu actions are 2R1W
 actions = [
     ("read",
-        "op_class_0::FloatAdd", "op_class_0::FloatAdd",
+        ["op_class_0::FloatAdd", "op_class_0::FloatAdd",
         "op_class_0::FloatCmp", "op_class_0::FloatCmp",
         "op_class_0::FloatCvt", "op_class_0::FloatCvt",
         "op_class_0::FloatMult", "op_class_0::FloatMult",
@@ -25,9 +25,9 @@ actions = [
         "op_class_0::FloatDiv", "op_class_0::FloatDiv",
         "op_class_0::FloatMisc",
         "op_class_0::FloatSqrt",
-        "op_class_0::FloatMemWrite"),
+        "op_class_0::FloatMemWrite"]),
     ("write",
-        "op_class_0::FloatAdd",
+        ["op_class_0::FloatAdd",
         "op_class_0::FloatCmp",
         "op_class_0::FloatCvt",
         "op_class_0::FloatMult",
@@ -35,5 +35,5 @@ actions = [
         "op_class_0::FloatDiv",
         "op_class_0::FloatMisc",
         "op_class_0::FloatSqrt",
-        "op_class_0::FloatMemRead")
+        "op_class_0::FloatMemRead"])
 ]

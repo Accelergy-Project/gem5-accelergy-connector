@@ -15,7 +15,6 @@ attributes = [
 ]
 
 actions = [
-    ("read", "rename.RenameLookups"),
-    ("write", "rename.RenamedOperands"),
-    ("idle", "CYCLES")
+    ("read", ["rename.RenameLookups"]),
+    ("write", ["rename.RenamedOperands"]),
 ]

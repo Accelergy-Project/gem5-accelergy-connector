@@ -26,6 +26,6 @@ attributes = [
 
 actions = [
     # NOTE icache is read only
-    ("read_access", "ReadReq_accesses::total"),
-    ("read_miss", "ReadReq_misses::total"),
+    ("read_hit", ["ReadReq_hits::total"]),
+    ("read_miss", ["ReadReq_misses::total"]),
 ]

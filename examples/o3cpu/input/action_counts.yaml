@@ -3,27 +3,27 @@ action_counts:
   local:
   - name: system.chip.dcache
     action_counts:
-    - name: read_access
-      counts: 11768721
+    - name: read_hit
+      counts: 11659366
     - name: read_miss
       counts: 109355
-    - name: write_access
-      counts: 6851816
+    - name: write_hit
+      counts: 6327444
     - name: write_miss
       counts: 524372
   - name: system.chip.icache
     action_counts:
-    - name: read_access
-      counts: 7507364
+    - name: read_hit
+      counts: 7507303
     - name: read_miss
       counts: 61
   - name: system.chip.l2
     action_counts:
-    - name: read_access
-      counts: 143992
+    - name: read_hit
+      counts: 8802
     - name: read_miss
       counts: 135190
-    - name: write_access
+    - name: write_hit
       counts: 142966
     - name: write_miss
       counts: 0
@@ -45,10 +45,10 @@ action_counts:
       counts: 64040503
   - name: system.chip.cpu.cpu_fpu
     action_counts:
-    - name: instruction
+    - name: access
       counts: 6291801
     - name: idle
-      counts: 66294613
+      counts: 60002812
   - name: system.chip.cpu.cpu_inst_queue_fp
     action_counts:
     - name: read
@@ -67,10 +67,10 @@ action_counts:
       counts: 61388105
   - name: system.chip.cpu.cpu_int_alu
     action_counts:
-    - name: instruction
+    - name: access
       counts: 52494760
     - name: idle
-      counts: 66294613
+      counts: 13799853
   - name: system.chip.cpu.cpu_load_queue
     action_counts:
     - name: load
@@ -79,7 +79,7 @@ action_counts:
       counts: 7143396
   - name: system.chip.cpu.cpu_mul_alu
     action_counts:
-    - name: instruction
+    - name: access
       counts: 0
     - name: idle
       counts: 66294613
@@ -101,8 +101,6 @@ action_counts:
       counts: 73958672
     - name: write
       counts: 49100251
-    - name: idle
-      counts: 66294613
   - name: system.chip.cpu.cpu_reorder_buffer
     action_counts:
     - name: read
@@ -117,13 +115,13 @@ action_counts:
       counts: 7143396
   - name: system.chip.cpu.itb
     action_counts:
-    - name: access
+    - name: hit
       counts: 0
     - name: miss
       counts: 0
   - name: system.chip.cpu.dtb
     action_counts:
-    - name: access
+    - name: hit
       counts: 0
     - name: miss
       counts: 0
@@ -135,7 +133,7 @@ action_counts:
       counts: 4135704
   - name: system.chip.cpu.branchPred_bp
     action_counts:
-    - name: access
-      counts: 4799553
+    - name: hit
+      counts: 4310998
     - name: miss
       counts: 488555

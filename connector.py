@@ -118,18 +118,24 @@ def processMappings(arch, action_counts, module, verbose):
                             print("        ATTR     %s = %s" % (attribute[0], value))
                 for action in module.actions:
                     total_counts = 0
-                    for action_name in action[1:]:
-                        if action_name == "CYCLES":
-                            counts = action_counts.getActionCounts("system.cpu", "numCycles")
-                        else:
-                            counts = action_counts.getActionCounts(instance, action_name)
-                        if counts is None:
-                            print("        WARNING  cannot locate action count %s.%s" % (instance, action_name))
-                        else:
-                            total_counts += counts
+                    for action_name in action[1]:
+                        total_counts += getActionCount(instance, action_name, action_counts)
+                    if len(action) > 2:
+                        for action_name in action[2]:
+                            total_counts -= getActionCount(instance, action_name, action_counts)
                     action_counts.addField(arch_path, action[0], total_counts)
                     if verbose:
                         print("        ACTION   %s = %s" % (action[0], total_counts))
+
+
+def getActionCount(instance, action_name, action_counts):
+    counts = action_counts.getActionCounts(instance, action_name)
+    if counts is None:
+        counts = action_counts.getActionCounts("", action_name)
+    if counts is None:
+        print("        WARNING  cannot locate action count %s.%s" % (instance, action_name))
+        counts = 0
+    return counts
 
 
 class Arch:
@@ -228,7 +234,10 @@ class ActionCounts:
         self.action_map = {}
 
     def getActionCounts(self, source_path, source_name):
-        field = source_path + "." + source_name
+        if source_path == "":
+            field = source_name
+        else:
+            field = source_path + "." + source_name
         if field in self.stats:
             return int(self.stats[field])
         else:

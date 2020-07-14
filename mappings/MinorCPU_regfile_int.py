@@ -17,13 +17,13 @@ attributes = [
 # assuming alu actions are 2R1W
 actions = [
     ("read",
-     "op_class_0::IntAlu", "op_class_0::IntAlu",
+     ["op_class_0::IntAlu", "op_class_0::IntAlu",
      "op_class_0::IntMult", "op_class_0::IntMult",
      "op_class_0::IntDiv", "op_class_0::IntDiv",
-     "op_class_0::MemWrite"),
+     "op_class_0::MemWrite"]),
     ("write",
-     "op_class_0::IntAlu",
+     ["op_class_0::IntAlu",
      "op_class_0::IntMult",
      "op_class_0::IntDiv",
-     "op_class_0::MemRead")
+     "op_class_0::MemRead"])
 ]
