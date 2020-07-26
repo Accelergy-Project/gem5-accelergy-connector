@@ -45,3 +45,5 @@ ART:
     area: 0.127
   - name: system.chip.tol2bus
     area: 0.255
+  - name: system.mem_ctrls
+    area: 1

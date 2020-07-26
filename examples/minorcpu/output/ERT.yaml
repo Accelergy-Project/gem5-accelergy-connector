@@ -125,3 +125,14 @@ ERT:
     - name: access
       arguments: null
       energy: 421.402
+  - name: system.mem_ctrls
+    actions:
+    - name: read
+      arguments: null
+      energy: 2560
+    - name: write
+      arguments: null
+      energy: 2560
+    - name: idle
+      arguments: null
+      energy: 0

@@ -11,6 +11,8 @@ energy_estimation:
     energy: 78564454.74
   - name: system.chip.tol2bus
     energy: 181632690.04
+  - name: system.mem_ctrls
+    energy: 608373760
   - name: system.chip.cpu.cpu_decoder
     energy: 1328264072.723
   - name: system.chip.cpu.cpu_fetch_buffer

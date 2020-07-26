@@ -67,3 +67,6 @@ ART_summary:
   - name: system.chip.tol2bus
     area: 0.255
     primitive_estimations: McPat
+  - name: system.mem_ctrls
+    area: 1
+    primitive_estimations: dummy_table

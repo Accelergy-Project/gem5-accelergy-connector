@@ -163,3 +163,12 @@ architecture:
     actions:
     - name: access
       arguments: null
+  - name: system.mem_ctrls
+    class: DRAM
+    actions:
+    - name: read
+      arguments: null
+    - name: write
+      arguments: null
+    - name: idle
+      arguments: null

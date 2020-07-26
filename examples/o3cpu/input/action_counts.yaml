@@ -35,6 +35,14 @@ action_counts:
     action_counts:
     - name: access
       counts: 431020
+  - name: system.mem_ctrls
+    action_counts:
+    - name: read
+      counts: 135223
+    - name: write
+      counts: 102423
+    - name: idle
+      counts: 66056967
   - name: system.chip.cpu.cpu_decoder
     action_counts:
     - name: access

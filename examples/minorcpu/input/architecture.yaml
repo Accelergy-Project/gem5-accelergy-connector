@@ -136,3 +136,10 @@ architecture:
             global_pred_bits: 2
             choice_pred_entries: 8192
             choice_pred_bits: 2
+    local:
+    - name: mem_ctrls
+      class: DRAM
+      gem5_class: DRAMCtrl
+      attributes:
+        type: LPDDR
+        width: 64

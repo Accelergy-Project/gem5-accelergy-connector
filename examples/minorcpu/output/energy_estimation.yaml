@@ -11,6 +11,8 @@ energy_estimation:
     energy: 78565929.654
   - name: system.chip.tol2bus
     energy: 181633111.442
+  - name: system.mem_ctrls
+    energy: 608378880
   - name: system.chip.cpu.cpu_fpu
     energy: 9839541411.192001
   - name: system.chip.cpu.cpu_int_alu

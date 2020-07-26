@@ -135,3 +135,14 @@ ERT_summary:
     primitive_estimation(s):
     - system.chip.tol2bus:
         estimator: McPat
+  - name: system.mem_ctrls
+    actions:
+    - name: read
+      energy: 2560
+    - name: write
+      energy: 2560
+    - name: idle
+      energy: 0
+    primitive_estimation(s):
+    - system.mem_ctrls:
+        estimator: Cacti
