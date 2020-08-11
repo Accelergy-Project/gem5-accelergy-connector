@@ -160,7 +160,6 @@ class Arch:
         clockrate = int(1e6/(float(clockrate))) # convert ps to MHz
         self.arch["attributes"]["clockrate"] = clockrate
 
-
     def populateClassInstances(self, source, path):
         if "type" in source:
             if source["type"] not in self.instances:

@@ -1,5 +1,5 @@
 # Gem5 to Accelergy Connector
-The Gem5 to Accelergy connector converts Gem5 `m5out` descriptions and statistics into the Accelergy format for power
+The Gem5 to Accelergy connector `connector.py` converts Gem5 `m5out` descriptions and statistics into the Accelergy format for power
 and area estimations. Most of the components use McPat as the backend estimator.
 
 ## Get started
@@ -23,21 +23,37 @@ In order to reproduce reference outputs, please install
 - ```-m``` : specifies the gem5 m5out directory path that will be used to generate the Accelergy data
 - ```-i``` : specifies the directory to put the Accelergy input, for details of what this contains view the Accelergy documentation.
 - ```-o``` : specifies the directory to put the Accelergy output, for details of what this contains view the Accelergy documentation.
-- ```-a``` : specifies the attributes file for this conversion, detailing some misc required information
+- ```-a``` : specifies the attributes file for this conversion, detailing some required information
 - ```-d``` : when present Accelergy will not be called
 - ```-v``` : when present output will be verbose 
 
 ## Attributes File
-Hardware attributes file `attributes.yaml` is used to specify system hardware attributes that can't be inferred from gem5
+Hardware attributes file `attributes.yaml` is used to specify system hardware attributes that can't be inferred from gem5.
+An example is shown below.
    
 ```yaml
-  technology: 45nm
-  datawidth: 32
+technology: 45nm
+datawidth: 32
+device_type: lop
 ```
+
+The device type can be any of the following:
+
+- High Power `hp`
+- Low Operating Power `lop`
+- Low Standby Power `lstp`
+
+These correspond to the device types defined by the International Technology Roadmap for Semiconductors (ITRS), and is
+used by McPat for its energy estimations.
     
 ## Mapping files
 Mappings from Gem5 classes to Accelergy classes are specified in the `mappings` directory. Each file represents a pair
-of mappings. An example from the data cache is shown below.
+of mappings. The connector script `connector.py` will generate an accelergy component at path `path` for every matching
+gem5 class in the `config.json` file where `criteria(params)` evaluates to true. The mapping does not have to be
+one-to-one. It may be many-to-one or one-to-many as is the case for the gem5 class `DerivO3CPU` which corresponds to
+a number of accelergy components.
+
+An example for the data cache is shown below.
 
 ```python
 gem5_class = "Cache"
@@ -65,39 +81,149 @@ actions = [
 ]
 ```
 
-When two lists of stats are supplied for an action, stats from the second list are subtracted from the first list. This
-is used for instance to subtract the number of active cycles from total cycles to obtain the number of idle cycles.
+The parameters for attributes corresponds to the keys in `config.json` and the parameters for actions corresponds to
+the action count entry in `stats.txt`. When two lists of parameters are supplied for an action, the total of the second
+list is subtracted from the total of the first list. This is used to subtract the number of active cycles from total
+cycles to obtain the number of idle cycles.
 
 ## Modelled components
-### Caches
-All caches are modelled with the `cache` Accelergy class, with the type (`icache`, `dcache`, or `l2cache`) specified in
-the `cache_type` attribute.
 
-Supported actions: `read_access`, `read_miss`, `write_access`, `write_miss`
+### Branch predictor
+
+> Gem5 class: TournamentBP
+>
+> Accelergy class: tournament_bp
+>
+> Actions: `hit`, `miss`
+
+Branch predictor modelled by McPat.
+
+### Branch target buffer
+
+> Gem5 class: TournamentBP
+>
+> Accelergy class: btb
+>
+> Actions: `read`, `write`
+
+Branch target buffer modelled by McPat.
+
+### Cache
+
+> Gem5 class: Cache
+>
+> Accelergy class: cache
+>
+> Actions: `read_access`, `read_miss`, `write_access`, `write_miss`
+
+Cache modelled by McPat. The cache type (`icache`, `dcache`, `l2cache`) is specified in the `cache_type` attribute.
 
 ### Crossbar
-Crossbars between levels of the memory hierarchy are modelled with the `xbar` Accelergy class.
 
-Supported actions: `access`
+> Gem5 class: CoherentXBar
+>
+> Accelergy class: xbar
+>
+> Actions: `access`
 
-### CPU functional unit
-CPU functional units are modelled with the `func_unit` Accelergy class, with the type (`fpu`, `int_alu`, `mul_alu`)
-specified in the `type` attribute.
+Crossbar modelled by McPat.
 
-Supported actions: `instruction`
+### Decoder
 
-### CPU register file
-CPU register files are modelled with the `cpu_regfile` Accelergy component, with the type (`fp`, `int`) specified in the
-`type` attribute.
+> Gem5 class: DerivO3CPU
+>
+> Accelergy class: decoder
+>
+> Actions: `access`
 
-Supported actions: `read`, `write`
+Decoder modelled by McPat.
 
-### Tournament BP
-A tournament style predictor is modelled with the `tournament_bp` Accelergy class.
+### DRAM
 
-Supported actions: `access`, `miss`
+> Gem5 class: DRAMCtrl
+>
+> Accelergy class: DRAM
+>
+> Actions: `read`, `write`, `idle` 
 
-### TLB
-TLBs for both data and instructions are modelled with the `tlb` Accelergy class.
+DRAM modelled by Cacti as LPDDR.
 
-Suppported actions: `access`, `miss`
+### Fetch buffer
+
+> Gem5 class: DerivO3CPU
+>
+> Accelergy class: fetch_buffer
+>
+> Actions: `access`
+
+Fetch buffer modelled by McPat.
+
+### Function unit
+
+> Gem5 class: DerivO3CPU, MinorCPU
+>
+> Accelergy class: func_unit
+>
+> Actions: `access`, `idle`
+
+Functional unit modelled by McPat. The type (`fpu`, `int_alu`, `mul_alu`) is specified in the `type` attribute.
+
+### Instruction queue
+
+> Gem5 class: DerivO3CPU
+>
+> Accelergy class: inst_queue
+>
+> Actions: `read`, `write`, `wakeup`
+
+Instruction queue modelled by McPat. The type (`int`, `fp`) is specified in the `type` attribute.
+
+### Load store queue
+
+> Gem5 class: DerivO3CPU
+>
+> Accelergy class: load_store_queue
+>
+> Actions: `load`, `store`
+
+Load store queue modelled by McPat. The type (`load`, `store`) is specified in the `type` attribute.
+
+### Register file
+
+> Gem5 class: DerivO3CPU, MinorCPU
+>
+> Accelergy class: cpu_regfile
+>
+> Actions: `read`, `write`
+
+Register file modelled by McPat. The type (`int`, `fp`) is specified in the `type` attribute.
+
+### Renaming unit
+
+> Gem5 class: DerivO3CPU
+>
+> Accelergy class: renaming_unit
+>
+> Actions: `read`, `write`
+
+Renaming unit modelled by McPat.
+
+### Reorder buffer
+
+> Gem5 class: DerivO3CPU
+>
+> Accelergy class: reorder_buffer
+>
+> Actions: `read`, `write`
+
+Reorder buffer modelled by McPat.
+
+### Translation lookaside buffer
+
+> Gem5 class: RiscvTLB
+>
+> Accelergy class: tlb
+>
+> Actions: `hit`, `miss`
+
+Translation lookaside buffer modelled by McPat.
