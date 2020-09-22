@@ -1,4 +1,4 @@
-#!/bin/csh
+#!/bin/bash
 
 echo
 echo "run minorcpu"

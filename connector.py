@@ -21,7 +21,7 @@ def main():
         "input": args.i,
         "output": args.o,
         "attributes": args.a,
-        "mappings": "mappings"
+        "mappings": os.path.dirname(os.path.realpath(__file__)) + "/mappings"
     }
 
     # Read attributes file
@@ -45,9 +45,10 @@ def main():
     action_counts = ActionCounts(stats)
     for file in sorted(os.listdir(paths["mappings"])):
         path = os.path.join(paths["mappings"], file)
-        base, ext = os.path.splitext(path)
+        base, ext = os.path.splitext(file)
+        base = "mappings.%s" % base
         if os.path.isfile(path) and ext == ".py":
-            module = __import__(base.replace("/", "."), fromlist=[""])
+            module = __import__(base, fromlist=[""])
             processMappings(arch, action_counts, module, args.v)
 
     # Write architecture
