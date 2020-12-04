@@ -169,8 +169,12 @@ class Arch:
         for key, value in source.items():
             if type(value) == dict:
                 self.populateClassInstances(value, path + "." + key)
-            if type(value) == list and len(value) == 1 and type(value[0]) == dict:
-                self.populateClassInstances(value[0], path + "." + key)
+            if type(value) == list and len(value) > 0 and type(value[0]) == dict:
+                if len(value) == 1:
+                    self.populateClassInstances(value[0], "%s.%s" % (path, key))
+                else:
+                    for index, entry in enumerate(value):
+                        self.populateClassInstances(entry, "%s.%s%d" % (path, key, index))
 
     def addLocal(self, path, name, accelergy_class, gem5_class):
         pathNames = path.split(".")
@@ -200,12 +204,26 @@ class Arch:
         names = path.split(".")
         source = self.config
         for name in names:
-            if name in source:
-                source = source[name]
-                if type(source) == list:
-                    source = source[0]
+            sourceNext = None
+            for key, value in source.items():
+                if type(value) == dict:
+                    if key == name:
+                        sourceNext = value
+                        break
+                if type(value) == list and len(value) > 0 and type(value[0]) == dict:
+                    if len(value) == 1:
+                        if key == name:
+                            sourceNext = value[0]
+                            break
+                    else:
+                        for index, entry in enumerate(value):
+                            if ("%s%d" % (key, index)) == name:
+                                sourceNext = entry
+                                break
+            if sourceNext is None:
+                raise Exception("Unable to find source component " + path)
             else:
-                raise Exception("Unable to find source component" + path)
+                source = sourceNext
         return source
 
     def getParamField(self, path, field):
