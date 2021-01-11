@@ -13,5 +13,5 @@ attributes = []
 
 actions = [
     ("access", ["op_class_0::IntAlu"]),
-    ("idle", ["system.cpu.numCycles"], ["op_class_0::IntAlu"])
+    ("idle", ["system.cpu.numCycles", "system.switch_cpus.numCycles"], ["op_class_0::IntAlu"])
 ]

@@ -16,5 +16,5 @@ attributes = [
 actions = [
     ("read", ["num_reads::total"]),
     ("write", ["num_writes::total"]),
-    ("idle", ["system.cpu.numCycles"], ["num_reads::total", "num_writes::total"])
+    ("idle", ["system.cpu.numCycles", "system.switch_cpus.numCycles"], ["num_reads::total", "num_writes::total"])
 ]

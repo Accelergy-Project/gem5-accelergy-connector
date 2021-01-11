@@ -13,5 +13,5 @@ attributes = []
 
 actions = [
     ("access", ["iq.fp_alu_accesses"]),
-    ("idle", ["system.cpu.numCycles"], ["iq.fp_alu_accesses"])
+    ("idle", ["system.cpu.numCycles", "system.switch_cpus.numCycles"], ["iq.fp_alu_accesses"])
 ]

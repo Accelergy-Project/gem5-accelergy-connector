@@ -13,5 +13,5 @@ attributes = []
 
 actions = [
     ("access", ["commit.op_class_0::IntMult", "commit.op_class_0::IntDiv"]),
-    ("idle", ["system.cpu.numCycles"])
+    ("idle", ["system.cpu.numCycles", "system.switch_cpus.numCycles"])
 ]

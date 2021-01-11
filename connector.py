@@ -31,16 +31,36 @@ def main():
     with open(paths["m5out"] + "/config.json") as f:
         config = json.load(f)
     # Read gem5 stats file
-    stats = {}
     with open(paths["m5out"] + "/stats.txt", "r") as file:
-        pattern = re.compile(r"(\S+)\s+(\S+).*#")
-        for line in file.readlines():
-            match = pattern.match(line)
-            if match:
-                stats[match.group(1)] = match.group(2)
+        stats_list = parseStats(file.readlines())
 
+    # Process statistics
+    for index, stats in enumerate(stats_list):
+        processStats(attributes, config, stats, paths, args, index, len(stats_list))
+
+
+
+def parseStats(lines):
+    begin_pattern = re.compile(r"-+ Begin")
+    end_pattern = re.compile(r"-+ End")
+    stats_pattern = re.compile(r"(\S+)\s+(\S+).*#")
+    stats_list = []
+    for line in lines:
+        if begin_pattern.match(line):
+            stats = {}
+            continue
+        if end_pattern.match(line):
+            stats_list.append(stats)
+            continue
+        match = stats_pattern.match(line)
+        if match:
+            stats[match.group(1)] = match.group(2)
+    return stats_list
+
+
+def processStats(attributes, config, stats, paths, args, index, count):
     # Process mappings
-    print("\n----------------- Processing Mappings ------------------")
+    print("\n----------------- Processing Mappings [%d/%d] ------------------" % (index + 1, count))
     arch = Arch(attributes, config)
     action_counts = ActionCounts(stats)
     for file in sorted(os.listdir(paths["mappings"])):
@@ -58,9 +78,11 @@ def main():
             "subtree": [arch.arch]
         }
     }
-    if not os.path.exists(paths["input"]):
-        os.makedirs(paths["input"])
-    with open(paths["input"] + "/architecture.yaml", "w") as file:
+    input_dir = os.path.join(paths["input"], "stats-%d" % (index + 1))
+    output_dir = os.path.join(paths["output"], "stats-%d" % (index + 1))
+    if not os.path.exists(input_dir):
+        os.makedirs(input_dir)
+    with open(os.path.join(input_dir, "architecture.yaml"), "w") as file:
         yaml.dump(arch_yaml, file, sort_keys=False)
 
     # Write action counts
@@ -68,12 +90,12 @@ def main():
         "version": 0.3,
         "local": action_counts.get(),
     }}
-    with open(paths["input"] + "/action_counts.yaml", "w") as file:
+    with open(os.path.join(input_dir, "action_counts.yaml"), "w") as file:
         yaml.dump(action_counts_yaml, file, sort_keys=False)
 
     # invoke accelergy
-    accelergy_command = "accelergy -o " + paths["output"] + " " + paths["input"] + "/*.yaml " + " -v 1"
-    print("\n---------------- Hand-off to Accelergy  ----------------")
+    accelergy_command = "accelergy -o " + output_dir + " " + input_dir + "/*.yaml " + " -v 1"
+    print("\n---------------- Hand-off to Accelergy [%d/%d] ----------------" % (index + 1, count))
     print(accelergy_command)
     print()
     if not args.d:
