@@ -7,11 +7,10 @@ criteria = True
 
 constants = [
     ("type", "LPDDR"),
+    ("width", 512)
 ]
 
-attributes = [
-    ("width", lambda params: params["device_bus_width"] * 8),
-]
+attributes = []
 
 actions = [
     ("read", ["num_reads::total"]),
