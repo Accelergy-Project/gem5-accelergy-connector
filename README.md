@@ -20,12 +20,12 @@ In order to reproduce reference outputs, please install
 [accelergy-aladdin-plug-in](https://github.com/Accelergy-Project/accelergy-aladdin-plug-in).
 
 ## Input Flags
-- ```-m``` : specifies the gem5 m5out directory path that will be used to generate the Accelergy data
-- ```-i``` : specifies the directory to put the Accelergy input, for details of what this contains view the Accelergy documentation.
-- ```-o``` : specifies the directory to put the Accelergy output, for details of what this contains view the Accelergy documentation.
-- ```-a``` : specifies the attributes file for this conversion, detailing some required information
-- ```-d``` : when present Accelergy will not be called
-- ```-v``` : when present output will be verbose 
+- ```-m``` : Specifies the gem5 m5out directory path that will be used to generate the Accelergy data.
+- ```-i``` : Specifies the directory to put the Accelergy input, for details of what this contains view the Accelergy documentation.
+- ```-o``` : Specifies the directory to put the Accelergy output, for details of what this contains view the Accelergy documentation.
+- ```-a``` : Specifies the attributes file for this conversion, detailing some required information.
+- ```-d``` : Debug flag. When present Accelergy will not be called.
+- ```-v``` : Verbose flag. When present output will give details of component mappings.
 
 ## Attributes File
 Hardware attributes file `attributes.yaml` is used to specify system hardware attributes that can't be inferred from gem5.
@@ -48,12 +48,7 @@ used by McPat for its energy estimations.
     
 ## Mapping files
 Mappings from Gem5 classes to Accelergy classes are specified in the `mappings` directory. Each file represents a pair
-of mappings. The connector script `connector.py` will generate an accelergy component at path `path` for every matching
-gem5 class in the `config.json` file where `criteria(params)` evaluates to true. The mapping does not have to be
-one-to-one. It may be many-to-one or one-to-many as is the case for the gem5 class `DerivO3CPU` which corresponds to
-a number of accelergy components.
-
-An example for the data cache is shown below.
+of mappings. An example for the data cache is shown below.
 
 ```python
 gem5_class = "Cache"
@@ -81,10 +76,16 @@ actions = [
 ]
 ```
 
+The connector script `connector.py` will generate an accelergy component at path `path` for every matching
+gem5 class in the `config.json` file where `criteria(params)` evaluates to true. The mapping does not have to be
+one-to-one. It may be many-to-one or one-to-many as is the case for the gem5 class `DerivO3CPU` which corresponds to
+a number of accelergy components.
+
+
 The parameters for attributes corresponds to the keys in `config.json` and the parameters for actions corresponds to
 the action count entry in `stats.txt`. When two lists of parameters are supplied for an action, the total of the second
-list is subtracted from the total of the first list. This is used to subtract the number of active cycles from total
-cycles to obtain the number of idle cycles.
+list is subtracted from the total of the first list. This is used for instance to subtract the number of active cycles
+from total cycles to obtain the number of idle cycles (for an example see `mappings/DerivO3CPU_fpu.py`).
 
 ## Modelled components
 
